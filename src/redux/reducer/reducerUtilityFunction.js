@@ -1,0 +1,1 @@
+export const Assign = (prevState, nextState) => Object.assign({}, prevState, nextState)
