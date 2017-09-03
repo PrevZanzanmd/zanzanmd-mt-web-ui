@@ -1,15 +1,17 @@
 import React from 'react'
+import { Layout } from 'antd'
+const { Content } = Layout
 
 import HomeHeader from './homeComponents/header.jsx'
 import SideBar from './homeComponents/sideBar.jsx'
 
 const Home = props => 
-	<div>
+	<Layout className="wrapper">
 		<HomeHeader></HomeHeader>
-		<div className = 'contentWrap'>
+		<Layout className = 'contentWrap ant-layout-has-sider'>
 			<SideBar></SideBar>
-			<div className = 'contentContainer'>{props.children}</div>
-		</div>
-	</div>
+			<Content style = {{paddingLeft: 36}}>{props.children}</Content>
+		</Layout>
+	</Layout>
 
 export default Home

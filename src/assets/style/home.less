@@ -1,0 +1,126 @@
+@zzmd: #3eba6c;
+@linecolor:rgba(221, 223, 224, 1);
+.flexRcc {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+i{
+  font-style: normal;
+}
+.cont-container {
+  .home-account {
+    display: flex;
+    flex-direction: row;
+    margin-top:20px;
+    background-color: @zzmd;
+    .home-accountitem {
+      flex:1;
+      padding:40px 0;
+      background:url("../../assets/img/images/gradline_60.png") no-repeat right top;
+      text-align: center;
+      * {
+        color: #fff;
+      }
+      a {
+        margin:0 13px;
+        font-size: 12px;
+      }
+      .home-stitle {
+        font-size: 16px;
+      }
+      .home-cash {
+        margin: 20px 0;
+        font-size: 30px;
+        span {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+  .home-withdraw {
+    margin-top: 25px;
+    background: #fff;
+    font-size:14px;
+    .withdraw-item {
+      .flexRcc;
+      justify-content: space-between;
+      padding-left: 25px;
+      border-bottom: 1px solid @linecolor;
+      line-height: 40px;
+      div {
+        flex: 1;
+      }
+    }
+    .withdraw-link{
+      display: flex;
+      flex:1;
+      justify-content: flex-end;
+      line-height:40px;
+      padding-right:25px;
+      color:#56a5e3;
+      cursor:pointer;
+    }
+  }
+}
+.widthdraw{
+  background:#fff;
+  margin-top:20px;
+  padding-left:25px;
+  .selcet-time{
+    height: 70px;
+    border-bottom: 1px solid @linecolor;
+  }
+  .widthdraw-wrapper{
+    .widthdraw-record{
+      height:70px;
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid @linecolor;
+      font-size:12px;
+      div{
+        display: flex;
+        flex:1;
+        align-items: center;
+        justify-content: center;
+        span{
+          line-height:1.5;
+        }
+        .widthdraw-money{
+          font-size:16px;
+        }
+        .widthdarw-sub{
+          color:#a6a6a6;
+        }
+        .bankimg{
+          width:23px;
+          height:23px;
+          margin-right:25px;
+        }
+        .bank-time{
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+      .bank-name{
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .details{
+        justify-content: flex-end;
+        .withdraw-link{
+          padding-right:25px;
+          color:#56a5e3;
+          cursor:pointer;
+        }
+      }
+    }
+  }
+  .pagination{
+    height:40px;
+    padding-right:20px;
+    line-height:40px;
+    text-align: right;
+  }
+}
