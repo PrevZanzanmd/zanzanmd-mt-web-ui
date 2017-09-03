@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout } from 'antd'
-const { Content, Footer } = Layout
+const { Content } = Layout
 
 import HomeHeader from './homeComponents/header.jsx'
 import SideBar from './homeComponents/sideBar.jsx'
