@@ -9,12 +9,15 @@ import './assets/style/main.less'
 
 import Page from './page.jsx'
 import Home from './pages/home.jsx'
-
+import ContentContainer from './pages/homeComponents/contentContainer.jsx'
+import withdrawRecord from './pages/homeComponents/withdrawRecord.jsx'
 const routeConfig = (
-	<Route path = {'/'} component = {Page}>
-		<IndexRedirect to="/home" />
-		<Route path = {'/home'} component = {Home}>
-
+	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page}>
+		<IndexRedirect to="/home"/>
+		<Route path = {'home'} breadcrumbName='首页' component = {Home}>
+			<IndexRedirect to="/home/ContentContainer"/>
+			<Route path = {'contentContainer'} breadcrumbName='动态' component = {ContentContainer}/>
+			<Route path = {'withdrawRecord'} breadcrumbName='账单' component = {withdrawRecord}/>
 		</Route>
 	</Route>
 )

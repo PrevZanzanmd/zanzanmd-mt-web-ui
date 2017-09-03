@@ -2,19 +2,23 @@ import { put } from 'redux-saga/effects'
 import { SIDEMENU_COMPLETE } from '../Actions'
 
 const sideMenu = [
-	{
-		title: '主页',
-		path: '/'
+	{	icon:'\ue600',
+		title: '首页',
+		path: '/home/ContentContainer'
 	},{
-		title: '账单',
-		path: '/'
-	},{
-		title: '报表',
-		path: '/'
-	},{
-		title: '对账',
-		path: '/'
-	},{
+        icon:'\ue626',
+        title: '账单',
+        path: '/home/withdrawRecord'
+    },{
+        icon:'\ue615',
+        title: '报表',
+        path: '/'
+    },{
+        icon:'\ue606',
+        title: '对账',
+        path: '/'
+    },{
+        icon:'\ue6a8',
 		title: '店铺管理',
 		path: '/',
 		submenu: [
@@ -30,7 +34,8 @@ const sideMenu = [
 			}
 		]
 	},{
-		title: '账单管理',
+        icon:'\ue610',
+		title: '账号管理',
 		path: '/',
 		submenu: [
 			{
