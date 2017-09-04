@@ -10,7 +10,7 @@ const Home = props =>
 		<HomeHeader></HomeHeader>
 		<Layout className = 'contentWrap ant-layout-has-sider'>
 			<SideBar></SideBar>
-			<Content style = {{paddingLeft: 36}}>{props.children}</Content>
+			<Content style = {{paddingLeft: 12}}>{props.children}</Content>
 		</Layout>
 	</Layout>
 
