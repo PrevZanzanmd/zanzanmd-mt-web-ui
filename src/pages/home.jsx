@@ -5,13 +5,16 @@ const { Content } = Layout
 import HomeHeader from './homeComponents/header.jsx'
 import SideBar from './homeComponents/sideBar.jsx'
 
-const Home = props => 
-	<Layout className="wrapper">
-		<HomeHeader></HomeHeader>
-		<Layout className = 'contentWrap ant-layout-has-sider'>
-			<SideBar></SideBar>
-			<Content style = {{paddingLeft: 36}}>{props.children}</Content>
+class Home extends React.Component{
+	render = _ => 
+		<Layout className="wrapper">
+			<HomeHeader></HomeHeader>
+			<Layout className = 'contentWrap ant-layout-has-sider'>
+				<SideBar location={this.props.location.pathname}></SideBar>
+				<Content style = {{paddingLeft: 36}}>{this.props.children}</Content>
+			</Layout>
 		</Layout>
-	</Layout>
+}
+	
 
 export default Home
