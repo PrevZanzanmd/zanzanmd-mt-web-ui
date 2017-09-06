@@ -24,13 +24,13 @@ const sideMenu = [
 		submenu: [
 			{
 				title: '我的店铺',
-				path: '/'
+				path: '/home/myShop'
 			},{
 				title: '店铺权限',
-				path: '/'
+				path: '/home/shopPermission'
 			},{
 				title: '店铺账号',
-				path: '/'
+				path: '/home/shopAccount'
 			}
 		]
 	},{
