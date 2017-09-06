@@ -11,13 +11,17 @@ import Page from './page.jsx'
 import Home from './pages/home.jsx'
 import ContentContainer from './pages/homeComponents/contentContainer.jsx'
 import withdrawRecord from './pages/homeComponents/withdrawRecord.jsx'
+import withdraw from './pages/homeComponents/withdraw.jsx'
+import Bill from './pages/bills/bill.jsx'
 const routeConfig = (
 	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page}>
 		<IndexRedirect to="/home"/>
 		<Route path = {'home'} breadcrumbName='首页' component = {Home}>
-			<IndexRedirect to="/home/ContentContainer"/>
+			<IndexRedirect to="/home/contentContainer"/>
 			<Route path = {'contentContainer'} breadcrumbName='动态' component = {ContentContainer}/>
 			<Route path = {'withdrawRecord'} breadcrumbName='账单' component = {withdrawRecord}/>
+			<Route path = {'withdraw'} breadcrumbName='提现' component = {withdraw}/>
+			<Route path = {'bill'} breadcrumbName='账单' component = {Bill}/>
 		</Route>
 	</Route>
 )
