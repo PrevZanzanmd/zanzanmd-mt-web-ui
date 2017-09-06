@@ -8,7 +8,7 @@ const sideMenu = [
 	},{
         icon:'\ue626',
         title: '账单',
-        path: '/home/withdrawRecord'
+        path: '/home/bill'
     },{
         icon:'\ue615',
         title: '报表',

@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Breadcrumb } from 'antd'
+import { Link} from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
 
 class ContentContainer extends React.Component {
@@ -12,7 +13,7 @@ class ContentContainer extends React.Component {
                 <div className="home-accountitem">
                     <p className="home-stitle">账户余额</p>
                     <p className="home-cash">608.<span>00元</span></p>
-                    <a>提现</a>
+                    <Link to="/home/withdraw">提现</Link>
                     <a>查看</a>
                 </div>
                 <div className="home-accountitem">
@@ -37,7 +38,7 @@ class ContentContainer extends React.Component {
                         <div style={{flex:1}}><a className="withdraw-link">详情</a></div>
                     </li>
                 </ul>
-                <span className="withdraw-link">查看所有提现记录</span>
+                <Link className="withdraw-link" to="/home/withdrawRecord">查看所有提现记录</Link>
             </div>
         </div>
     </div>
