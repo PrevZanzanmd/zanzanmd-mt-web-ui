@@ -40,10 +40,10 @@ const sideMenu = [
 		submenu: [
 			{
 				title: '基本信息',
-				path: '/'
+				path: '/home/baseMessage'
 			},{
 				title: '安全设置',
-				path: '/'
+				path: '/home/secureSetting'
 			},{
 				title: '消息提醒',
 				path: '/'

@@ -1,0 +1,20 @@
+.avator{
+	position: relative;
+	overflow: hidden;
+	display: block;
+	width: 70px;
+	&:hover{
+		.hoverBlock{bottom: 0;}
+	}
+	.hoverBlock{
+		height: 20px;
+		background-color: rgba(0, 0, 0, 0.8);
+		position: absolute;
+		bottom: -20px;
+		width: 70px;
+		color: #fff;
+		text-align: center;
+		line-height: 20px;
+		transition: bottom .3s;
+	}
+}

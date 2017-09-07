@@ -1,1 +1,3 @@
 export const SIDEMENU_COMPLETE = 'SIDEMENU_COMPLETE'
+
+export const MODAL_STATE = 'MODAL_STATE'

@@ -16,6 +16,9 @@ import ShopPermission from './pages/shop/shopPermission.jsx'
 import ShopAccount from './pages/shop/shopAccount.jsx'
 import MyShop from './pages/shop/myShop.jsx'
 import Bill from './pages/bills/bill.jsx'
+import SecureSetting from './pages/accountManage/secureSetting.jsx'
+import ResetPass from './pages/accountManage/resetpassword.jsx'
+import BaseMessage from './pages/accountManage/baseMessage.jsx'
 
 const routeConfig = (
 	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page}>
@@ -29,6 +32,9 @@ const routeConfig = (
 			<Route path = {'shopAccount'} breadcrumbName='店铺账号' component = {ShopAccount}/>
 			<Route path = {'myShop'} breadcrumbName='我的店铺' component = {MyShop}/>
 			<Route path = {'bill'} breadcrumbName='账单' component = {Bill}/>
+			<Route path = {'secureSetting'} breadcrumbName='安全设置' component = {SecureSetting}/>
+			<Route path = {'resetPass'} breadcrumbName='重置登录密码' component = {ResetPass}/>
+			<Route path = {'baseMessage'} breadcrumbName='基本信息' component = {BaseMessage}/>
 		</Route>
 	</Route>
 )
