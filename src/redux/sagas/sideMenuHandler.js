@@ -49,7 +49,7 @@ const sideMenu = [
 				path: '/'
 			},{
 				title: '卡包',
-				path: '/'
+				path: '/home/card'
 			}
 		]
 	}
