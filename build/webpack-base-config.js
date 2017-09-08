@@ -22,7 +22,10 @@ module.exports = {
 			},
 			{
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader'
+                loader: 'url-loader',
+                options: {
+                	publicPath: '/'
+                }
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,

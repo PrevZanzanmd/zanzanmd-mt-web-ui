@@ -18,10 +18,10 @@ class AddBankCard extends React.Component{
 					</FormItem>
 				)}
 				<FormItem
-					label='手机验证码'
-					{...formCol}>
-						<Input style={{width: 100}} size='small'/><Button size='small' style={{marginLeft: 10}}>获取验证码</Button>
-					</FormItem>
+				label='手机验证码'
+				{...formCol}>
+					<Input style={{width: 100}} size='small'/><Button size='small' style={{marginLeft: 10}}>获取验证码</Button>
+				</FormItem>
 				<FormItem
 				label=' '
 				colon={false}

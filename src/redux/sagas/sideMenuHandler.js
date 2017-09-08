@@ -16,7 +16,7 @@ const sideMenu = [
     },{
         icon:'\ue606',
         title: '对账',
-        path: '/'
+        path: '/home/toBill'
     },{
         icon:'\ue6a8',
 		title: '店铺管理',
@@ -46,7 +46,7 @@ const sideMenu = [
 				path: '/home/secureSetting'
 			},{
 				title: '消息提醒',
-				path: '/'
+				path: '/home/messageSetting'
 			},{
 				title: '卡包',
 				path: '/home/card'

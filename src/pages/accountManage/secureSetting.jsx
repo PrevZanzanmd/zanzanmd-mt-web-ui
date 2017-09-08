@@ -21,6 +21,11 @@ class SecureSetting extends React.Component{
 							<Input style={{width: 200}}/>
 						</FormItem>
 						<FormItem
+						label='手机验证码'
+						{...formCol}>
+							<Input style={{width: 100}} size='small'/><Button size='small' style={{marginLeft: 10}}>获取验证码</Button>
+						</FormItem>
+						<FormItem
 						label=' '
 						colon={false}
 						{...formCol}>
