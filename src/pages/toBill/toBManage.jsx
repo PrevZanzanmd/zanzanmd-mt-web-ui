@@ -3,7 +3,25 @@ import { Row, Select, Button, DatePicker, Col, Table, Pagination } from 'antd'
 const Option = Select.Option
 import BCrumb from '../Components/bCrumb.jsx'
 
+const data = [{num: '111', date: '2017.07.29', count: '10.00', failCount: '111', failNum: '222', cutCount: '100', finallCount: '134', charge: '333', beCount: '555', actCount: '777'},
+{num: '111', date: '2017.07.29', count: '10.00', failCount: '111', failNum: '222', cutCount: '100', finallCount: '134', charge: '333', beCount: '555', actCount: '777'},
+{num: '111', date: '2017.07.29', count: '10.00', failCount: '111', failNum: '222', cutCount: '100', finallCount: '134', charge: '333', beCount: '555', actCount: '777'},
+{num: '111', date: '2017.07.29', count: '10.00', failCount: '111', failNum: '222', cutCount: '100', finallCount: '134', charge: '333', beCount: '555', actCount: '777'},
+{num: '111', date: '2017.07.29', count: '10.00', failCount: '111', failNum: '222', cutCount: '100', finallCount: '134', charge: '333', beCount: '555', actCount: '777'}]
+
 class ToBManage extends React.Component{
+	state={
+		columns: [{title: '日期', dataIndex: 'date', key: 'date'},
+        {title: '交易笔数', dataIndex: 'num', key: 'num'},
+        {title: '交易金额', dataIndex: 'count', key: 'count'},
+        {title: '退款笔数', dataIndex: 'failNum', key: 'failNum'},
+        {title: '退款金额', dataIndex: 'failCount', key: 'failCount'},
+        {title: '商家优惠金额', dataIndex: 'cutCount', key: 'cutCount'},
+        {title: '实收金额', dataIndex: 'finallCount', key: 'finallCount'},
+        {title: '手续费', dataIndex: 'charge', key: 'charge'},
+        {title: '未结算金额', dataIndex: 'beCount', key: 'beCount'},
+        {title: '结算金额', dataIndex: 'actCount', key: 'actCount'}]
+	}
 	render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
 		<div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -40,7 +58,12 @@ class ToBManage extends React.Component{
 				</Col>
 			)}
 		</Row>
-		<Row></Row>
+		<Row style={{background: '#fff', marginTop: 10}}>
+			<Table 
+            columns={this.state.columns} 
+            size='small'
+            dataSource={data.map((val, index) => Object.assign({}, val, {key: index}))} />
+		</Row>
 	</div>
 }
 

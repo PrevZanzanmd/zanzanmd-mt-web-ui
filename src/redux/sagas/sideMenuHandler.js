@@ -12,7 +12,7 @@ const sideMenu = [
     },{
         icon:'\ue615',
         title: '报表',
-        path: '/'
+        path: '/home/chart'
     },{
         icon:'\ue606',
         title: '对账',
@@ -20,7 +20,6 @@ const sideMenu = [
     },{
         icon:'\ue6a8',
 		title: '店铺管理',
-		path: '/',
 		submenu: [
 			{
 				title: '我的店铺',
@@ -36,7 +35,6 @@ const sideMenu = [
 	},{
         icon:'\ue610',
 		title: '账号管理',
-		path: '/',
 		submenu: [
 			{
 				title: '基本信息',

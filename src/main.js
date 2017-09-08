@@ -22,6 +22,7 @@ import BaseMessage from './pages/accountManage/baseMessage.jsx'
 import Card from './pages/accountManage/card.jsx'
 import MessageSetting from './pages/accountManage/messageSetting.jsx'
 import ToBManage from './pages/toBill/toBManage.jsx'
+import Chart from './pages/chart/chart.jsx'
 
 const routeConfig = (
 	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page}>
@@ -41,6 +42,7 @@ const routeConfig = (
 			<Route path = {'card'} breadcrumbName='卡包' component = {Card}/>
 			<Route path = {'messageSetting'} breadcrumbName='消息提醒' component = {MessageSetting}/>
 			<Route path = {'tobill'} breadcrumbName='对账' component = {ToBManage}/>
+			<Route path = {'chart'} breadcrumbName='报表' component = {Chart}/>
 		</Route>
 	</Route>
 )
