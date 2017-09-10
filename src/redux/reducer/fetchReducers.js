@@ -5,7 +5,10 @@ import * as ACTION from '../Actions'
 const fetchDataStructure = {
 	shoplist: [],
 	shopDetail: {},
-	qrcodeUrl: ''
+	qrcodeUrl: '',
+	shopPerm: [],
+	industrydata: [],
+	areadata: []
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -16,6 +19,12 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 			return Assign(state, { shopDetail: action.data })
 		case ACTION.GET_PAYSRCRET_SUCCESS:
 			return Assign(state, { qrcodeUrl: action.data })
+		case ACTION.GET_SHOPPERM_SUCCESS:
+			return Assign(state, { shopPerm: action.data })
+		case ACTION.GET_INDUSTRY_SUCCESS:
+			return Assign(state, { industrydata: action.data })
+		case ACTION.GET_AREA_SUCCESS:
+			return Assign(state, { areadata: action.data })
 		default:
 			return state
 	}

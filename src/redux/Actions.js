@@ -4,6 +4,7 @@ export const CLOSE_LOADING = 'CLOSE_LOADING'
 export const SIDEMENU_COMPLETE = 'SIDEMENU_COMPLETE'
 
 export const MODAL_STATE = 'MODAL_STATE'
+export const SELECT_LOAD = 'SELECT_MODAL'
 
 //店铺列表
 export const GET_SHOP_LIST = 'GET_SHOP_LIST'
@@ -16,3 +17,14 @@ export const GET_PAYSRCRET = 'GET_PAYSRCRET'
 export const GET_PAYSRCRET_SUCCESS = 'GET_PAYSRCRET_SUCCESS'
 //删除店铺
 export const DELETE_SHOP = 'DELETE_SHOP'
+//店铺权限
+export const GET_SHOPPERM = 'GET_SHOPPERM'
+export const GET_SHOPPERM_SUCCESS = 'GET_SHOPPERM_SUCCESS'
+//修改店铺权限
+export const CHANGE_SHOPPERM = 'CHANGE_SHOPPERM'
+//获取行业列表
+export const GET_INDUSTRY = 'GET_INDUSTRY'
+export const GET_INDUSTRY_SUCCESS = 'GET_INDUSTRY_SUCCESS'
+//地区
+export const GET_AREA = 'GET_AREA'
+export const GET_AREA_SUCCESS = 'GET_AREA_SUCCESS'

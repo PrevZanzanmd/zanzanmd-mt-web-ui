@@ -1,11 +1,12 @@
 import { Assign } from './reducerUtilityFunction'
-import { SIDEMENU_COMPLETE, MODAL_STATE, START_LOADING, CLOSE_LOADING } from '../Actions'
+import { SIDEMENU_COMPLETE, MODAL_STATE, START_LOADING, CLOSE_LOADING, SELECT_LOAD } from '../Actions'
 
 
 const globalDataStructure = {
 	sideMenu: [],
 	modalState: false,
-	loading: false
+	loading: false,
+	selectload: false
 }
 
 export const GlobalReducer = (state = globalDataStructure, action) => {
@@ -18,6 +19,8 @@ export const GlobalReducer = (state = globalDataStructure, action) => {
 			return Assign(state, { loading: true })
 		case CLOSE_LOADING:
 			return Assign(state, { loading: false })
+		case SELECT_LOAD:
+			return Assign(state, { selectload: action.data })
 		default:
 			return state
 	}

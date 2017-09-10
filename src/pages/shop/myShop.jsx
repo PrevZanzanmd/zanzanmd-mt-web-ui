@@ -5,7 +5,7 @@ const FormItem = Form.Item
 const TabPane = Tabs.TabPane
 import BCrumb from '../Components/bCrumb.jsx'
 import AddShopForm from './addShopForm.jsx'
-import { GET_SHOP_LIST, GET_SHOP_DETAIL, MODAL_STATE, GET_PAYSRCRET, DELETE_SHOP } from '../../redux/Actions'
+import { GET_SHOP_LIST, GET_SHOP_DETAIL, MODAL_STATE, GET_PAYSRCRET, DELETE_SHOP, GET_AREA } from '../../redux/Actions'
 
 @connect(state => ({
 	loading: state.globaldata.loading,
@@ -15,13 +15,17 @@ import { GET_SHOP_LIST, GET_SHOP_DETAIL, MODAL_STATE, GET_PAYSRCRET, DELETE_SHOP
 	qrcode: state.fetchdata.qrcodeUrl
 }), dispath => ({
 	getShopList(param = {}){dispath({type: GET_SHOP_LIST, param: param})},
-	getShopDetail(param = {}){dispath({type: GET_SHOP_DETAIL, param: param})},
+	getShopDetail(param = {}, edit = false){dispath({type: GET_SHOP_DETAIL, param: param, edit: edit})},
 	changeModal(param){dispath({type: MODAL_STATE, data: param})},
 	getQrcode(param){dispath({type: GET_PAYSRCRET, param: param})},
-	deleteShop(param = {}){dispath({type: DELETE_SHOP, param: param})}
+	deleteShop(param = {}){dispath({type: DELETE_SHOP, param: param})},
+	getareadata(param = {}){dispath({type: GET_AREA, param: param})}
 }))
 class MyShop extends React.Component{
-	componentWillMount = _ => this.props.getShopList(this.state.searchParam)
+	componentWillMount = _ => {
+		this.props.getShopList(this.state.searchParam)
+		this.props.getareadata()
+	}
 	state={
 		searchParam: {},
 		modalState: {
@@ -62,8 +66,8 @@ class MyShop extends React.Component{
 			}
 		},{
 			title: '编辑',
-			onclick: _ => {
-				this.props.changeModal(true)
+			onclick: record => {
+				this.props.getShopDetail({id: record.id}, true)
 				this.modalAddShop({type: 'edit', title: '编辑店铺'})
 			}
 		},{
@@ -79,7 +83,10 @@ class MyShop extends React.Component{
 	render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params} style={{margin: 0}}></BCrumb>
 		<Row>
-			<Tabs onChange={this.handleTabChange} tabBarExtraContent={<Button onClick={_ => this.modalAddShop({type: 'add', title: '添加店铺'})}>添加店铺</Button>}>
+			<Tabs onChange={this.handleTabChange} tabBarExtraContent={<Button onClick={_ => {
+				this.props.changeModal(true)
+				this.modalAddShop({type: 'add', title: '添加店铺'})
+			}}>添加店铺</Button>}>
 			    {['所有店铺', '已上线店铺', '已下线店铺'].map((val, index) => 
 			    	<TabPane tab={val} key={index} style={{minHeight: 120}}>
 			    		<Spin spinning={this.props.loading}>
