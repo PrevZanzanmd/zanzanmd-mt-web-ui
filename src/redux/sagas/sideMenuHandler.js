@@ -8,19 +8,18 @@ const sideMenu = [
 	},{
         icon:'\ue626',
         title: '账单',
-        path: '/home/withdrawRecord'
+        path: '/home/bill'
     },{
         icon:'\ue615',
         title: '报表',
-        path: '/'
+        path: '/home/chart'
     },{
         icon:'\ue606',
         title: '对账',
-        path: '/'
+        path: '/home/toBill'
     },{
         icon:'\ue6a8',
 		title: '店铺管理',
-		path: '/',
 		submenu: [
 			{
 				title: '我的店铺',
@@ -36,20 +35,19 @@ const sideMenu = [
 	},{
         icon:'\ue610',
 		title: '账号管理',
-		path: '/',
 		submenu: [
 			{
 				title: '基本信息',
-				path: '/'
+				path: '/home/baseMessage'
 			},{
 				title: '安全设置',
-				path: '/'
+				path: '/home/secureSetting'
 			},{
 				title: '消息提醒',
-				path: '/'
+				path: '/home/messageSetting'
 			},{
 				title: '卡包',
-				path: '/'
+				path: '/home/card'
 			}
 		]
 	}

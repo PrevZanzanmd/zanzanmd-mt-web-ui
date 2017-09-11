@@ -7,7 +7,8 @@ module.exports = {
 	output: {
 		path: resolve(__dirname, '../dist'),
 		publicPath: '/',
-		filename: '[name][hash].js'
+		// filename: '[name][hash].js'
+		filename: '[name].js'
 	},
 	module: {
 		loaders: [
@@ -22,7 +23,10 @@ module.exports = {
 			},
 			{
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader'
+                loader: 'url-loader',
+                options: {
+                	publicPath: '/'
+                }
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -35,9 +39,9 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new htmlPlugin({
-			template: resolve(__dirname, '../index.html')
-		}),
+		// new htmlPlugin({
+		// 	template: resolve(__dirname, '../index.html')
+		// }),
 		new webpack.LoaderOptionsPlugin({
 		    minimize: true
 		})

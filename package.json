@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config build/webpack-base-config.js --watch",
-    "dev": "node ./src/assets/theme/copyThemeToAntd&&node build/webpack-dev-config.js --inline"
+    "dev": "node ./src/assets/theme/copyThemeToAntd&&node build/webpack-dev-config.js --inline",
+    "nodeProxy": "node ./src/assets/theme/copyThemeToAntd&&node nodejsproxy/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
     "css-loader": "^0.28.5",
+    "echarts": "^3.7.1",
     "html-webpack-plugin": "^2.30.1",
     "isomorphic-fetch": "^2.2.1",
     "less": "^2.7.2",
