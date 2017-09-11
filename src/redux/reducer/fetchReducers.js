@@ -8,7 +8,8 @@ const fetchDataStructure = {
 	qrcodeUrl: '',
 	shopPerm: [],
 	industrydata: [],
-	areadata: []
+	areadata: [],
+	shopAccountdata: {}
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -25,6 +26,8 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 			return Assign(state, { industrydata: action.data })
 		case ACTION.GET_AREA_SUCCESS:
 			return Assign(state, { areadata: action.data })
+		case ACTION.GET_ACCOUNT_DETAIL_SUCCESS:
+			return Assign(state, { shopAccountdata: action.data })
 		default:
 			return state
 	}

@@ -28,7 +28,16 @@ export const changeShopperm = (param = {}) => fetchApi({specPath: '/api-account/
 export const getIndustrylist = (param = {}) => fetchApi({specPath: '/api-mt/industry/v1/list', param: param})
 
 //区域信息
-export const getAreadata = (param = {}) => fetchApi({specPath: '/api-mt//territory/v1/tree', param: param})
+export const getAreadata = (param = {}) => fetchApi({specPath: '/api-mt/territory/v1/tree', param: param})
+
+//修改店铺
+export const changeShop = (param = {}) => fetchApi({specPath: '/api-mt/shop/v1/updateOrAdd', method: 'POST', param: param})
+
+//获取店铺账号详情
+export const getShopAccountDetail = (param = {}) => fetchApi({specPath: '/api-account/sm/v1/infos', paramType: 'url', param: param})
+
+//修改店铺账号
+export const changeSpaccount = (param = {}) => fetchApi({specPath: '/api-account/sm/v1/update', method: 'POST', param: param})
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param: param})

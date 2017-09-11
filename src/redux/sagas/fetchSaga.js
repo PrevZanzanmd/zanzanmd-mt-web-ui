@@ -34,6 +34,16 @@ function* getShopDetail(){
 	})
 }
 
+function* getSpAccountDetail(){
+	yield takeLatest(ACTION.GET_ACCOUNT_DETAIL, function* (action){
+		let data = yield call(fetchApi.getShopAccountDetail, action.param)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_ACCOUNT_DETAIL_SUCCESS, data: data.data}),
+			yield put({type: ACTION.MODAL_STATE, data: true})
+		) : throwError(data.msg)
+	})
+}
+
 function* getShopPermission(){
 	yield takeLatest(ACTION.GET_SHOPPERM, baseFetchSaga, ACTION.GET_SHOPPERM_SUCCESS, fetchApi.checckShopPermission)
 }
@@ -64,6 +74,25 @@ function* changeShopPrem(){
 			yield put({type: ACTION.GET_SHOPPERM, param: {userId: action.param.userId}})
 		) : (message.error('修改失败'), throwError(data.msg))
 	})
+}
+
+function* changeSaga(action, api, thisAction){
+	let data = yield call(api, thisAction.param)
+	data.code === '200' ? (
+		message.success('修改成功'),
+		yield put({type: action, param: {}})
+	) : (
+		message.error('修改失败'),
+		throwError(data.msg)
+	)
+}
+
+function* changeShopDetail(){
+	yield takeLatest(ACTION.CHANGE_SHOPDETAIL, changeSaga, ACTION.GET_SHOP_LIST, fetchApi.changeShop)
+}
+
+function* changeSpAccount(){
+	yield takeLatest(ACTION.CHANGE_SHOP_ACCOUNT, changeSaga, ACTION.GET_SHOP_LIST, fetchApi.changeSpaccount)
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -97,4 +126,7 @@ export default function* (){
 	yield fork(changeShopPrem)
 	yield fork(getIndustrydata)
 	yield fork(getAreadata)
+	yield fork(changeShopDetail)
+	yield fork(getSpAccountDetail)
+	yield fork(changeSpAccount)
 }
