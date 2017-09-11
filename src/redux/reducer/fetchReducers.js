@@ -12,7 +12,10 @@ const fetchDataStructure = {
 	shopAccountdata: {},
 	billlistdata: {transactionLists:[]},
 	todaytotal: {},
-	billDetail: {}
+	billDetail: {},
+	allTotaldata: {},
+	dayTotaldata: {},
+	chartData: {coordinateList: []}
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -37,6 +40,12 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 			return Assign(state, { todaytotal: action.data })
 		case ACTION.GET_BILLDETAIL_SUCCESS:
 			return Assign(state, { billDetail: action.data })
+		case ACTION.GET_ALLTOTAL_SUCCESS:
+			return Assign(state, { allTotaldata: action.data })
+		case ACTION.GET_CHARTDATA_SUCCESS:
+			return Assign(state, { chartData: action.data })
+		case ACTION.GET_DAYTOTAL_SUCCESS:
+			return Assign(state, { dayTotaldata: action.data })
 		default:
 			return state
 	}

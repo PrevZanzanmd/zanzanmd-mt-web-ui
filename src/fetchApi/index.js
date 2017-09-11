@@ -48,5 +48,14 @@ export const getBilllist = (param = {}) => fetchApi({specPath: '/api-mt/bill/v1/
 //账单详情
 export const getBillDetail = (param = {}) => fetchApi({specPath: '/api-mt/bill/v1/detail', paramType: 'url', param: param})
 
+//报表总计信息
+export const getTotal = (param = {}) => fetchApi({specPath: '/api-mt/report/v1/findTotal', param: param})
+
+//报表数据
+export const getChartdata = (param = {}) => fetchApi({specPath: '/api-mt/report/v1/findDataForMoney', param: param})
+
+//根据日期查询统计信息
+export const getDateTotal = (param = {}) => fetchApi({specPath: '/api-mt/report/v1/findTotalForDate', param: param})
+
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param: param})

@@ -3,6 +3,7 @@ import { put, fork, call } from 'redux-saga/effects'
 import { message } from 'antd'
 import * as ACTION from '../Actions'
 import * as fetchApi from '../../fetchApi'
+import { handleFullDate } from '../../fetchApi/commonApi'
 
 const throwError = error => console.warn(new Error(error))
 
@@ -11,6 +12,10 @@ function* baseFetchSaga(action, api, thisAction){
 	let data = yield call(api, thisAction.param)
 	data.code === '200' ? yield put({type: action, data: data.data}) : throwError(data.msg)
 	yield put({type: ACTION.CLOSE_LOADING})
+}
+function* simpleFetchSaga(action, api, thisAction){
+	let data = yield call(api, thisAction.param ? thisAction.param : {})
+	data.code === '200' ? yield put({type: action, data: data.data}) : throwError(data.msg)
 }
 
 
@@ -57,19 +62,16 @@ function* getIndustrydata(){
 		action.edit ? yield put({type: ACTION.MODAL_STATE, data: true}) : null
 	})
 }
+
+
 function* getAreadata(){
-	yield takeLatest(ACTION.GET_AREA, function* (action){
-		let data = yield call(fetchApi.getAreadata)
-		data.code === '200' ? yield put({type: ACTION.GET_AREA_SUCCESS, data: data.data}) : throwError(data.msg)
-	})
+	yield takeLatest(ACTION.GET_AREA, simpleFetchSaga, ACTION.GET_AREA_SUCCESS, fetchApi.getAreadata)
 }
 
 function* getTodayTotal(){
-	yield takeLatest(ACTION.GET_TODAYTOTAL, function* (action){
-		let data = yield call(fetchApi.getTodayTotal, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_TODAYTOTAL_SUCCESS, data: data.data}) : throwError(data.msg)
-	})
+	yield takeLatest(ACTION.GET_TODAYTOTAL, simpleFetchSaga, ACTION.GET_TODAYTOTAL_SUCCESS, fetchApi.getTodayTotal)
 }
+
 function* getBilllist(){
 	yield takeLatest(ACTION.GET_BILLLIST, function* (action){
 		let data = yield call(fetchApi.getBilllist, action.param)
@@ -108,6 +110,49 @@ function* getBillDetail(){
 			yield put({type: ACTION.GET_BILLDETAIL_SUCCESS, data: data.data}),
 			yield put({type: ACTION.MODAL_STATE, data: true})
 		) : throwError(data.msg)
+	})
+}
+
+
+function* getAllTotal(){
+	yield takeLatest(ACTION.GET_ALLTOTAL, simpleFetchSaga, ACTION.GET_ALLTOTAL_SUCCESS, fetchApi.getTotal)
+}
+
+function* getDayTotal(){
+	yield takeLatest(ACTION.GET_DAYTOTAL, simpleFetchSaga, ACTION.GET_DAYTOTAL_SUCCESS, fetchApi.getDateTotal)
+}
+
+function* getChartdata(){
+	yield takeLatest(ACTION.GET_CHARTDATA, function* (action){
+		let data = yield call(fetchApi.getChartdata, action.param)
+		data.code === '200' ? yield put({type: ACTION.GET_CHARTDATA_SUCCESS, data: data.data}) : throwError(data.msg)
+		yield put({type: ACTION.CLOSE_LOADING})
+	})
+}
+
+
+function* getPrimaryChart(){
+	yield takeLatest(ACTION.CHART_PRIMARY_LOAD, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getShopList, action.param)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
+			yield put({type: ACTION.GET_ALLTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
+			yield put({type: ACTION.GET_DAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : '', dayTime: handleFullDate()}}),
+			yield put({type: ACTION.GET_CHARTDATA, param: {spShopId: data.data[0] ? data.data[0].id : ''}})
+		) : (
+			yield put({type: ACTION.CLOSE_LOADING}),
+			throwError(data.msg)
+		)
+	})
+}
+
+function* filterChart(){
+	yield takeLatest(ACTION.FILTER_CHART, function* (action){
+		// yield put({type: ACTION.START_LOADING})
+		yield put({type: ACTION.GET_ALLTOTAL, param: {spShopId: action.param.spShopId}})
+		yield put({type: ACTION.GET_CHARTDATA, param: {spShopId: action.param.spShopId}})
+		yield put({type: ACTION.GET_DAYTOTAL, param: {spShopId: action.param.spShopId, dayTime: action.param.dayTime ? action.param.dayTime : handleFullDate()}})
 	})
 }
 
@@ -182,4 +227,9 @@ export default function* (){
 	yield fork(getPrimaryBill)
 	yield fork(filterBill)
 	yield fork(getBillDetail)
+	yield fork(getPrimaryChart)
+	yield fork(getChartdata)
+	yield fork(getDayTotal)
+	yield fork(getAllTotal)
+	yield fork(filterChart)
 }

@@ -27,7 +27,14 @@ class Bill extends React.Component {
     componentWillMount(){
         this.props.getPrimaryBill()
     }
+    componentDidUpdate(){
+        if(!this.state.selected && this.props.shoplist.length > 0){
+            this.setState({selected: true, selectedItem: this.props.shoplist[0].id})
+        }
+    }
     state={
+        selected: false,
+        selectedItem: '',
         searchParam: {'page': 1, 'rows': 10},
         searchRender: [{title: '交易时间',render: _ => <RangePicker onChange={(date, dateString) => this.handleDate(dateString)} size='default' style={{width:220}}/>},
             {title: '交易状态', option: [{title: '待支付', value: '1'}, {title: '收款成功', value: '2'}, {title: '已关闭', value: '3'}, {title: '已退款', value: '4'}, {title: '退款失败', value: '5'}]},
@@ -71,8 +78,11 @@ class Bill extends React.Component {
                 <span className="trade-label">交易店铺</span>
                 <Select 
                 placeholder='请选择'
-                onChange={val => this.handleFilter({spShopId: val})}
-                {...(_ => this.props.shoplist.length > 0 ? {value: this.props.shoplist[0].id} : {})()}                       
+                onChange={val => {
+                    this.setState({selectedItem: val})
+                    this.handleFilter({spShopId: val})
+                }}
+                {...(_ => this.state.selectedItem !== '' ? {value: this.state.selectedItem} : {})()}                      
                 style={{ width: 120}}>
                     {this.props.shoplist.map((val, index) => <Option value={val.id} key={index}>{val.shopName}</Option>)}
                 </Select>
