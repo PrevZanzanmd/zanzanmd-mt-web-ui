@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Breadcrumb,Button,Pagination, Select ,DatePicker, Table} from 'antd'
+import { Breadcrumb, Button, Pagination, Select ,DatePicker, Table } from 'antd'
 import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
 const Option = Select.Option;

@@ -1,16 +1,22 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Breadcrumb, Table } from 'antd'
+import { Breadcrumb, Table, Row, Select } from 'antd'
+const Option = Select.Option
 import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
+import { GET_SHOP_LIST } from '../../redux/Actions'
 
 const data = [{time: '2017.07.28', source: '中国银行提现', count: '800', state: '提现成功'},
 {time: '2017.07.28', source: '中国银行提现', count: '800', state: '提现成功'},
 {time: '2017.07.28', source: '中国银行提现', count: '800', state: '提现成功'},
 {time: '2017.07.28', source: '中国银行提现', count: '800', state: '提现成功'}]
 
+@connect(state => ({}), dispath => ({
+    getShopList(param = {}){dispath({type: GET_SHOP_LIST, param: param})}
+}))
 class ContentContainer extends React.Component {
     constructor(props){super(props)}
+    componentWillMount = _ => this.props.getShopList()
     state={
         headerCount: [{title: '账户余额', num: '608.00', render: _ => <Link to="/home/withdraw">提现</Link>},
         {title: '今日总交易额', num: '8000.00'},
@@ -23,6 +29,12 @@ class ContentContainer extends React.Component {
     }
     render = _ =><div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <div>
+                <span style={{padding: '0 10px 0 25px'}}>选择店铺</span>
+                <Select style={{width: 120}} placeholder='请选择'>{['火车站'].map(val => <Option value={val} key={val}>{val}</Option>)}</Select>
+            </div>
+        </div>
         <div className="cont-container">
             <div className="home-account">
                 {this.state.headerCount.map((val, index) => 
