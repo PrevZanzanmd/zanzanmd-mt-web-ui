@@ -9,7 +9,10 @@ const fetchDataStructure = {
 	shopPerm: [],
 	industrydata: [],
 	areadata: [],
-	shopAccountdata: {}
+	shopAccountdata: {},
+	billlistdata: {transactionLists:[]},
+	todaytotal: {},
+	billDetail: {}
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -28,6 +31,12 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 			return Assign(state, { areadata: action.data })
 		case ACTION.GET_ACCOUNT_DETAIL_SUCCESS:
 			return Assign(state, { shopAccountdata: action.data })
+		case ACTION.GET_BILLLIST_SUCCESS:
+			return Assign(state, { billlistdata: action.data })
+		case ACTION.GET_TODAYTOTAL_SUCCESS:
+			return Assign(state, { todaytotal: action.data })
+		case ACTION.GET_BILLDETAIL_SUCCESS:
+			return Assign(state, { billDetail: action.data })
 		default:
 			return state
 	}

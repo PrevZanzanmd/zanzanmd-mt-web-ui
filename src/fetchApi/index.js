@@ -39,5 +39,14 @@ export const getShopAccountDetail = (param = {}) => fetchApi({specPath: '/api-ac
 //修改店铺账号
 export const changeSpaccount = (param = {}) => fetchApi({specPath: '/api-account/sm/v1/update', method: 'POST', param: param})
 
+//获取今日交易金额和笔数
+export const getTodayTotal = (param = {}) => fetchApi({specPath: '/api-mt/bill/v1/todayTotal', param: param})
+
+//获取账单列表
+export const getBilllist = (param = {}) => fetchApi({specPath: '/api-mt/bill/v1/list', method: 'POST', param: param})
+
+//账单详情
+export const getBillDetail = (param = {}) => fetchApi({specPath: '/api-mt/bill/v1/detail', paramType: 'url', param: param})
+
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param: param})

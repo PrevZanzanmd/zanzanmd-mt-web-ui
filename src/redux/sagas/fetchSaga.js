@@ -63,6 +63,54 @@ function* getAreadata(){
 		data.code === '200' ? yield put({type: ACTION.GET_AREA_SUCCESS, data: data.data}) : throwError(data.msg)
 	})
 }
+
+function* getTodayTotal(){
+	yield takeLatest(ACTION.GET_TODAYTOTAL, function* (action){
+		let data = yield call(fetchApi.getTodayTotal, action.param)
+		data.code === '200' ? yield put({type: ACTION.GET_TODAYTOTAL_SUCCESS, data: data.data}) : throwError(data.msg)
+	})
+}
+function* getBilllist(){
+	yield takeLatest(ACTION.GET_BILLLIST, function* (action){
+		let data = yield call(fetchApi.getBilllist, action.param)
+		data.code === '200' ? yield put({type: ACTION.GET_BILLLIST_SUCCESS, data: data.data}) : throwError(data.msg)
+		yield put({type: ACTION.CLOSE_LOADING})
+	})
+}
+
+function* getPrimaryBill(){
+	yield takeLatest(ACTION.BILL_PRIMARY_LOAD, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getShopList, action.param)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
+			yield put({type: ACTION.GET_BILLLIST, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
+			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : ''}})
+		) : (
+			yield put({type: ACTION.CLOSE_LOADING}),
+			throwError(data.msg)
+		)
+	})
+}
+
+function* filterBill(){
+	yield takeLatest(ACTION.FILTER_BILL, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: action.param.spShopId}})
+		yield put({type: ACTION.GET_BILLLIST, param: action.param})
+	})
+}
+
+function* getBillDetail(){
+	yield takeLatest(ACTION.GET_BILLDETAIL, function* (action){
+		let data = yield call(fetchApi.getBillDetail, action.param)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_BILLDETAIL_SUCCESS, data: data.data}),
+			yield put({type: ACTION.MODAL_STATE, data: true})
+		) : throwError(data.msg)
+	})
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 function* changeShopPrem(){
@@ -129,4 +177,9 @@ export default function* (){
 	yield fork(changeShopDetail)
 	yield fork(getSpAccountDetail)
 	yield fork(changeSpAccount)
+	yield fork(getTodayTotal)
+	yield fork(getBilllist)
+	yield fork(getPrimaryBill)
+	yield fork(filterBill)
+	yield fork(getBillDetail)
 }
