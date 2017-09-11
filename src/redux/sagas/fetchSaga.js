@@ -57,6 +57,7 @@ function* getAreadata(){
 
 function* changeShopPrem(){
 	yield takeLatest(ACTION.CHANGE_SHOPPERM, function* (action){
+		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.changeShopperm, action.param)
 		data.code === '200' ? (
 			message.success('修改成功'),

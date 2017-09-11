@@ -15,10 +15,20 @@ import { GET_SHOP_LIST, GET_SHOPPERM, CHANGE_SHOPPERM } from '../../redux/Action
 	changeshopperm(param = {}){dispath({type: CHANGE_SHOPPERM, param: param})}
 }))
 class ShopPermission extends React.Component{
-	componentWillMount = _ => {
-		this.props.getShopList()
-	}
+	componentWillMount = _ => this.props.getShopList()
 	state={userId: ''}
+	handleCheckperm = e => {
+		e.preventDefault()
+		let arr = []
+		for(let i of this.props.shopPerm){
+			if(i.isSelect == '0')
+				arr.push(i.permissionId)
+		}
+		let has
+		for(let i in arr){arr[i] === e.target.value ? has = i : null}
+		has ? arr.splice(has, 1) : arr.push(e.target.value)
+		this.props.changeshopperm(Object.assign({userId: this.state.userId}, arr.length ? {permissionId: arr.join(',')} : {}))
+	}
 	render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
 		<div className='shopPermissionWrap'>
@@ -40,10 +50,7 @@ class ShopPermission extends React.Component{
 						<Checkbox 
 						value={val.permissionId} 
 						checked={val.isSelect == '0'}
-						onChange={e => {
-							e.preventDefault()
-							this.props.changeshopperm({userId: this.state.userId, permissionId: e.target.value})
-						}}>{val.permissionName}</Checkbox>
+						onChange={this.handleCheckperm}>{val.permissionName}</Checkbox>
 					</Row>
 				)}
 			</Spin>
