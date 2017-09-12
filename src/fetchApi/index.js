@@ -75,5 +75,11 @@ export const getWithdrawlist = (param = {}) => fetchApi({specPath: '/api-mt/with
 //重置登录密码
 export const resetAuthPassword = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/updatePassword', method: 'POST', param})
 
+//修改手机发送验证码
+export const sendModify = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/sendModifyP', method: 'POST', param})
+
+//修改手机号
+export const changePhone = (param = {}) => fetchApi(specPath: '/api-account/personal/v1/modifyP', method: 'POST', param)
+
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})

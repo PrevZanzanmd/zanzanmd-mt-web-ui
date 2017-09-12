@@ -5,7 +5,9 @@ const FormItem = Form.Item
 import BCrumb from '../Components/bCrumb.jsx'
 import { RESET_PASSWORD } from '../../redux/Actions'
 
-@connect(state => ({}), dispath => ({
+@connect(state => ({
+	loading: state.globaldata.loading
+}), dispath => ({
 	resetPassword(param = {}){dispath({type: RESET_PASSWORD, param})}
 }))
 class ResetPass extends React.Component{
@@ -47,7 +49,11 @@ class ResetPass extends React.Component{
 						colon={false}
 						{...formCol}>
 							<Row>
-								<Button type="primary" style={{marginRight: 20}} htmlType="submit">保存</Button>
+								<Button 
+								loading={this.props.loading}
+								type="primary" 
+								style={{marginRight: 20}} 
+								htmlType="submit">保存</Button>
 							</Row>
 						</FormItem>
 					</Form>

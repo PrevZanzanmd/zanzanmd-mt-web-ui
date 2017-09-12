@@ -84,6 +84,10 @@ export const GET_WITHDRAWLIST_SUCCESS = 'GET_WITHDRAWLIST_SUCCESS'
 export const GET_PRIMARYWITHDRAW = 'GET_PRIMARYWITHDRAW'
 //重置登录密码
 export const RESET_PASSWORD = 'RESET_PASSWORD'
+//倒计时按钮状态
+export const SET_TIMESTATE = 'SET_TIMESTATE'
+//倒计时按钮显示倒计时
+export const SET_TIMESTR = 'SET_TIMESTR'
 
 
 
