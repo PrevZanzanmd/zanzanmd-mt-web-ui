@@ -294,6 +294,15 @@ function* getQrcode(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* resetPassword(){
+	yield takeLatest(ACTION.RESET_PASSWORD, function* (action){
+		let data = yield call(fetchApi.resetAuthPassword, action.param)
+		data.code === '200' ? message.success('修改成功') : data.code === '60009' && data.msg === 'OLD_WRONG_PASSWORD' ? message.error('旧密码错误') : (message.error('修改失败'),throwError(data.msg))
+	})
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function* deleteShop(){
 	yield takeLatest(ACTION.DELETE_SHOP, function* (action){
 		let data = yield call(fetchApi.deleteShop, action.param)
@@ -335,4 +344,5 @@ export default function* (){
 	yield fork(filterHome)
 	yield fork(getWithdraw)
 	yield fork(getPrimaryWithdraw)
+	yield fork(resetPassword)
 }

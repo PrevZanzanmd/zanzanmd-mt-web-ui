@@ -63,7 +63,7 @@ exports.proxy = (res, param) => new Promise((reslove, reject) => {
 
 exports.login = (res, param) => new Promise((reslove, reject) => {
 	let body = ''
-	let fnParam = {username: 'admin', password: '123456'}
+	let fnParam = {username: 'admin', password: '123456a'}
 	// let fnParam = param.param ? JSON.parse(param.param) : {}
 	let req = http.request(loginOpt, res => {
 			console.log("Got response: " + res.statusCode);
@@ -80,7 +80,7 @@ exports.login = (res, param) => new Promise((reslove, reject) => {
 })
 .then(body => opt = Object.assign(opt, {headers: {'Authorization': JSON.parse(body).data}}))
 .then(opt => {
-	res.writeHead(302, {"Content-type": "text/plain", 'location': 'http://192.168.1.104:8096/dist/index.html'})
+	res.writeHead(302, {"Content-type": "text/plain", 'location': 'http://192.168.1.101:8096/dist/index.html'})
 	res.end()
 })
 
