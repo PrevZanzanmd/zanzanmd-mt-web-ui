@@ -61,3 +61,33 @@ export const GET_DAYTOTAL = 'GET_DAYTOTAL'
 export const GET_DAYTOTAL_SUCCESS = 'GET_DAYTOTAL_SUCCESS'
 //报表筛选
 export const FILTER_CHART = 'FILTER_CHART'
+//获取卡券列表
+export const GET_CARDLIST = 'GET_CARDLIST'
+export const GET_CARDLIST_SUCCESS = 'GET_CARDLIST_SUCCESS'
+//初次加载卡包
+export const CARD_PRIMARY_LOAD = 'CARD_PRIMARY_LOAD'
+//获取已使用卡券
+export const GET_USEDCARD = 'GET_USEDCARD'
+//修改卡券
+export const CHANGE_CARD = 'CHANGE_CARD'
+//初次加载首页
+export const GET_PRIMARYHOME = 'GET_PRIMARYHOME'
+//获取首页店铺余额
+export const GET_HOMEBALANCE = 'GET_HOMEBALANCE'
+export const GET_HOMEBALANCE_SUCCESS = 'GET_HOMEBALANCE_SUCCESS'
+//筛选首页信息
+export const FILTER_HOMEMESS = 'FILTER_HOMEMESS'
+//提现列表
+export const GET_WITHDRAWLIST = 'GET_WITHDRAWLIST'
+export const GET_WITHDRAWLIST_SUCCESS = 'GET_WITHDRAWLIST_SUCCESS'
+//初次加载提现列表
+export const GET_PRIMARYWITHDRAW = 'GET_PRIMARYWITHDRAW'
+
+
+
+
+
+
+
+
+
