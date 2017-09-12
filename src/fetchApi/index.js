@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-const baseUrl = 'http://192.168.1.102:8096/proxy'
+const baseUrl = 'http://192.168.1.104:8096/proxy'
 
 const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => `${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`
 
@@ -56,6 +56,15 @@ export const getChartdata = (param = {}) => fetchApi({specPath: '/api-mt/report/
 
 //根据日期查询统计信息
 export const getDateTotal = (param = {}) => fetchApi({specPath: '/api-mt/report/v1/findTotalForDate', param: param})
+
+//获取卡券列表
+export const getCardlist = (param = {}) => fetchApi({specPath: '/api-mt/coupon/v1/list', param: param})
+
+//获取已使用卡券
+export const getUsedCard = (param = {}) => fetchApi({specPath: '/api-mt/couponReceive/v1/list', param: param})
+
+//修改卡券
+export const saveCardChanges = (param = {}) => fetchApi({specPath: '/api-mt/coupon/v1/save', method: 'POST', param: param})
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param: param})

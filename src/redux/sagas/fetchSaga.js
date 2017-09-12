@@ -149,11 +149,40 @@ function* getPrimaryChart(){
 
 function* filterChart(){
 	yield takeLatest(ACTION.FILTER_CHART, function* (action){
-		// yield put({type: ACTION.START_LOADING})
 		yield put({type: ACTION.GET_ALLTOTAL, param: {spShopId: action.param.spShopId}})
 		yield put({type: ACTION.GET_CHARTDATA, param: {spShopId: action.param.spShopId}})
 		yield put({type: ACTION.GET_DAYTOTAL, param: {spShopId: action.param.spShopId, dayTime: action.param.dayTime ? action.param.dayTime : handleFullDate()}})
 	})
+}
+
+
+
+function* getPrimaryCard(){
+	yield takeLatest(ACTION.CARD_PRIMARY_LOAD, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getShopList)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
+			yield put({type: ACTION.GET_CARDLIST, param: Object.assign({spShopId: data.data[0] ? data.data[0].id : ''}, action.param)})
+		) : (
+			yield put({type: ACTION.CLOSE_LOADING}),
+			throwError(data.msg)
+		)
+	})
+}
+function* cardBaseSaga(action, api, thisAction){
+	yield put({type: ACTION.START_LOADING})
+	let data = yield call(api, thisAction.param)
+	data.code === '200' || data.code === '60012' ? yield put({type: action, data: data.code === '200' ? data.data : {list: []}}) : throwError(data.msg)
+	yield put({type: ACTION.CLOSE_LOADING})
+}
+
+function* getCardlist(){
+	yield takeLatest(ACTION.GET_CARDLIST, cardBaseSaga, ACTION.GET_CARDLIST_SUCCESS, fetchApi.getCardlist)
+}
+
+function* getUsedCard(){
+	yield takeLatest(ACTION.GET_USEDCARD, cardBaseSaga, ACTION.GET_CARDLIST_SUCCESS, fetchApi.getUsedCard)
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -186,6 +215,19 @@ function* changeShopDetail(){
 
 function* changeSpAccount(){
 	yield takeLatest(ACTION.CHANGE_SHOP_ACCOUNT, changeSaga, ACTION.GET_SHOP_LIST, fetchApi.changeSpaccount)
+}
+
+function* changeCard(){
+	yield takeLatest(ACTION.CHANGE_CARD, function* (action){
+		let data = yield call(fetchApi.saveCardChanges, action.param)
+		data.code === '200' ? (
+			message.success('添加成功'),
+			yield put({type: action.searchParam.couponStatus === '4' ? ACTION.GET_USEDCARD : ACTION.GET_CARDLIST, param: action.searchParam})
+		) : (
+			message.error('添加失败'),
+			throwError(data.msg)
+		)
+	})
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -232,4 +274,8 @@ export default function* (){
 	yield fork(getDayTotal)
 	yield fork(getAllTotal)
 	yield fork(filterChart)
+	yield fork(getCardlist)
+	yield fork(getPrimaryCard)
+	yield fork(getUsedCard)
+	yield fork(changeCard)
 }
