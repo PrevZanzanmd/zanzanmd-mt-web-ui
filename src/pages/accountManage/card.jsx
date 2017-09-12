@@ -83,7 +83,7 @@ class Card extends React.Component{
 			    {['所有卡券', '优惠券', '红包'].map((val, index) => 
 				    <TabPane tab={val} key={index}>
 				    	<Spin spinning={this.props.loading}>
-				    		<CardList list={this.props.cardlistdata.list} />
+				    		<CardList list={this.props.cardlistdata} handlePageChange={this.handleFilter}/>
 				    	</Spin>
 				    </TabPane>
 			    )}

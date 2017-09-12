@@ -6,6 +6,7 @@ import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
 import { GET_PRIMARYHOME, FILTER_HOMEMESS, MODAL_STATE } from '../../redux/Actions'
 import WithdrawModal from './withdrawModal.jsx'
+import { judgeWithDrawState } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     loading: state.globaldata.loading,
@@ -37,10 +38,10 @@ class ContentContainer extends React.Component {
         columns: [{title: '提现时间', dataIndex: 'createTime', key: 'createTime'},
         {title: '提现方式', dataIndex: 'bcBankCardTypeN', key: 'bcBankCardTypeN'},
         {title: '提现金额', dataIndex: 'cashWithdrawal', key: 'cashWithdrawal', render: (text, record) => <div>{`¥${record.cashWithdrawal}`}</div>},
-        {title: '提现状态', dataIndex: 'cashWithdrawalStatus', key: 'cashWithdrawalStatus'},
-        {title: '操作', dataIndex: 'operate', key: 'operate', render: (text, record) => <Link onClick={async record => {
+        {title: '提现状态', dataIndex: 'cashWithdrawalStatus', key: 'cashWithdrawalStatus', render: (text, record) => judgeWithDrawState(record.cashWithdrawalStatus)},
+        {title: '操作', dataIndex: 'operate', key: 'operate', render: (text, record) => <Link onClick={async _ => {
             await new Promise((rsl, rej) => this.setState({withdrawItem: record}, _ => rsl()))
-            this.changeModal(true)
+            this.props.changeModal(true)
         }}>详情</Link>}]
     }
     handleFilter = async param => {
@@ -89,11 +90,11 @@ class ContentContainer extends React.Component {
                 title={_ => <div>最近提现记录</div>}
                 showHeader={false}
                 size='small'
-                dataSource={this.props.withdrawlist.withdrawalLists.map((val, index) => Object.assign({}, val, {key: index}))} />
+                dataSource={this.props.withdrawlist.list.map((val, index) => Object.assign({}, val, {key: index}))} />
                 <Link className="withdraw-link" to="/home/withdrawRecord">查看所有提现记录</Link>
             </div>
         </div>
-        <WithdrawModal visible={this.props.modalState} onCancel={_ => this.props.changeModal(false)}/>
+        <WithdrawModal visible={this.props.modalState} data={this.state.withdrawItem} onCancel={_ => this.props.changeModal(false)}/>
     </div>
 }
 export default ContentContainer

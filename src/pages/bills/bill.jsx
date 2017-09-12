@@ -123,7 +123,7 @@ class Bill extends React.Component {
                     <Pagination 
                     size="small" 
                     onChange={(page, pageSize) => this.handleFilter({'page': page, 'rows': pageSize})}
-                    total={this.props.billlistdata.totalNum == '0' ? 1 : this.props.billlistdata.totalNum}/>
+                    total={this.props.billlistdata.totalNum == '0' || !this.props.billlistdata.totalNum ? 1 : this.props.billlistdata.totalNum}/>
                 </div>
             </div>
         </div>

@@ -8,8 +8,11 @@ export const handleFullDate = _ => {
 	return `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
 }
 
-// export judgeWithDrawState = state => {
-// 	switch(state){
-// 		case '1'
-// 	}
-// }
+export const judgeWithDrawState = state => {
+	switch(state){
+		case '0': return '提现失败'
+		case '1': return '提现成功'
+		case '2': return '审核中'
+		default: return
+	}
+}

@@ -1,17 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Breadcrumb, Select, Spin } from 'antd'
+import { Breadcrumb, Select, Spin, Pagination } from 'antd'
 const Option = Select.Option
 import BCrumb from '../Components/bCrumb.jsx'
-import { GET_WITHDRAWLIST, GET_PRIMARYWITHDRAW } from '../../redux/Actions'
+import { GET_WITHDRAWLIST, GET_PRIMARYWITHDRAW, MODAL_STATE } from '../../redux/Actions'
+import WithdrawModal from './withdrawModal.jsx'
+import { judgeWithDrawState } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     loading: state.globaldata.loading,
+    modalState: state.globaldata.modalState,
     withdrawlist: state.fetchdata.withdrawlist,
     shoplist: state.fetchdata.shoplist
 }), dispath => ({
     getWithDraw(param = {}){dispath({type: GET_WITHDRAWLIST, param})},
-    getPrimaryWithDraw(param = {}){dispath({type: GET_PRIMARYWITHDRAW, param})}
+    getPrimaryWithDraw(param = {}){dispath({type: GET_PRIMARYWITHDRAW, param})},
+    changeModal(state){dispath({type: MODAL_STATE, data: state})}
 }))
 class WithdrawRecord extends React.Component {
     componentWillMount = _ => this.props.getPrimaryWithDraw(this.state.searchParam)
@@ -22,7 +26,8 @@ class WithdrawRecord extends React.Component {
     state={
         selected: false,
         selectedItem: '',
-        searchParam: {page: 1, rows: 10}
+        searchParam: {page: 1, rows: 10},
+        withdrawItem: {}
     }
     handleFilter = async param => {
         this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
@@ -47,7 +52,7 @@ class WithdrawRecord extends React.Component {
             </div>
             <Spin spinning={this.props.loading}>
                 <ul className="widthdraw-wrapper">
-                    {this.props.withdrawlist.withdrawalLists.map((val, index) => 
+                    {this.props.withdrawlist.list.map((val, index) => 
                         <li className="widthdraw-record" key={index}>
                             <div style={{flex:2}}>
                                 <img className="bankimg" src="http://p2.so.qhimgs1.com/t016449f1b71623bc92.jpg"/>
@@ -62,14 +67,23 @@ class WithdrawRecord extends React.Component {
                             <div style={{flex:2}}>
                                 <p className="widthdraw-money">￥<span>{val.cashWithdrawal}</span></p>
                             </div>
-                            <div style={{flex:2}}>{val.cashWithdrawalStatus}</div>
-                            <div className="details" style={{flex:2}}><a className="withdraw-link">详情</a></div>
+                            <div style={{flex:2}}>{val.cashWithdrawalStatus ? judgeWithDrawState(val.cashWithdrawalStatus) : ''}</div>
+                            <div className="details" style={{flex:2}}><a className="withdraw-link" onClick={async _ => {
+                                await new Promise((rsl, rej) => this.setState({withdrawItem: val}, _ => rsl()))
+                                this.props.changeModal(true)
+                            }}>详情</a></div>
                         </li>
                     )}
                 </ul>
             </Spin>
-            <div className="pagination">页码</div>
+            <div className="pagination">
+                <Pagination 
+                size="small" 
+                onChange={(page, pageSize) => this.handleFilter({'page': page, 'rows': pageSize})}
+                total={this.props.withdrawlist.total == '0' || !this.props.withdrawlist.total ? 1 : this.props.withdrawlist.total}/>
+            </div>
         </div>
+        <WithdrawModal visible={this.props.modalState} data={this.state.withdrawItem} onCancel={_ => this.props.changeModal(false)}/>
     </div>
 }
 

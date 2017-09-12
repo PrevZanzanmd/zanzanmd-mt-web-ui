@@ -8,7 +8,7 @@ const judgeType = val => val.couponType === '1' ? val.couponStatus ? val.couponS
 const CardList = props => <Row>
 	<Row>
 		<ul className='cardList'>
-			{props.list.map((val, index) => <li className='cardItem' key={index}>
+			{props.list.list.map((val, index) => <li className='cardItem' key={index}>
 				<div className='cardContainer' style={{backgroundImage: `url(${require(`../../assets/img/images/${judgeType(val)}.png`)})`}}>
 					<div className='cardItemLeft'>
 						<p className='leftTop'>{`${val.discountAmount}元${val.couponType === '1' ? '优惠券' : '红包'}`}</p>
@@ -23,7 +23,11 @@ const CardList = props => <Row>
 		</ul>
 	</Row>
 	<Row style={{display: 'flex', justifyContent: 'flex-end', padding: '15px 24px 10px'}}>
-		<Pagination size="small" total={50}/>
+		<Pagination 
+        size="small" 
+        defaultPageSize={4}
+        onChange={(page, pageSize) => props.handlePageChange({'page': page, 'rows': pageSize})}
+        total={props.list.total === '0' || !props.list.total ? 1 : props.list.total}/>
 	</Row>
 </Row>
 

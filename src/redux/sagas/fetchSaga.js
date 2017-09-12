@@ -209,7 +209,7 @@ function* getWithdraw(){
 	yield takeLatest(ACTION.GET_WITHDRAWLIST, function* (action){
 		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.getWithdrawlist, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_WITHDRAWLIST_SUCCESS, data: data.data}) : throwError(data.msg)
+		data.code === '200' || data.code === '60012' ? yield put({type: ACTION.GET_WITHDRAWLIST_SUCCESS, data: data.code === '200' ? data.data : {list: []}}) : throwError(data.msg)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }

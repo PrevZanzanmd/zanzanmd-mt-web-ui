@@ -18,7 +18,7 @@ const fetchDataStructure = {
 	chartData: {coordinateList: []},
 	cardlistdata: {list: []},
 	shopBalance: {},
-	withdrawlist: {withdrawalLists: []}
+	withdrawlist: {list: []}
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
