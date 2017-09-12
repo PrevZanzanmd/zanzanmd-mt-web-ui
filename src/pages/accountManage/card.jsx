@@ -27,9 +27,8 @@ class Card extends React.Component{
 		this.props.getPrimaryCard(this.state.searchParam)
 	}
 	componentDidUpdate(){
-        if(!this.state.selected && this.props.shoplist.length > 0){
+        if(!this.state.selected && this.props.shoplist.length > 0)
             this.setState({selected: true, selectedItem: this.props.shoplist[0].id})
-        }
     }
     state = {
     	selected: false,

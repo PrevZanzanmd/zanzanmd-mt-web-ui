@@ -185,6 +185,58 @@ function* getUsedCard(){
 	yield takeLatest(ACTION.GET_USEDCARD, cardBaseSaga, ACTION.GET_CARDLIST_SUCCESS, fetchApi.getUsedCard)
 }
 
+function* getPrimaryHome(){
+	yield takeLatest(ACTION.GET_PRIMARYHOME, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getShopList)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
+			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
+			yield put({type: ACTION.GET_HOMEBALANCE, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
+			yield put({type: ACTION.GET_WITHDRAWLIST, param: {spShopId: data.data[0] ? data.data[0].id : '', page: 1, rows: 5}})
+		) : (
+			yield put({type: ACTION.CLOSE_LOADING}),
+			throwError(data.msg)
+		)
+	})
+}
+
+function* getShopBalance(){
+	yield takeLatest(ACTION.GET_HOMEBALANCE, simpleFetchSaga, ACTION.GET_HOMEBALANCE_SUCCESS, fetchApi.getShopBalance)
+}
+
+function* getWithdraw(){
+	yield takeLatest(ACTION.GET_WITHDRAWLIST, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getWithdrawlist, action.param)
+		data.code === '200' ? yield put({type: ACTION.GET_WITHDRAWLIST_SUCCESS, data: data.data}) : throwError(data.msg)
+		yield put({type: ACTION.CLOSE_LOADING})
+	})
+}
+
+function* filterHome(){
+	yield takeLatest(ACTION.FILTER_HOMEMESS, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: action.param.spShopId}}),
+		yield put({type: ACTION.GET_HOMEBALANCE, param: {spShopId: action.param.spShopId}}),
+		yield put({type: ACTION.GET_WITHDRAWLIST, param: {spShopId: action.param.spShopId, page: 1, rows: 5}})
+	})
+}
+
+function* getPrimaryWithdraw(){
+	yield takeLatest(ACTION.GET_PRIMARYWITHDRAW, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getShopList)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
+			yield put({type: ACTION.GET_WITHDRAWLIST, param: Object.assign({spShopId: data.data[0] ? data.data[0].id : ''}, action.param)})
+		) : (
+			yield put({type: ACTION.CLOSE_LOADING}),
+			throwError(data.msg)
+		)
+	})
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 function* changeShopPrem(){
@@ -278,4 +330,9 @@ export default function* (){
 	yield fork(getPrimaryCard)
 	yield fork(getUsedCard)
 	yield fork(changeCard)
+	yield fork(getPrimaryHome)
+	yield fork(getShopBalance)
+	yield fork(filterHome)
+	yield fork(getWithdraw)
+	yield fork(getPrimaryWithdraw)
 }

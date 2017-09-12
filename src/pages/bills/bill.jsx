@@ -28,9 +28,8 @@ class Bill extends React.Component {
         this.props.getPrimaryBill()
     }
     componentDidUpdate(){
-        if(!this.state.selected && this.props.shoplist.length > 0){
+        if(!this.state.selected && this.props.shoplist.length > 0)
             this.setState({selected: true, selectedItem: this.props.shoplist[0].id})
-        }
     }
     state={
         selected: false,

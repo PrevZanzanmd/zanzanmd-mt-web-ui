@@ -66,5 +66,11 @@ export const getUsedCard = (param = {}) => fetchApi({specPath: '/api-mt/couponRe
 //修改卡券
 export const saveCardChanges = (param = {}) => fetchApi({specPath: '/api-mt/coupon/v1/save', method: 'POST', param: param})
 
+//获取首页店铺余额
+export const getShopBalance = (param = {}) => fetchApi({specPath: '/api-mt/personalCenter/v1/query', param: param})
+
+//获取提现记录
+export const getWithdrawlist = (param = {}) => fetchApi({specPath: '/api-mt/withdrawal/v1/list', method: 'POST', param: param})
+
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param: param})
