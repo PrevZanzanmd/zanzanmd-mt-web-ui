@@ -390,6 +390,14 @@ function* changePhone(){
 	})
 }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* excelSaga(){
+	yield takeLatest(ACTION.TODO_EXCEL, function* (action){
+		window.location.href = `http://zanzanmd.sssvip4.natapp.cc/api-mt/tb/excel/v1/exportXls?startTime=${action.param.startTime}&endTime=${action.param.endTime}&shopId=${action.param.shopId}`
+		message.success('下载成功')
+	})
+}
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function* deleteShop(){
@@ -443,4 +451,5 @@ export default function* (){
 	yield fork(changePhone)
 	yield fork(getBaseUserInfo)
 	yield fork(changeUserInfo)
+	yield fork(excelSaga)
 }
