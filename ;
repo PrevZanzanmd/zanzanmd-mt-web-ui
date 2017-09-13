@@ -1,35 +1,7 @@
 Merge branch 'deveopStash' into develop
-#
-# It looks like you may be committing a merge.
-# If this is not correct, please remove the file
-#	.git/MERGE_HEAD
-# and try again.
 
-
-# Please enter the commit message for your changes. Lines starting
-# with '#' will be ignored, and an empty message aborts the commit.
+# Please enter a commit message to explain why this merge is necessary,
+# especially if it merges an updated upstream into a topic branch.
 #
-# On branch develop
-# Your branch is up-to-date with 'origin/develop'.
-#
-# All conflicts fixed but you are still merging.
-#
-# Changes to be committed:
-#	modified:   ;
-#	modified:   nodejsproxy/requestHandler.js
-#	modified:   src/fetchApi/commonApi.js
-#	modified:   src/fetchApi/index.js
-#	modified:   src/pages/accountManage/card.jsx
-#	modified:   src/pages/accountManage/cardForm.jsx
-#	modified:   src/pages/accountManage/cardList.jsx
-#	modified:   src/pages/bills/bill.jsx
-#	modified:   src/pages/homeComponents/contentContainer.jsx
-#	new file:   src/pages/homeComponents/withdrawModal.jsx
-#	modified:   src/pages/homeComponents/withdrawRecord.jsx
-#	modified:   src/redux/Actions.js
-#	modified:   src/redux/reducer/fetchReducers.js
-#	modified:   src/redux/sagas/fetchSaga.js
-#
-# Changes not staged for commit:
-#	modified:   ;
-#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.
