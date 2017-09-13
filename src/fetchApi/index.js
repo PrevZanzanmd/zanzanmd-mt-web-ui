@@ -93,6 +93,9 @@ export const canWithdraw = (param = {}) => fetchApi({specPath: '/api-mt/dowithdr
 //获取个人信息
 export const getUserInfo = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/getPersonal', param})
 
+//修改个人信息
+export const changeUserInfo = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/updatePersonal', method: 'POST', param})
+
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})

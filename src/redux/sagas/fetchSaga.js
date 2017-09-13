@@ -323,6 +323,21 @@ function* changeCard(){
 	})
 }
 
+function* changeUserInfo(){
+	yield takeLatest(ACTION.CHANGE_USERINFO, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.changeUserInfo, action.param)
+		data.code === '200' ? (
+			message.success('修改成功'),
+			yield put({type: ACTION.GET_USERINFO, param: {}})
+		) : (
+			message.error('修改失败'),
+			throwError(data.msg)
+		)
+		yield put({type: ACTION.CLOSE_LOADING})
+	})
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function* getQrcode(){
 	yield takeLatest(ACTION.GET_PAYSRCRET, function* (action){
@@ -427,4 +442,5 @@ export default function* (){
 	yield fork(sendModify)
 	yield fork(changePhone)
 	yield fork(getBaseUserInfo)
+	yield fork(changeUserInfo)
 }
