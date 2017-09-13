@@ -13,11 +13,13 @@ const sideMenu = [
         icon:'\ue615',
         title: '报表',
         path: '/home/chart'
-    },{
-        icon:'\ue606',
-        title: '对账',
-        path: '/home/toBill'
-    },{
+    }
+    // ,{
+    //     icon:'\ue606',
+    //     title: '对账',
+    //     path: '/home/toBill'
+    // }
+    ,{
         icon:'\ue6a8',
 		title: '店铺管理',
 		submenu: [

@@ -29,8 +29,6 @@ class CardForm extends React.Component{
 	      		values.startDate = values.time[0]
 	      		values.deadline = values.time[1]
 	      		delete values.time
-	      		console.log(values)
-	      		console.log(this.props.searchParam)
 	        	this.props.addCard(values, this.props.searchParam)
 	      	}
 	    })
