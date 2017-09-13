@@ -192,7 +192,7 @@ function* getPrimaryHome(){
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
 			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
-			yield put({type: ACTION.GET_HOMEBALANCE, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
+			yield put({type: ACTION.GET_HOMEBALANCE, param: {id: data.data[0] ? data.data[0].id : ''}}),
 			yield put({type: ACTION.GET_WITHDRAWLIST, param: {spShopId: data.data[0] ? data.data[0].id : '', page: 1, rows: 5}})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
@@ -218,7 +218,7 @@ function* filterHome(){
 	yield takeLatest(ACTION.FILTER_HOMEMESS, function* (action){
 		yield put({type: ACTION.START_LOADING})
 		yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: action.param.spShopId}}),
-		yield put({type: ACTION.GET_HOMEBALANCE, param: {spShopId: action.param.spShopId}}),
+		yield put({type: ACTION.GET_HOMEBALANCE, param: {id: action.param.spShopId}}),
 		yield put({type: ACTION.GET_WITHDRAWLIST, param: {spShopId: action.param.spShopId, page: 1, rows: 5}})
 	})
 }
@@ -234,6 +234,40 @@ function* getPrimaryWithdraw(){
 			yield put({type: ACTION.CLOSE_LOADING}),
 			throwError(data.msg)
 		)
+	})
+}
+
+function* getBankcard(){
+	yield takeLatest(ACTION.BANKCARD_LIST, baseFetchSaga, ACTION.BANKCARD_LIST_SUCCESS, fetchApi.getBankcardList)
+}
+
+function* getPrimaryBank(){
+	yield takeLatest(ACTION.GET_PRIMARYBANK, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		yield put({type: ACTION.BANKCARD_LIST, param: {}})
+		let data = yield call(fetchApi.getShopList)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
+			yield put({type: ACTION.GET_HOMEBALANCE, param: {id: data.data[0] ? data.data[0].id : ''}}),
+			yield put({type: ACTION.CAN_WITHDRAW, param: {spShopId: data.data[0] ? data.data[0].id : ''}})
+		) : (
+			yield put({type: ACTION.CLOSE_LOADING}),
+			throwError(data.msg)
+		)
+	})
+}
+
+function* filterWithdrawBank(){
+	yield takeLatest(ACTION.FILTER_WITHDRAWBANK, function* (action){
+		yield put({type: ACTION.GET_HOMEBALANCE, param: {id: action.param.spShopId}}),
+		yield put({type: ACTION.CAN_WITHDRAW, param: {spShopId: action.param.spShopId}})
+	})
+}
+
+function* canWithdraw(){
+	yield takeLatest(ACTION.CAN_WITHDRAW, function* (action){
+		let data = yield call(fetchApi.canWithdraw, action.param)
+		yield put({type: ACTION.CAN_WITHDRAW_SUCCESS, data: data.msg})
 	})
 }
 
@@ -294,6 +328,25 @@ function* getQrcode(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* resetPassword(){
+	yield takeLatest(ACTION.RESET_PASSWORD, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.resetAuthPassword, action.param)
+		data.code === '200' ? message.success('修改成功') : data.code === '60009' && data.msg === 'OLD_WRONG_PASSWORD' ? message.error('旧密码错误') : (message.error('修改失败'),throwError(data.msg))
+		yield put({type: ACTION.CLOSE_LOADING})
+	})
+}
+
+function* withdraw(){
+	yield takeLatest(ACTION.WITHDRAW, function* (action){
+		let data = yield call(fetchApi.withDraw, action.param)
+		data.code === '200' ? message.success('提现成功') : (message.error('提现失败'), throwError(data.msg))
+		yield put({type: ACTION.FILTER_WITHDRAWBANK, param: {spShopId: action.param.spShopId}})
+	})
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function* deleteShop(){
 	yield takeLatest(ACTION.DELETE_SHOP, function* (action){
 		let data = yield call(fetchApi.deleteShop, action.param)
@@ -335,4 +388,10 @@ export default function* (){
 	yield fork(filterHome)
 	yield fork(getWithdraw)
 	yield fork(getPrimaryWithdraw)
+	yield fork(resetPassword)
+	yield fork(getBankcard)
+	yield fork(getPrimaryBank)
+	yield fork(filterWithdrawBank)
+	yield fork(withdraw)
+	yield fork(canWithdraw)
 }
