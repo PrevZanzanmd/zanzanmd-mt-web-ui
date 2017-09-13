@@ -48,7 +48,6 @@ class ContentContainer extends React.Component {
         this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         this.props.filterHome(this.state.searchParam)
-        console.log(this.state.searchParam)
     }
     handleNum = num => num ? num : 0
     render = _ =><div>

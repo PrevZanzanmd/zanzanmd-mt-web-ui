@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-const baseUrl = 'http://192.168.1.101:8096/proxy'
+const baseUrl = 'http://192.168.1.105:8096/proxy'
 
 const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => `${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`
 
@@ -79,7 +79,16 @@ export const resetAuthPassword = (param = {}) => fetchApi({specPath: '/api-accou
 export const sendModify = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/sendModifyP', method: 'POST', param})
 
 //修改手机号
-export const changePhone = (param = {}) => fetchApi(specPath: '/api-account/personal/v1/modifyP', method: 'POST', param)
+export const changePhone = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/modifyP', method: 'POST', param})
+
+//查看银行卡列表
+export const getBankcardList = (param = {}) => fetchApi({specPath: '/api-mt/bankcard/v1/list', param})
+
+//提现
+export const withDraw = (param = {}) => fetchApi({specPath: '/api-mt/dowithdrawal/v1/dowithdrawal', method: 'POST', param})
+
+//判断是否能提现
+export const canWithdraw = (param = {}) => fetchApi({specPath: '/api-mt/dowithdrawal/v1/wdtoday', method: 'POST', param})
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})

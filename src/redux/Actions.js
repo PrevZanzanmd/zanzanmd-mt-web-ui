@@ -88,6 +88,18 @@ export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const SET_TIMESTATE = 'SET_TIMESTATE'
 //倒计时按钮显示倒计时
 export const SET_TIMESTR = 'SET_TIMESTR'
+//银行卡列表
+export const BANKCARD_LIST = 'BANKCARD_LIST'
+export const BANKCARD_LIST_SUCCESS = 'BANKCARD_LIST_SUCCESS'
+//初次加载提现
+export const GET_PRIMARYBANK = 'GET_PRIMARYBANK'
+//提现选择店铺
+export const FILTER_WITHDRAWBANK = 'FILTER_WITHDRAWBANK'
+//提现
+export const WITHDRAW = 'WITHDRAW'
+//判断是否能提现
+export const CAN_WITHDRAW = 'CAN_WITHDRAW'
+export const CAN_WITHDRAW_SUCCESS = 'CAN_WITHDRAW_SUCCESS'
 
 
 
