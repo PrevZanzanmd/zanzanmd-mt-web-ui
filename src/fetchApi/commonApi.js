@@ -16,3 +16,18 @@ export const judgeWithDrawState = state => {
 		default: return
 	}
 }
+
+export const getBankType = code => {
+	switch(code){
+		case '622760': return 'zhongguobank'
+        case '458123': return 'jiaotongbank'
+        case '552599': return 'nongyebank'
+        case '436742': return 'jianshebank'
+        case '622230': return 'gongshangbank'
+        case '528948': return 'minshengbank'
+        case '406254': return 'guangdabank'
+        case '545947': return 'zhaoshangbank'
+        case '622848': return 'nongyebank'
+        default: ''
+	}
+}

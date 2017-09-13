@@ -18,7 +18,9 @@ const fetchDataStructure = {
 	chartData: {coordinateList: []},
 	cardlistdata: {list: []},
 	shopBalance: {},
-	withdrawlist: {list: []}
+	withdrawlist: {list: []},
+	bankCardlist: [],
+	withdrawMsg: ''
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -39,6 +41,8 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 		case ACTION.GET_CARDLIST_SUCCESS: return Assign(state, { cardlistdata: action.data })
 		case ACTION.GET_HOMEBALANCE_SUCCESS: return Assign(state, { shopBalance: action.data })
 		case ACTION.GET_WITHDRAWLIST_SUCCESS: return Assign(state, { withdrawlist: action.data })
+		case ACTION.BANKCARD_LIST_SUCCESS: return Assign(state, { bankCardlist: action.data })
+		case ACTION.CAN_WITHDRAW_SUCCESS: return Assign(state, { withdrawMsg: action.data })
 		default: return state
 	}
 }

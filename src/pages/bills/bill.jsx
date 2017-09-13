@@ -70,6 +70,7 @@ class Bill extends React.Component {
             default: return 
         }
     }
+    handleInitialVal = val => val ? val : 0
     render = _ =><div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
         <div className="trade">
@@ -103,11 +104,11 @@ class Bill extends React.Component {
             <div className="home-account">
                 <div className="home-accountitem">
                     <p className="home-stitle">今日总交易额</p>
-                    <p className="home-cash">{this.props.todaytotal.todayTotalMoney}<span>元</span></p>
+                    <p className="home-cash">{this.handleInitialVal(this.props.todaytotal.todayTotalMoney)}<span>元</span></p>
                 </div>
                 <div className="home-accountitem">
                     <p className="home-stitle">成功交易笔数</p>
-                    <p className="home-cash">{this.props.todaytotal.succeedTotalNumber}<span>笔</span></p>
+                    <p className="home-cash">{this.handleInitialVal(this.props.todaytotal.succeedTotalNumber)}<span>笔</span></p>
                 </div>
             </div>
 
