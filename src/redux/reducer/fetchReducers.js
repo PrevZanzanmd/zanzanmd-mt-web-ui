@@ -20,7 +20,8 @@ const fetchDataStructure = {
 	shopBalance: {},
 	withdrawlist: {list: []},
 	bankCardlist: [],
-	withdrawMsg: ''
+	withdrawMsg: '',
+	userinfodata: {}
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -43,6 +44,7 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 		case ACTION.GET_WITHDRAWLIST_SUCCESS: return Assign(state, { withdrawlist: action.data })
 		case ACTION.BANKCARD_LIST_SUCCESS: return Assign(state, { bankCardlist: action.data })
 		case ACTION.CAN_WITHDRAW_SUCCESS: return Assign(state, { withdrawMsg: action.data })
+		case ACTION.GET_USERINFO_SUCCESS: return Assign(state, { userinfodata: action.data })
 		default: return state
 	}
 }
