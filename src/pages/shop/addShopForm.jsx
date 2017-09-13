@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Row, Col, Button, Input, Select, Upload, Icon, Spin, Cascader } from 'antd'
 const FormItem = Form.Item
 const { Option, OptGroup } = Select
-import { GET_INDUSTRY } from '../../redux/Actions'
+import { GET_INDUSTRY, CHANGE_SHOPDETAIL } from '../../redux/Actions'
 
 let item = ''
 
@@ -13,7 +13,8 @@ let item = ''
 	selectload: state.globaldata.selectload,
 	areadata: state.fetchdata.areadata
 }), dispath => ({
-	getIndustry(param = {}){dispath({type: GET_INDUSTRY, param: param})}
+	getIndustry(param = {}){dispath({type: GET_INDUSTRY, param: param})},
+	changeShopDetail(param = {}){dispath({type: CHANGE_SHOPDETAIL, param: param})}
 }))
 class AddShopForm extends React.Component{
 	state = {
@@ -36,10 +37,24 @@ class AddShopForm extends React.Component{
 	    e.preventDefault();
 	    this.props.form.validateFieldsAndScroll((err, values) => {
 	      	if (!err) {
-	        	console.log(values)
+	      		let arr = [values.spIndustryCode.substring(0, 2), values.spIndustryCode]
+	      		let nameList = []
+	      		let jcList = []
+	      		this.getIndustryName(arr, this.props.industrydata, nameList, 'code')
+	      		this.getIndustryName(values.jcTerritoryId, this.props.areadata, jcList, 'id')
+	        	this.props.changeShopDetail( Object.assign(values, 
+	        		this.props.type === 'edit' ? {id: this.props.shopDetail.id} : {}, 
+	        		{spIndustryName: nameList.join('-')},
+	        		{jcTerritoryName: jcList.join('-')},
+	        		{headPortrait: this.props.shopDetail.headPortrait}, 
+	        		{jcTerritoryId: values.jcTerritoryId[values.jcTerritoryId.length - 1]}) )
 	      	}
 	    })
 	}
+	getIndustryName = (arr, list, nameList, key) => (f => f(f))(f => list => codelist => num => list.map(val => val[key] === codelist[num] ? (
+	  	nameList.push(val.name),
+  		val.childList ? f(f)(val.childList)(arr)(++num) : null
+	) : null ))(list)(arr)(0)
 	handleInitialValue = id => (f => f(f))(f => id => list => {
 		(g => g(g))(g => id => list => list.map(i => i.id === id ? (item = i) : i.childList ? g(g)(id)(i.childList) : null ))(id)(list)
 		return item.parentId !== '0' ? f(f)(item.parentId)(this.props.areadata).concat([id]) : [id]

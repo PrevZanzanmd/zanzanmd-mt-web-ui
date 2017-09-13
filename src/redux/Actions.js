@@ -28,3 +28,84 @@ export const GET_INDUSTRY_SUCCESS = 'GET_INDUSTRY_SUCCESS'
 //地区
 export const GET_AREA = 'GET_AREA'
 export const GET_AREA_SUCCESS = 'GET_AREA_SUCCESS'
+//修改店铺
+export const CHANGE_SHOPDETAIL = 'CHANGE_SHOPDETAIL'
+//店铺账号详情
+export const GET_ACCOUNT_DETAIL = 'GET_ACCOUNT_DETAIL'
+export const GET_ACCOUNT_DETAIL_SUCCESS = 'GET_ACCOUNT_DETAIL_SUCCESS'
+//修改店铺账号
+export const CHANGE_SHOP_ACCOUNT = 'CHANGE_SHOP_ACCOUNT'
+//初次加载账单页面
+export const BILL_PRIMARY_LOAD = 'BILL_PRIMARY_LOAD'
+//获取账单列表
+export const GET_BILLLIST = 'GET_BILLLIST'
+export const GET_BILLLIST_SUCCESS = 'GET_BILLLIST_SUCCESS'
+//获取今日交易金额和笔数
+export const GET_TODAYTOTAL = 'GET_TODAYTOTAL'
+export const GET_TODAYTOTAL_SUCCESS = 'GET_TODAYTOTAL_SUCCESS'
+//筛选账单
+export const FILTER_BILL = 'FILTER_BILL'
+//账单详情
+export const GET_BILLDETAIL = 'GET_BILLDETAIL'
+export const GET_BILLDETAIL_SUCCESS = 'GET_BILLDETAIL_SUCCESS'
+//初次加载报表
+export const CHART_PRIMARY_LOAD = 'CHART_PRIMARY_LOAD'
+//加载统计数据
+export const GET_ALLTOTAL = 'GET_ALLTOTAL'
+export const GET_ALLTOTAL_SUCCESS = 'GET_ALLTOTAL_SUCCESS'
+//加载报表数据
+export const GET_CHARTDATA = 'GET_CHARTDATA'
+export const GET_CHARTDATA_SUCCESS = 'GET_CHARTDATA_SUCCESS'
+//根据日期查询统计信息
+export const GET_DAYTOTAL = 'GET_DAYTOTAL'
+export const GET_DAYTOTAL_SUCCESS = 'GET_DAYTOTAL_SUCCESS'
+//报表筛选
+export const FILTER_CHART = 'FILTER_CHART'
+//获取卡券列表
+export const GET_CARDLIST = 'GET_CARDLIST'
+export const GET_CARDLIST_SUCCESS = 'GET_CARDLIST_SUCCESS'
+//初次加载卡包
+export const CARD_PRIMARY_LOAD = 'CARD_PRIMARY_LOAD'
+//获取已使用卡券
+export const GET_USEDCARD = 'GET_USEDCARD'
+//修改卡券
+export const CHANGE_CARD = 'CHANGE_CARD'
+//初次加载首页
+export const GET_PRIMARYHOME = 'GET_PRIMARYHOME'
+//获取首页店铺余额
+export const GET_HOMEBALANCE = 'GET_HOMEBALANCE'
+export const GET_HOMEBALANCE_SUCCESS = 'GET_HOMEBALANCE_SUCCESS'
+//筛选首页信息
+export const FILTER_HOMEMESS = 'FILTER_HOMEMESS'
+//提现列表
+export const GET_WITHDRAWLIST = 'GET_WITHDRAWLIST'
+export const GET_WITHDRAWLIST_SUCCESS = 'GET_WITHDRAWLIST_SUCCESS'
+//初次加载提现列表
+export const GET_PRIMARYWITHDRAW = 'GET_PRIMARYWITHDRAW'
+//重置登录密码
+export const RESET_PASSWORD = 'RESET_PASSWORD'
+//倒计时按钮状态
+export const SET_TIMESTATE = 'SET_TIMESTATE'
+//倒计时按钮显示倒计时
+export const SET_TIMESTR = 'SET_TIMESTR'
+//银行卡列表
+export const BANKCARD_LIST = 'BANKCARD_LIST'
+export const BANKCARD_LIST_SUCCESS = 'BANKCARD_LIST_SUCCESS'
+//初次加载提现
+export const GET_PRIMARYBANK = 'GET_PRIMARYBANK'
+//提现选择店铺
+export const FILTER_WITHDRAWBANK = 'FILTER_WITHDRAWBANK'
+//提现
+export const WITHDRAW = 'WITHDRAW'
+//判断是否能提现
+export const CAN_WITHDRAW = 'CAN_WITHDRAW'
+export const CAN_WITHDRAW_SUCCESS = 'CAN_WITHDRAW_SUCCESS'
+
+
+
+
+
+
+
+
+

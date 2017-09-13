@@ -1,15 +1,50 @@
 import React from 'react'
-import { Row, Select, Button, DatePicker, Col, Table, Pagination } from 'antd'
+import { connect } from 'react-redux'
+import { Row, Select, Button, DatePicker, Col, Table, Pagination, Spin } from 'antd'
 const Option = Select.Option
-const RangePicker = DatePicker.RangePicker
 import BCrumb from '../Components/bCrumb.jsx'
 import echarts from 'echarts/lib/echarts'
-require('echarts/lib/chart/line')
-require('echarts/lib/component/tooltip')
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/tooltip'
+import { CHART_PRIMARY_LOAD, FILTER_CHART } from '../../redux/Actions'
 
+let chart
+@connect(state => ({
+	loading: state.globaldata.loading,
+    todaytotal: state.fetchdata.todaytotal,
+    shoplist: state.fetchdata.shoplist,
+    allTotaldata: state.fetchdata.allTotaldata,
+    dayTotaldata: state.fetchdata.dayTotaldata,
+    chartData: state.fetchdata.chartData.coordinateList
+}), dispath => ({
+	getPrimaryChart(){dispath({type: CHART_PRIMARY_LOAD})},
+	filterChart(param = {}){dispath({type: FILTER_CHART, param: param})}
+}))
 class Chart extends React.Component{
-	createChart(id, data){
-		const Chart = echarts.init(document.getElementById(id))
+	componentWillMount = _ => this.props.getPrimaryChart()
+	state = {
+		searchParam: {},
+		isCreated: false,
+		selected: false,
+		selectedItem: ''
+	}
+	componentDidUpdate(){
+		if(!this.state.isCreated){
+			(async _ => {
+				await new Promise((rsl, rej) => this.setState({isCreated: true}, _ => rsl()))
+				chart = echarts.init(document.getElementById('chart'))
+			})()
+		}
+		if(!this.state.selected && this.props.shoplist.length > 0){
+			this.setState({selected: true, selectedItem: this.props.shoplist[0].id})
+		}
+		if(this.props.chartData.length > 0)
+			this.createChart({
+				xData: this.props.chartData.map(val => val.time),
+				mainData: this.props.chartData.map(val => val.money)
+			})
+	}
+	createChart(data){
 		const option = {
 		    color: ['#3eba6c'],
 		    tooltip : {
@@ -72,50 +107,69 @@ class Chart extends React.Component{
 		        }
 		    ]
 		}
-		Chart.setOption(option)
+		chart.setOption(option)
 	}
 
-	componentDidMount(){
-		this.createChart('chart', {
-			xData: [1, 2, 3, 4, 5],
-			mainData: [0, 1100, 5412, 3313, 4414]
-		})
-	}
+	
+	handleFilter = async param => {
+        this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
+        await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
+        this.props.filterChart(this.state.searchParam)
+    }
 	render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
 		<div style={{display: 'flex', alignItems: 'center'}}>
 			<div>
 				<span style={{padding: '0 10px 0 25px'}}>交易店铺</span>
-				<Select style={{width: 120}} placeholder='请选择'>{['火车站'].map(val => <Option value={val} key={val}>{val}</Option>)}</Select>
+				<Select 
+                placeholder='请选择'
+                onChange={val => {
+                	this.setState({selectedItem: val})
+                	this.handleFilter({spShopId: val})
+                }}
+                {...(_ => this.state.selectedItem !== '' ? {value: this.state.selectedItem} : {})()}                       
+                style={{ width: 120}}>
+                    {this.props.shoplist.map((val, index) => <Option value={val.id} key={index}>{val.shopName}</Option>)}
+                </Select>
 			</div>
-			<span style={{padding: '0 10px 0 25px'}}>请选择交易时间</span><RangePicker/>
-			{['前一天', '后一天'].map((val, index) => <Button key={index} type='primary' size='small' style={{marginLeft: 15}}>{val}</Button>)}
+			<span style={{padding: '0 10px 0 25px'}}>请选择交易时间</span><DatePicker onChange={(date, dateStr) => this.handleFilter({dayTime: dateStr})}/>
 		</div>
 		<Row style={{marginTop: 17}}>
-			{[[{title: '今日总交易额', count: '800'}, {title: '成功交易笔数', count: '50'}], [{title: '累计收入', count: '88'}, {title: '交易笔数', count: '77'}]].map((val, index) => <Col span={12} className='chartCountCol' key={index}>
+			<Col span={12} className='chartCountCol'>
 				<Row className='wrap'>
-					{val.map((item, key) => <Col span={12} key={key}>
-						<p className='title'>{item.title}</p>
-						<p className='count'>{item.count}</p>
-					</Col>)}
+					<Col span={12}>
+						<p className='title'>今日总交易额</p>
+						<p className='count'>{this.props.dayTotaldata.totalMoney ? this.props.dayTotaldata.totalMoney : 0}</p>
+					</Col>
+					<Col span={12}>
+						<p className='title'>成功交易笔数</p>
+						<p className='count'>{this.props.dayTotaldata.totalNumber ? this.props.dayTotaldata.totalNumber : 0}</p>
+					</Col>
 				</Row>
-			</Col>)}
+			</Col>
+			<Col span={12} className='chartCountCol'>
+				<Row className='wrap'>
+					<Col span={12}>
+						<p className='title'>累计收入</p>
+						<p className='count'>{this.props.allTotaldata.totalMoney ? this.props.allTotaldata.totalMoney : 0}</p>
+					</Col>
+					<Col span={12}>
+						<p className='title'>交易笔数</p>
+						<p className='count'>{this.props.allTotaldata.totalNumber ? this.props.allTotaldata.totalNumber : 0}</p>
+					</Col>
+				</Row>
+			</Col>
 		</Row>
 		<Row className='billCountContainer' style={{border: 'none', position: 'relative'}}>
 			<span style={{position: 'absolute', left: 25, top: 12, fontSize: 15}}>交易记录</span>
-			{['wx', 'aliy'].map((item, key) => 
-				<Col span={12} className='ContainerCol' key={key}  style={item === 'wx' ? {justifyContent: 'flex-end'} : {}}>
-					<div className={item === 'wx' ? 'WXitemContainer' : 'ALIYitemContainer'}>
-						<span className='iconContainer'><img src={require(`../../assets/img/images/${item === 'wx' ? '微信' : '支付宝'}icon.png`)}/><p>支付宝</p></span>
-						{[{
-							title: '交易金额',
-							count: '8000'
-						},{
-							title: '交易笔数',
-							count: '8000'
-						}].map((val, index) => <Row key={index}>
-								<Col span={14} style={{textAlign: 'right'}} className='itemCol'>{`${val.title}：`}</Col>
-								<Col span={10} className='itemCol'>{val.count}</Col>
+			{['wX', 'aLIY'].map((item, key) => 
+				<Col span={12} className='ContainerCol' key={key}  style={item === 'wX' ? {justifyContent: 'flex-end'} : {}}>
+					<div className={item === 'wX' ? 'WXitemContainer' : 'ALIYitemContainer'}>
+						<span className='iconContainer'><img src={require(`../../assets/img/images/${item === 'wX' ? '微信' : '支付宝'}icon.png`)}/><p>支付宝</p></span>
+						{[{title: '交易金额', key: 'TotalMoney'}, {title: '交易笔数', key: 'TotalNumber'}].map((val, index) => 
+							<Row key={index}>
+								<Col span={14} style={{textAlign: 'right', paddingRight: 10}} className='itemCol'>{val.title}</Col>
+								<Col span={10} className='itemCol'>{this.props.dayTotaldata[`${item}${val.key}`] ? this.props.dayTotaldata[`${item}${val.key}`] : 0}</Col>
 							</Row>
 						)}
 					</div>
@@ -124,7 +178,9 @@ class Chart extends React.Component{
 		</Row>
 		<Row style={{background: '#fff', marginTop: 20, paddingBottom: 10}}>
 			<p style={{padding: '15px 0 0 24px', fontSize: 15}}>近30天交易趋势</p>
-			<div id = 'chart' style={{width: '100%', height: 244}}></div>
+			<Spin spinning={this.props.loading}>
+				<div id = 'chart' style={{width: '100%', height: 244}}></div>
+			</Spin>
 		</Row>
 	</div>
 }

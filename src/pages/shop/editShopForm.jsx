@@ -2,13 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Input, Row, Col, Button } from 'antd'
 const FormItem = Form.Item
+import { CHANGE_SHOP_ACCOUNT } from '../../redux/Actions'
 
+@connect(state => ({
+	shopAccountdata: state.fetchdata.shopAccountdata
+}), dispath => ({
+	saveChanges(param = {}){dispath({type: CHANGE_SHOP_ACCOUNT, param: param})}
+}))
 class EditShopForm extends React.Component{
 	handleSubmit = (e) => {
 	    e.preventDefault();
 	    this.props.form.validateFieldsAndScroll((err, values) => {
 	      	if (!err) {
 	        	console.log(values)
+	        	console.log(this.props.id)
+	        	this.props.saveChanges(Object.assign(values, {id: this.props.id}))
 	      	}
 	    })
 	}
@@ -21,7 +29,8 @@ class EditShopForm extends React.Component{
 				label = '账号'
 				{...formSet}>
 					{getFieldDecorator('account', {
-					    rules: [{required: true, message: '请填写账号'}, {pattern: !/[@#\$%\^&\*]+/g, message: '不能包含非法字符'}]
+					    rules: [{required: true, message: '请填写账号'}, {pattern: !/[@#\$%\^&\*]+/g, message: '不能包含非法字符'}],
+					    initialValue: this.props.shopAccountdata.account
 					})(
 						<Input style={{ width: 200 }}/>
 					)}
@@ -30,9 +39,10 @@ class EditShopForm extends React.Component{
 				label = '密码'
 				{...formSet}>
 					{getFieldDecorator('password', {
-					    rules: [{required: true, message: '请填写密码'}]
+					    rules: [{required: true, message: '请填写密码'}],
+					    initialValue: this.props.shopAccountdata.password
 					})(
-						<Input type='password' style={{ width: 200 }}/>
+						<Input style={{ width: 200 }}/>
 					)}
 				</FormItem>
 				<FormItem
