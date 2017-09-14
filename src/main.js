@@ -27,10 +27,10 @@ import Login from './pages/login/login.jsx'
 
 const routeConfig = (
 	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page}>
-		<IndexRedirect to="/login"/>
+		<IndexRedirect to="/home"/>
 		<Route path = {'login'} breadcrumbName='登录' component = {Login}/>
 		<Route path = {'home'} breadcrumbName='首页' component = {Home}>
-			<IndexRedirect to="/home/login"/>
+			<IndexRedirect to="/home/contentContainer"/>
 			<Route path = {'contentContainer'} breadcrumbName='动态' component = {ContentContainer}/>
 			<Route path = {'withdrawRecord'} breadcrumbName='提现记录' component = {WithdrawRecord}/>
 			<Route path = {'withdraw'} breadcrumbName='提现' component = {Withdraw}/>
