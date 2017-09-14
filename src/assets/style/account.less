@@ -68,3 +68,62 @@
 	padding: 0 20px;
 	border-bottom: 1px solid @baseColor;
 }
+
+.bank-wrapper{
+	width:540px;
+	margin:55px auto 65px auto;
+	.bank-item{
+		.bank-name,.bank-which,.bank-num,.bank-oper{
+			display: flex;
+			justify-content: space-between;
+			align-items:center;
+		}
+		.bank-cont{
+			height:160px;
+			background: url("../../assets/img/images/bankbg.png") no-repeat center center;
+			margin:10px;
+			.bank-name{
+				flex:1;
+				height:60px;
+				padding:0 5px 0 17px;
+				.bankicon{
+					width:23px;
+					height:23px;
+					margin-right:12px;
+				}
+			}
+			.bank-num{
+				.bank-type{
+					width:52px;
+					height:16px;
+					margin-left:7px;
+				}
+			}
+		}
+		.bank-oper{
+			height:30px;
+			padding:0 10px 0 17px;
+			background:#e1e1e1;
+			.bank-remove{
+				cursor:pointer;
+				color:#4d9ddf;
+			}
+		}
+	}
+	.bank-cont,.bank-addcont{
+		height:160px;
+		margin:10px;
+	}
+	.bank-addcont{
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+		align-items:center;
+		background: url("../../assets/img/images/addbankbg.png") no-repeat center center;
+		cursor:pointer;
+		.bank-addtext{
+			margin-top:13px;
+			color:#4d9ddf;
+		}
+	}
+}

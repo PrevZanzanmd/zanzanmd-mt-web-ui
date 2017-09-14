@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-const baseUrl = 'http://192.168.1.113:8096/proxy'
+const baseUrl = 'http://192.168.1.106:8096/proxy'
 
 const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => `${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`
 
