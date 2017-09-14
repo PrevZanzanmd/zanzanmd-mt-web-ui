@@ -92,7 +92,10 @@ class MyShop extends React.Component{
 			    		<Spin spinning={this.props.loading}>
 				    		{this.props.shoplist.map((record) => 
 								<Row className='shopAccountItem' key={record.id}>
-									<img className='accountAvator'/>
+									<img 
+									src={record.headPortrait && record.headPortrait.length > 20 ? record.headPortrait : require(`../../assets/img/personHeadImg.jpg`)} 
+									className='accountAvator' 
+									style={{background: 'transparent', border: '1px solid #ccc'}}/>
 									<div className='accountTitle'>
 										<p className='title'>{record.shopName}</p>
 										<p>{record.jcTerritoryName}</p>

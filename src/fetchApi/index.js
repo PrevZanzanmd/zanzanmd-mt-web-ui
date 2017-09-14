@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-const baseUrl = 'http://192.168.1.105:8096/proxy'
+const baseUrl = 'http://192.168.1.113:8096/proxy'
 
 const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => `${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`
 
@@ -95,6 +95,18 @@ export const getUserInfo = (param = {}) => fetchApi({specPath: '/api-account/per
 
 //修改个人信息
 export const changeUserInfo = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/updatePersonal', method: 'POST', param})
+
+//获取上传文件token
+export const getUploadToken = (param = {}) => fetchApi({specPath: '/api-mt/upload/v1/token', param})
+
+//上传文件
+export const upload = (param = {}) => fetch(param.url, {
+    method: 'POST',
+    body: param.formData
+}).then(res => res.json())
+
+//下载文件
+export const download = (param = {}) => fetchApi({specPath: '/api-mt/upload/v1/download', param})
 
 
 //获取二维码
