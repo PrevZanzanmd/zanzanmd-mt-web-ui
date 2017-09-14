@@ -33,8 +33,10 @@ class BaseMessage extends React.Component{
 		this.setState({
 			fileList: [file]
 		})
+		console.log(file)
 		return false
 	}
+	handleUpload = _ => console.log(this.state.fileList)
 	handleSubmit = (e) => {
 	    e.preventDefault()
 	    this.props.form.validateFieldsAndScroll((err, values) => {
@@ -113,6 +115,7 @@ class BaseMessage extends React.Component{
 					    className="uploader"
 					    listType = 'picture'
 					    beforeUpload = {this.beforeUpload}
+					    onClick={this.handleUpload}
 					    onRemove = {this.removePic}
 					    fileList = {this.state.fileList}>
 							<Button>
