@@ -4,33 +4,38 @@ import { Form, Row, Input, Button } from 'antd'
 const FormItem = Form.Item
 import { Link, hashHistory } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
-import { SET_TIMESTATE, SET_TIMESTR } from '../../redux/Actions'
+import { SEND_MODIFY, TIME, CHANGE_PHONE } from '../../redux/Actions'
 
 @connect(state => ({
 	loading: state.globaldata.loading,
-	timeBtnDisabled: state.globaldata.timeBtnDisabled,
-	timeStr: state.globaldata.timeStr
+	time: state.globaldata.time
 }), dispath => ({
-	setTimeStr(data){dispath({type: SET_TIMESTR, data})},
-	setTimeState(data){dispath({type: SET_TIMESTATE, data})}
+	sendModify(){dispath({type: SEND_MODIFY})},
+	handleTime(state){dispath({type: TIME, data: state})},
+	changePhone(param = {}){dispath({type: CHANGE_PHONE, param})}
 }))
 class SecureSetting extends React.Component{
-	handleSendClick = _ => {
+	componentWillReceiveProps = nextProps => !this.props.time && nextProps.time ? this.handleSendClick() : null
+	state = {timeStr: '获取验证码', timeBtnDisabled: false}
+	handleSendClick = async _ => {
 		let time = 60
-		this.props.setTimeState(true)
+		await this.handleSetState({timeBtnDisabled: true})
 		let interval = setInterval(async _ => {
-			this.props.setTimeStr(time === 0 ? '获取验证码' : `${--time}秒后重新发送`)
-			this.props.timeStr === '获取验证码' ? (
-				this.props.setTimeState(false),
+			await this.handleSetState({timeStr: time === 0 ? '获取验证码' : `${--time}秒后重新发送`})
+			this.state.timeStr === '获取验证码' ? (
+				await this.handleSetState({timeBtnDisabled: false}),
+				this.props.handleTime(false),
 				clearInterval(interval)
 			) : null
 		}, 1000)
 	}
+	handleSetState = state => new Promise((rsl, rej) => this.setState(state, _ => rsl()))
 	handleSubmit = (e) => {
 	    e.preventDefault()
 	    this.props.form.validateFieldsAndScroll((err, values) => {
 	      	if (!err) {
 	      		console.log(values)
+	      		this.props.changePhone(values)
 	      	}
 	    })
 	}
@@ -57,9 +62,9 @@ class SecureSetting extends React.Component{
 							)}
 							<Button 
 							size='small' 
-							disabled={this.props.timeBtnDisabled}
-							onClick={this.handleSendClick}
-							style={{marginLeft: 10, width: 100}}>{this.props.timeStr}</Button>
+							disabled={this.state.timeBtnDisabled}
+							onClick={this.props.sendModify}
+							style={{marginLeft: 10, width: 100}}>{this.state.timeStr}</Button>
 						</FormItem>
 						<FormItem
 						label=' '

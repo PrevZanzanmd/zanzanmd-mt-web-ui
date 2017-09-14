@@ -271,6 +271,13 @@ function* canWithdraw(){
 	})
 }
 
+function* getBaseUserInfo(){
+	yield takeLatest(ACTION.GET_USERINFO, function* (action){
+		let data = yield call(fetchApi.getUserInfo)
+		data.code === '200' ? yield put({type: ACTION.GET_USERINFO_SUCCESS, data: data.data}) : throwError(data.msg)
+	})
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 function* changeShopPrem(){
@@ -316,6 +323,21 @@ function* changeCard(){
 	})
 }
 
+function* changeUserInfo(){
+	yield takeLatest(ACTION.CHANGE_USERINFO, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.changeUserInfo, action.param)
+		data.code === '200' ? (
+			message.success('修改成功'),
+			yield put({type: ACTION.GET_USERINFO, param: {}})
+		) : (
+			message.error('修改失败'),
+			throwError(data.msg)
+		)
+		yield put({type: ACTION.CLOSE_LOADING})
+	})
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 function* getQrcode(){
 	yield takeLatest(ACTION.GET_PAYSRCRET, function* (action){
@@ -343,6 +365,37 @@ function* withdraw(){
 		let data = yield call(fetchApi.withDraw, action.param)
 		data.code === '200' ? message.success('提现成功') : (message.error('提现失败'), throwError(data.msg))
 		yield put({type: ACTION.FILTER_WITHDRAWBANK, param: {spShopId: action.param.spShopId}})
+	})
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* sendModify(){
+	yield takeLatest(ACTION.SEND_MODIFY, function* (action){
+		let data = yield call(fetchApi.sendModify)
+		data.code === '200' ? (
+			message.success('已向绑定手机号发送验证码'),
+			yield put({type: ACTION.TIME, data: true})
+		) : (message.error('发送失败，请稍后再试'), throwError(data.msg))
+	})
+}
+
+function* changePhone(){
+	yield takeLatest(ACTION.CHANGE_PHONE, function* (action){
+		let data = yield call(fetchApi.changePhone, action.param)
+		data.code === '200' ? message.success('修改成功') : (
+			message.error(data.code === '60015' && data.msg === 'PHONE_ALREADY_REGISTERED' ? '手机号已被注册' : '修改失败'),
+			throwError(data.msg)
+		)
+	})
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* excelSaga(){
+	yield takeLatest(ACTION.TODO_EXCEL, function* (action){
+		window.location.href = `http://zanzanmd.sssvip4.natapp.cc/api-mt/tb/excel/v1/exportXls?startTime=${action.param.startTime}&endTime=${action.param.endTime}&shopId=${action.param.shopId}`
+		message.success('下载成功')
 	})
 }
 
@@ -394,4 +447,9 @@ export default function* (){
 	yield fork(filterWithdrawBank)
 	yield fork(withdraw)
 	yield fork(canWithdraw)
+	yield fork(sendModify)
+	yield fork(changePhone)
+	yield fork(getBaseUserInfo)
+	yield fork(changeUserInfo)
+	yield fork(excelSaga)
 }

@@ -84,10 +84,14 @@ export const GET_WITHDRAWLIST_SUCCESS = 'GET_WITHDRAWLIST_SUCCESS'
 export const GET_PRIMARYWITHDRAW = 'GET_PRIMARYWITHDRAW'
 //重置登录密码
 export const RESET_PASSWORD = 'RESET_PASSWORD'
-//倒计时按钮状态
-export const SET_TIMESTATE = 'SET_TIMESTATE'
-//倒计时按钮显示倒计时
-export const SET_TIMESTR = 'SET_TIMESTR'
+
+//发送验证码
+export const SEND_MODIFY = 'SEND_MODIFY'
+//修改手机号
+export const CHANGE_PHONE = 'CHANGE_PHONE'
+//倒计时开始
+export const TIME = 'TIME'
+
 //银行卡列表
 export const BANKCARD_LIST = 'BANKCARD_LIST'
 export const BANKCARD_LIST_SUCCESS = 'BANKCARD_LIST_SUCCESS'
@@ -100,6 +104,16 @@ export const WITHDRAW = 'WITHDRAW'
 //判断是否能提现
 export const CAN_WITHDRAW = 'CAN_WITHDRAW'
 export const CAN_WITHDRAW_SUCCESS = 'CAN_WITHDRAW_SUCCESS'
+
+//获取个人信息
+export const GET_USERINFO = 'GET_USERINFO'
+export const GET_USERINFO_SUCCESS = 'GET_USERINFO_SUCCESS'
+//修改个人信息
+export const CHANGE_USERINFO = 'CHANGE_USERINFO'
+
+//导出excel
+export const TODO_EXCEL = 'TODO_EXCEL'
+
 
 
 
