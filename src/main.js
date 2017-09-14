@@ -21,6 +21,7 @@ import ResetPass from './pages/accountManage/resetpassword.jsx'
 import BaseMessage from './pages/accountManage/baseMessage.jsx'
 import Card from './pages/accountManage/card.jsx'
 import MessageSetting from './pages/accountManage/messageSetting.jsx'
+import Mybank from './pages/accountManage/mybank.jsx'
 import ToBManage from './pages/toBill/toBManage.jsx'
 import Chart from './pages/chart/chart.jsx'
 import Login from './pages/login/login.jsx'
@@ -45,6 +46,7 @@ const routeConfig = (
 			<Route path = {'messageSetting'} breadcrumbName='消息提醒' component = {MessageSetting}/>
 			<Route path = {'tobill'} breadcrumbName='对账' component = {ToBManage}/>
 			<Route path = {'chart'} breadcrumbName='报表' component = {Chart}/>
+			<Route path = {'mybank'} breadcrumbName='我的银行卡' component = {Mybank}/>
 		</Route>
 	</Route>
 )

@@ -86,7 +86,7 @@ class BaseMessage extends React.Component{
 						label='银行卡'
 						{...formCol}>
 							<span style={{marginRight: 50}}>已绑定<Link>1</Link>张银行卡</span>
-							<Link>查看银行卡列表</Link>
+							<Link to="/home/mybank">查看银行卡列表</Link>
 						</FormItem>
 						<FormItem
 						label=' '
