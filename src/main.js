@@ -23,12 +23,14 @@ import Card from './pages/accountManage/card.jsx'
 import MessageSetting from './pages/accountManage/messageSetting.jsx'
 import ToBManage from './pages/toBill/toBManage.jsx'
 import Chart from './pages/chart/chart.jsx'
+import Login from './pages/login/login.jsx'
 
 const routeConfig = (
 	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page}>
-		<IndexRedirect to="/home"/>
+		<IndexRedirect to="/login"/>
+		<Route path = {'login'} breadcrumbName='登录' component = {Login}/>
 		<Route path = {'home'} breadcrumbName='首页' component = {Home}>
-			<IndexRedirect to="/home/ContentContainer"/>
+			<IndexRedirect to="/home/login"/>
 			<Route path = {'contentContainer'} breadcrumbName='动态' component = {ContentContainer}/>
 			<Route path = {'withdrawRecord'} breadcrumbName='提现记录' component = {WithdrawRecord}/>
 			<Route path = {'withdraw'} breadcrumbName='提现' component = {Withdraw}/>
