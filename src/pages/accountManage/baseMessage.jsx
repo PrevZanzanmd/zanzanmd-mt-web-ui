@@ -76,7 +76,7 @@ class BaseMessage extends React.Component{
 						label='头像'
 						{...formCol}>
 							<Link className='avator' onClick={_ => this.openModal('update')}>
-								<img src={this.props.downloaddata.url} style={{width: 70, height: 70, border: '1px solid #ccc'}}/>
+								<img src={this.props.downloaddata.url != '' ? this.props.downloaddata.url : require(`../../assets/img/personHeadImg.jpg`)} style={{width: 70, height: 70, border: '1px solid #ccc'}}/>
 								<span className='hoverBlock'>编辑头像</span>
 							</Link>
 						</FormItem>
