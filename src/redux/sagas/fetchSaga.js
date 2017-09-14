@@ -274,7 +274,10 @@ function* canWithdraw(){
 function* getBaseUserInfo(){
 	yield takeLatest(ACTION.GET_USERINFO, function* (action){
 		let data = yield call(fetchApi.getUserInfo)
-		data.code === '200' ? yield put({type: ACTION.GET_USERINFO_SUCCESS, data: data.data}) : throwError(data.msg)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_USERINFO_SUCCESS, data: data.data}),
+			yield put({type: ACTION.DOWNLOAD, param: {key: data.data.headImg}})
+		) : throwError(data.msg)
 	})
 }
 
@@ -409,6 +412,33 @@ function* deleteShop(){
 		) : (message.error('删除失败'), throwError(data.msg))
 	})
 }
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* getUploadToken(){
+	yield takeLatest(ACTION.GET_UPLOADTOKEN, function* (action){
+		let data = yield call(fetchApi.getUploadToken, action.param)
+		data.code === '200' ? yield put({type: ACTION.GET_UPTOKEN_COMPLETE, data: data.data}) : throwError(data.msg)
+	})
+}
+
+function* upload(){
+	yield takeLatest(ACTION.UPLOAD, function* (action){
+		let data = yield call(fetchApi.upload, action.param)
+		data.code == '200' ? (
+			message.success('上传成功'),
+			yield put({type: ACTION.DOWNLOAD, param: {key: action.param.key}})
+		) : (message.error('上传失败'))
+	})
+}
+
+function* download(){
+	yield takeLatest(ACTION.DOWNLOAD, function* (action){
+		let data = yield call(fetchApi.download, action.param)
+		data.code == '200' ? yield put({type: ACTION.DOWNLOAD_COMPLETE, data: {url: data.data, key: action.param.key}}) : throwError(data.msg)
+	})
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 export default function* (){
 	yield fork(getShopList)
@@ -452,4 +482,7 @@ export default function* (){
 	yield fork(getBaseUserInfo)
 	yield fork(changeUserInfo)
 	yield fork(excelSaga)
+	yield fork(getUploadToken)
+	yield fork(upload)
+	yield fork(download)
 }

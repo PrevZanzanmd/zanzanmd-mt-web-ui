@@ -21,7 +21,9 @@ const fetchDataStructure = {
 	withdrawlist: {list: []},
 	bankCardlist: [],
 	withdrawMsg: '',
-	userinfodata: {}
+	userinfodata: {},
+	uploadData: {},
+	downloaddata: {url: '', key: ''}
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -45,6 +47,8 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 		case ACTION.BANKCARD_LIST_SUCCESS: return Assign(state, { bankCardlist: action.data })
 		case ACTION.CAN_WITHDRAW_SUCCESS: return Assign(state, { withdrawMsg: action.data })
 		case ACTION.GET_USERINFO_SUCCESS: return Assign(state, { userinfodata: action.data })
+		case ACTION.GET_UPTOKEN_COMPLETE: return Assign(state, { uploadData: action.data })
+		case ACTION.DOWNLOAD_COMPLETE: return Assign(state, { downloaddata: action.data })
 		default: return state
 	}
 }

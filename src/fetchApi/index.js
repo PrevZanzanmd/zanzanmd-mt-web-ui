@@ -96,6 +96,18 @@ export const getUserInfo = (param = {}) => fetchApi({specPath: '/api-account/per
 //修改个人信息
 export const changeUserInfo = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/updatePersonal', method: 'POST', param})
 
+//获取上传文件token
+export const getUploadToken = (param = {}) => fetchApi({specPath: '/api-mt/upload/v1/token', param})
+
+//上传文件
+export const upload = (param = {}) => fetch(param.url, {
+    method: 'POST',
+    body: param.formData
+}).then(res => res.json())
+
+//下载文件
+export const download = (param = {}) => fetchApi({specPath: '/api-mt/upload/v1/download', param})
+
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})
