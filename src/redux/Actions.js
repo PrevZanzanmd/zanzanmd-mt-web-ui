@@ -111,6 +111,9 @@ export const GET_USERINFO_SUCCESS = 'GET_USERINFO_SUCCESS'
 //修改个人信息
 export const CHANGE_USERINFO = 'CHANGE_USERINFO'
 
+//导出excel
+export const TODO_EXCEL = 'TODO_EXCEL'
+
 
 
 

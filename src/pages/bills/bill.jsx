@@ -1,12 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Breadcrumb, Button, Pagination, Select ,DatePicker, Table, Modal, Form } from 'antd'
+import { Breadcrumb, Button, Pagination, Select ,DatePicker, Table, Modal, Form, message } from 'antd'
 const FormItem = Form.Item
 import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
 const Option = Select.Option
 const { MonthPicker, RangePicker } = DatePicker
-import { BILL_PRIMARY_LOAD, FILTER_BILL, GET_BILLDETAIL, MODAL_STATE } from '../../redux/Actions'
+import { BILL_PRIMARY_LOAD, FILTER_BILL, GET_BILLDETAIL, MODAL_STATE, TODO_EXCEL } from '../../redux/Actions'
 import { handleTime } from '../../fetchApi/commonApi'
 
 @connect(state => ({
@@ -20,7 +20,8 @@ import { handleTime } from '../../fetchApi/commonApi'
     getPrimaryBill(param = {}){dispath({type: BILL_PRIMARY_LOAD, param: param})},
     filterBill(param = {}){dispath({type: FILTER_BILL, param: param})},
     getBillDetail(param = {}){dispath({type: GET_BILLDETAIL, param: param})},
-    changeModal(state){dispath({type: MODAL_STATE, data: state})}
+    changeModal(state){dispath({type: MODAL_STATE, data: state})},
+    todoExcel(param = {}){dispath({type: TODO_EXCEL, param})}
 }))
 class Bill extends React.Component {
     constructor(props){super(props)}
@@ -55,7 +56,7 @@ class Bill extends React.Component {
         {label: '交易门店', key: 'merchantName'}]
     }
     handleFilter = async param => {
-        this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
+        this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         this.props.filterBill(this.state.searchParam)
     }
@@ -69,6 +70,12 @@ class Bill extends React.Component {
             case '5': return '退款失败'
             default: return 
         }
+    }
+    handleInitialShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
+    handleExcel = async _ => {
+        this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
+        this.state.searchParam.startTime && this.state.searchParam.endTime ? 
+            this.props.todoExcel({startTime: this.state.searchParam.startTime, endTime: this.state.searchParam.endTime, shopId: this.state.searchParam.spShopId}) : message.error('请选择时间范围')
     }
     handleInitialVal = val => val ? val : 0
     render = _ =><div>
@@ -120,7 +127,7 @@ class Bill extends React.Component {
                 loading={this.props.loading}
                 dataSource={this.props.billlistdata.transactionLists.map((val, index) => Object.assign({}, val, {key: index}))} />
                 <div className="page-control">
-                    <Button type="default">导出账单</Button>
+                    <Button type="default" onClick={this.handleExcel}>导出账单</Button>
                     <Pagination 
                     size="small" 
                     onChange={(page, pageSize) => this.handleFilter({'page': page, 'rows': pageSize})}
