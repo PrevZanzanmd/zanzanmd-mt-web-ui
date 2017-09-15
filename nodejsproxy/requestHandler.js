@@ -80,7 +80,7 @@ exports.login = (res, param) => new Promise((reslove, reject) => {
 })
 .then(body => opt = Object.assign(opt, {headers: {'Authorization': JSON.parse(body).data}}))
 .then(opt => {
-	res.writeHead(302, {"Content-type": "text/plain", 'location': 'http://192.168.1.103:8096/dist/index.html'})
+	res.writeHead(302, {"Content-type": "text/plain", 'location': 'http://192.168.1.111:8096/dist/index.html'})
 	res.end()
 })
 
