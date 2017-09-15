@@ -114,6 +114,18 @@ export const CHANGE_USERINFO = 'CHANGE_USERINFO'
 //导出excel
 export const TODO_EXCEL = 'TODO_EXCEL'
 
+//获取上传信息
+export const GET_UPLOADTOKEN = 'GET_UPLOADTOKEN'
+export const GET_UPTOKEN_COMPLETE = 'GET_UPTOKEN_COMPLETE'
+//上传
+export const UPLOAD = 'UPLOAD'
+//下载
+export const DOWNLOAD = 'DOWNLOAD'
+export const DOWNLOAD_COMPLETE = 'DOWNLOAD_COMPLETE'
+//
+export const DOWN_LOADLIST = 'DOWN_LOADLIST'
+export const DOWN_LOADLIST_COMPLETE = 'DOWN_LOADLIST_COMPLETE'
+
 
 
 

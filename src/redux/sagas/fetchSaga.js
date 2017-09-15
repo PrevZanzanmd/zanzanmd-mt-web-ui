@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga'
+import { takeLatest, takeEvery } from 'redux-saga'
 import { put, fork, call } from 'redux-saga/effects'
 import { message } from 'antd'
 import * as ACTION from '../Actions'
@@ -23,13 +23,17 @@ function* getShopList(){
 	yield takeLatest(ACTION.GET_SHOP_LIST, function* (action){
 		action.spin ? null : yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.getShopList, action.param)
-		data.code === '200' || data.code === '60012' ? yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.code === '200' ? data.data : []}) : throwError(data.msg)
+		data.code === '200' || data.code === '60012' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.code === '200' ? data.data : []}),
+			yield call(handleFor, data.data)
+		) : throwError(data.msg)
 		action.spin ? null : yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
 
 function* getShopDetail(){
 	yield takeLatest(ACTION.GET_SHOP_DETAIL, function* (action){
+		yield put({type: ACTION.GET_UPLOADTOKEN, param: {type: 3}})
 		let data = yield call(fetchApi.getShopDetail, action.param)
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: data.data}),
@@ -274,7 +278,10 @@ function* canWithdraw(){
 function* getBaseUserInfo(){
 	yield takeLatest(ACTION.GET_USERINFO, function* (action){
 		let data = yield call(fetchApi.getUserInfo)
-		data.code === '200' ? yield put({type: ACTION.GET_USERINFO_SUCCESS, data: data.data}) : throwError(data.msg)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_USERINFO_SUCCESS, data: data.data}),
+			yield put({type: ACTION.DOWNLOAD, param: {key: data.data.headImg}})
+		) : throwError(data.msg)
 	})
 }
 
@@ -303,7 +310,32 @@ function* changeSaga(action, api, thisAction){
 }
 
 function* changeShopDetail(){
-	yield takeLatest(ACTION.CHANGE_SHOPDETAIL, changeSaga, ACTION.GET_SHOP_LIST, fetchApi.changeShop)
+	yield takeLatest(ACTION.CHANGE_SHOPDETAIL, function* (action){
+		action.param.headPortrait === 'block' ? 
+		yield call(uploadShopChange, action.param)
+		: yield call(handleChangeShop, action.param, 'normal')
+		
+	})
+}
+
+function* uploadShopChange(param){
+	let updata = yield call(fetchApi.upload, param.uploadParam)
+	updata.code == '200' ? (
+		yield call(handleChangeShop, param, 'upload')
+	) : (message.error('上传失败'), throwError(updata.msg))
+}
+
+function* handleChangeShop(param, type){
+	type === 'normal' ? null : param.headPortrait = param.uploadParam.key
+	delete param.uploadParam
+	let data = yield call(fetchApi.changeShop, param)
+	data.code === '200' ? (
+		message.success('修改成功'),
+		yield put({type: ACTION.GET_SHOP_LIST, param: {}})
+	) : (
+		message.error('修改失败'),
+		throwError(data.msg)
+	)
 }
 
 function* changeSpAccount(){
@@ -409,6 +441,46 @@ function* deleteShop(){
 		) : (message.error('删除失败'), throwError(data.msg))
 	})
 }
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* getUploadToken(){
+	yield takeLatest(ACTION.GET_UPLOADTOKEN, function* (action){
+		let data = yield call(fetchApi.getUploadToken, action.param)
+		data.code === '200' ? yield put({type: ACTION.GET_UPTOKEN_COMPLETE, data: data.data}) : throwError(data.msg)
+	})
+}
+
+function* upload(){
+	yield takeLatest(ACTION.UPLOAD, function* (action){
+		let data = yield call(fetchApi.upload, action.param)
+		data.code == '200' ? (
+			message.success('上传成功'),
+			yield put({type: ACTION.DOWNLOAD, param: {key: action.param.key}})
+		) : (message.error('上传失败'))
+	})
+}
+
+function* download(){
+	yield takeLatest(ACTION.DOWNLOAD, function* (action){
+		let data = yield call(fetchApi.download, action.param)
+		data.code == '200' ? yield put({type: ACTION.DOWNLOAD_COMPLETE, data: {url: data.data, key: action.param.key}}) : throwError(data.msg)
+	})
+}
+
+function* handleFor(shoplist = []){
+	for(let i in shoplist){
+		yield put({type: ACTION.DOWN_LOADLIST, param: {key: shoplist[i].headPortrait, arrKey: i}})
+	}
+}
+
+function* handleShoplist(){
+	yield takeEvery(ACTION.DOWN_LOADLIST, function* (action){
+		let data = yield call(fetchApi.download, {key: action.param.key})
+		data.code == '200' ? yield put({type: ACTION.DOWN_LOADLIST_COMPLETE, data: {url: data.data, key: action.param.key, arrKey: action.param.arrKey}}) : throwError(data.msg)
+	})
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 export default function* (){
 	yield fork(getShopList)
@@ -452,4 +524,8 @@ export default function* (){
 	yield fork(getBaseUserInfo)
 	yield fork(changeUserInfo)
 	yield fork(excelSaga)
+	yield fork(getUploadToken)
+	yield fork(upload)
+	yield fork(download)
+	yield fork(handleShoplist)
 }

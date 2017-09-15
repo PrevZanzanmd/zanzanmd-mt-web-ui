@@ -22,7 +22,10 @@ class ShopAccount extends React.Component{
         <Spin spinning={this.props.loading}>
 			{this.props.shoplist.map((val, index) => 
 				<Row className='shopAccountItem' key={index}>
-					<img className='accountAvator'/>
+					<img 
+					src={val.headPortrait && val.headPortrait.length > 20 ? val.headPortrait : require(`../../assets/img/personHeadImg.jpg`)} 
+					className='accountAvator' 
+					style={{background: 'transparent', border: '1px solid #ccc'}}/>
 					<div className='accountTitle'>
 						<p className='title'>{val.account}</p>
 						<p>{`负责人：${val.contacts}`}</p>

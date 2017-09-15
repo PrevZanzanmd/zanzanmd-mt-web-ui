@@ -11,7 +11,8 @@ let item = ''
 	shopDetail: state.fetchdata.shopDetail,
 	industrydata: state.fetchdata.industrydata,
 	selectload: state.globaldata.selectload,
-	areadata: state.fetchdata.areadata
+	areadata: state.fetchdata.areadata,
+	uploadData: state.fetchdata.uploadData
 }), dispath => ({
 	getIndustry(param = {}){dispath({type: GET_INDUSTRY, param: param})},
 	changeShopDetail(param = {}){dispath({type: CHANGE_SHOPDETAIL, param: param})}
@@ -37,16 +38,25 @@ class AddShopForm extends React.Component{
 	    e.preventDefault();
 	    this.props.form.validateFieldsAndScroll((err, values) => {
 	      	if (!err) {
+	      		const { fileList } = this.state
+			    const formData = new FormData()
+			    formData.append('file', fileList.length > 0 ? fileList[0] : [])
+			    formData.append('key', this.props.uploadData.key)
+			    formData.append('token', this.props.uploadData.token)
+
 	      		let arr = [values.spIndustryCode.substring(0, 2), values.spIndustryCode]
 	      		let nameList = []
 	      		let jcList = []
 	      		this.getIndustryName(arr, this.props.industrydata, nameList, 'code')
 	      		this.getIndustryName(values.jcTerritoryId, this.props.areadata, jcList, 'id')
 	        	this.props.changeShopDetail( Object.assign(values, 
-	        		this.props.type === 'edit' ? {id: this.props.shopDetail.id} : {}, 
+	        		this.props.type === 'edit' ? {
+	        			id: this.props.shopDetail.id,
+	        			uploadParam: {url: this.props.uploadData.url, formData, key: this.props.uploadData.key}
+	        		} : {}, 
 	        		{spIndustryName: nameList.join('-')},
 	        		{jcTerritoryName: jcList.join('-')},
-	        		{headPortrait: this.props.shopDetail.headPortrait}, 
+	        		{headPortrait: this.state.fileList.length > 0 ? 'block' : this.props.shopDetail.headPortrait}, 
 	        		{jcTerritoryId: values.jcTerritoryId[values.jcTerritoryId.length - 1]}) )
 	      	}
 	    })
@@ -66,20 +76,20 @@ class AddShopForm extends React.Component{
 		const { getFieldDecorator } = this.props.form
 		const formSet = {labelCol: {span: 8}, wrapperCol: {span: 16}}
 		return (<Form onSubmit={this.handleSubmit}>
-			<FormItem
+			{this.props.type === 'edit' ? <FormItem
 			label = '店铺头像'
 			{...formSet}>
 				<Upload
+			    className="uploader"
 			    listType = 'picture'
 			    beforeUpload = {this.beforeUpload}
 			    onRemove = {this.removePic}
-			    fileList = {this.state.fileList}
-			    >
+			    fileList = {this.state.fileList}>
 					<Button>
-					    <Icon type="upload" /> 上传图片
+					    <Icon type="upload" /> 选择文件
 					</Button>
 				</Upload>
-			</FormItem>
+			</FormItem> : null}
 			<FormItem
 			label = '行业分类'
 			{...formSet}>

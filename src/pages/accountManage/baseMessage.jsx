@@ -5,20 +5,28 @@ const Option = Select.Option
 const FormItem = Form.Item
 import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
-import { MODAL_STATE, GET_USERINFO, CHANGE_USERINFO } from '../../redux/Actions'
+import { MODAL_STATE, GET_USERINFO, CHANGE_USERINFO, GET_UPLOADTOKEN, UPLOAD } from '../../redux/Actions'
 import AddBankCard from './addbankCard.jsx'
+import { upload } from '../../fetchApi'
 
 @connect(state => ({
 	loading: state.globaldata.loading,
 	userinfo: state.fetchdata.userinfodata,
-	modalState: state.globaldata.modalState
+	modalState: state.globaldata.modalState,
+	uploadData: state.fetchdata.uploadData,
+	downloaddata: state.fetchdata.downloaddata
 }), dispath => ({
 	changeModal(state){dispath({type: MODAL_STATE, data: state})},
 	getUserInfo(){dispath({type: GET_USERINFO})},
-	changeUserInfo(param = {}){dispath({type: CHANGE_USERINFO, param})}
+	changeUserInfo(param = {}){dispath({type: CHANGE_USERINFO, param})},
+	getUploaddata(param = {}){dispath({type: GET_UPLOADTOKEN, param})},
+	upload(param = {}){dispath({type: UPLOAD, param})}
 }))
 class BaseMessage extends React.Component{
 	componentWillMount = _ => this.props.getUserInfo()
+	componentDidMount(){
+		this.props.getUploaddata({type: 2})
+	}
 	state={
 		fileList: [],
 		modalType: 'edit'
@@ -33,10 +41,16 @@ class BaseMessage extends React.Component{
 		this.setState({
 			fileList: [file]
 		})
-		console.log(file)
 		return false
 	}
-	handleUpload = _ => console.log(this.state.fileList)
+	handleUpload = _ => {
+	    const { fileList } = this.state
+	    const formData = new FormData()
+	    formData.append('file', fileList[0])
+	    formData.append('key', this.props.uploadData.key)
+	    formData.append('token', this.props.uploadData.token)
+	    this.props.upload({url: this.props.uploadData.url, formData, key: this.props.uploadData.key})
+	 }
 	handleSubmit = (e) => {
 	    e.preventDefault()
 	    this.props.form.validateFieldsAndScroll((err, values) => {
@@ -61,9 +75,9 @@ class BaseMessage extends React.Component{
 						<FormItem
 						label='头像'
 						{...formCol}>
-							<Link className='avator'>
-								<img style={{width: 70, height: 70}}/>
-								<span className='hoverBlock' onClick={_ => this.openModal('update')}>编辑头像</span>
+							<Link className='avator' onClick={_ => this.openModal('update')}>
+								<img src={this.props.downloaddata.url != '' ? this.props.downloaddata.url : require(`../../assets/img/personHeadImg.jpg`)} style={{width: 70, height: 70, border: '1px solid #ccc'}}/>
+								<span className='hoverBlock'>编辑头像</span>
 							</Link>
 						</FormItem>
 						<FormItem
@@ -109,20 +123,21 @@ class BaseMessage extends React.Component{
 				title={this.state.modalType === 'edit' ? '添加银行卡' : '上传头像'}
 				footer={null}
 				onCancel={_ => this.props.changeModal(false)}>
-					{this.state.modalType === 'edit' ? 
-						<AddBankCard onCancel={_ => this.props.changeModal(false)}></AddBankCard> : 
-						<Upload
-					    className="uploader"
-					    listType = 'picture'
-					    beforeUpload = {this.beforeUpload}
-					    onClick={this.handleUpload}
-					    onRemove = {this.removePic}
-					    fileList = {this.state.fileList}>
-							<Button>
-							    <Icon type="upload" /> upload
-							</Button>
-					    </Upload>
-					}
+					<Upload
+				    className="uploader"
+				    listType = 'picture'
+				    beforeUpload = {this.beforeUpload}
+				    onRemove = {this.removePic}
+				    fileList = {this.state.fileList}>
+						<Button>
+						    <Icon type="upload" /> 选择文件
+						</Button>
+				    </Upload>
+					<Button 
+					type='primary' 
+					style={{marginTop: 10}}
+					loading={this.props.loading}
+					onClick={this.handleUpload}>上传并保存</Button>
 				</Modal>
 			</div>
 		)
