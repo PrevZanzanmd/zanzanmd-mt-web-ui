@@ -5,7 +5,7 @@ const Option = Select.Option
 const FormItem = Form.Item
 import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
-import { MODAL_STATE, GET_USERINFO, CHANGE_USERINFO, GET_UPLOADTOKEN, UPLOAD } from '../../redux/Actions'
+import { MODAL_STATE, GET_USERINFO, CHANGE_USERINFO, GET_UPLOADTOKEN, UPLOAD, BANKCARD_LIST } from '../../redux/Actions'
 import AddBankCard from './addbankCard.jsx'
 import { upload } from '../../fetchApi'
 
@@ -14,16 +14,21 @@ import { upload } from '../../fetchApi'
 	userinfo: state.fetchdata.userinfodata,
 	modalState: state.globaldata.modalState,
 	uploadData: state.fetchdata.uploadData,
-	downloaddata: state.fetchdata.downloaddata
+	downloaddata: state.fetchdata.downloaddata,
+	bankCardlist: state.fetchdata.bankCardlist
 }), dispath => ({
 	changeModal(state){dispath({type: MODAL_STATE, data: state})},
 	getUserInfo(){dispath({type: GET_USERINFO})},
 	changeUserInfo(param = {}){dispath({type: CHANGE_USERINFO, param})},
 	getUploaddata(param = {}){dispath({type: GET_UPLOADTOKEN, param})},
-	upload(param = {}){dispath({type: UPLOAD, param})}
+	upload(param = {}){dispath({type: UPLOAD, param})},
+	getBankCard(param = {}){dispath({type: BANKCARD_LIST, param, loading: true})}
 }))
 class BaseMessage extends React.Component{
-	componentWillMount = _ => this.props.getUserInfo()
+	componentWillMount = _ => {
+		this.props.getUserInfo()
+		this.props.getBankCard()
+	}
 	componentDidMount(){
 		this.props.getUploaddata({type: 2})
 	}
@@ -76,7 +81,7 @@ class BaseMessage extends React.Component{
 						label='头像'
 						{...formCol}>
 							<Link className='avator' onClick={_ => this.openModal('update')}>
-								<img src={this.props.downloaddata.url} style={{width: 70, height: 70, border: '1px solid #ccc'}}/>
+								<img src={this.props.downloaddata.url != '' ? this.props.downloaddata.url : require(`../../assets/img/personHeadImg.jpg`)} style={{width: 70, height: 70, border: '1px solid #ccc'}}/>
 								<span className='hoverBlock'>编辑头像</span>
 							</Link>
 						</FormItem>
@@ -101,8 +106,8 @@ class BaseMessage extends React.Component{
 						<FormItem
 						label='银行卡'
 						{...formCol}>
-							<span style={{marginRight: 50}}>已绑定<Link>1</Link>张银行卡</span>
-							<Link>查看银行卡列表</Link>
+							<span style={{marginRight: 50}}>已绑定<Link>{this.props.bankCardlist.length}</Link>张银行卡</span>
+							<Link to="/home/mybank">查看银行卡列表</Link>
 						</FormItem>
 						<FormItem
 						label=' '

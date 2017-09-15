@@ -2,13 +2,17 @@
   display: flex;
   flex-direction: row;
 }
-@fontBlock:#333;
-@baseColor:#3eba6c;
+
+@fontBlock: #333;
+@baseColor: #3eba6c;
 .login-wrapper {
   background-color: #fff;
   .header, .content, .message {
     width: 1170px;
     margin: 0 auto;
+  }
+  .content-wrapper{
+    border-top:1px solid #ccc;
   }
   .header {
     height: 130px;
@@ -24,7 +28,6 @@
         width: 148px;
         height: 38px;
         margin-bottom: 20px;
-        background: url("../../assets/img/images/text.png") no-repeat left top;
       }
       .infor-h5, .infor-p {
         color: #fff;
@@ -45,7 +48,7 @@
       .login-cont {
         display: flex;
         justify-content: flex-end;
-        position:relative;
+        position: relative;
         width: 286px;
         height: 294px;
         background: url("../../assets/img/images/bg1.png") no-repeat left top;
@@ -53,45 +56,45 @@
           width: 60px;
           height: 60px;
           background: url("../../assets/img/images/saoma.png") no-repeat right top;
-          cursor:pointer;
+          cursor: pointer;
         }
-        .login-form,.login-qr{
-          position:absolute;
-          left:0;
-          top:0;
-          right:0;
-          bottom:0;
-          margin:22px 30px;
-          .login-form-name{
-            font-size:18px;
-            color:#fff;
-            text-align:center;
-            margin-bottom:18px;
+        .login-form, .login-qr {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          margin: 22px 30px;
+          .login-form-name {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 18px;
           }
         }
         .login-form{
-          .ant-form-item{
-            margin-bottom:10px;
-            .ant-input-affix-wrapper{
-              height:40px;
+          .ant-form-item {
+            margin-bottom: 10px;
+            .ant-input-affix-wrapper {
+              height: 40px;
             }
-            .login-form-button{
-              height:40px;
+            .login-form-button {
+              height: 40px;
             }
           }
         }
-        .login-qr{
+        .login-qr {
           display: none;
-          .login-form-qr{
+          .login-form-qr {
             width: 100%;
             height: 136px;
-            margin-bottom:20px;
+            margin-bottom: 20px;
             background: url("../../assets/img/images/erweima1.png") no-repeat center center;
           }
-          .login-form-dec{
-            font-size:14px;
-            color:#fff;
-            text-align:center;
+          .login-form-dec {
+            font-size: 14px;
+            color: #fff;
+            text-align: center;
           }
         }
       }
@@ -106,8 +109,7 @@
       .lasted-title {
         width: 74px;
         height: 28px;
-        margin-right:30px;
-        background: url("../../assets/img/images/gonggao.png") no-repeat right top;
+        margin-right: 30px;
       }
       .newsitems {
         .flexrow;
@@ -119,110 +121,167 @@
         }
         .news-item {
           .flexrow;
-          margin-right:48px;
+          margin-right: 48px;
           .lasted-date {
             font-size: 14px;
             color: #ccc;
           }
           .lasted-cont {
             font-size: 14px;
-            color:@fontBlock;
-            cursor:pointer;
+            color: @fontBlock;
+            cursor: pointer;
           }
-          .newicon{
-            width:21px;
-            height:11px;
-            background: url("../../assets/img/images/new.png") no-repeat right top;
+          .newicon {
+            width: 21px;
+            height: 11px;
           }
           .lasted-cont:hover {
             color: @baseColor;
           }
         }
       }
-      .morenews{color:@fontBlock;}
-      .morenews:hover{color:@baseColor}
+      .morenews {
+        color: @fontBlock;
+      }
+      .morenews:hover {
+        color: @baseColor
+      }
     }
     .dynamic {
       .flexrow;
       .dynamic-state {
-        width:73%;
-        padding:20px 30px;
-        background:#f9f9f9;
+        width: 73%;
+        padding: 20px 30px;
+        background: #f9f9f9;
         .state-title {
           .flexrow;
-          align-items:center;
-          font-size:18px;
-          color:@fontBlock;
-          .state-logo{
-            height:18px;
-            width:18px;
-            margin-right:10px;
-            background: url("../../assets/img/images/logo1.png") no-repeat left top;
+          align-items: center;
+          font-size: 18px;
+          color: @fontBlock;
+          .state-logo {
+            height: 18px;
+            width: 18px;
+            margin-right: 10px;
           }
         }
-        .state-list{
+        .state-list {
           display: flex;
-          flex-wrap:wrap;
-          justify-content:space-between;
-          background:#f9f9f9;
-          .state-items{
+          flex-wrap: wrap;
+          justify-content: space-between;
+          background: #f9f9f9;
+          .state-items {
             .flexrow;
-            width:386px;
-            height:88px;
-            overflow:hidden;
-            margin-top:18px;
-            padding:10px;
-            border-radius:5px;
-            background:#fff;
-            .state-date{
-              margin-right:10px;
-.date{
-  font-size:46px;
-  color:#323232;
-  line-height:1;
-}
-              .year{
-text-align:center;
+            width: 386px;
+            height: 88px;
+            overflow: hidden;
+            margin-top: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #fff;
+            .state-date {
+              margin-right: 10px;
+              .date {
+                font-size: 46px;
+                color: #323232;
+                line-height: 1;
+              }
+              .year {
+                text-align: center;
               }
             }
-            .item-cont{
-              height:100%;
-              font-size:14px;
-              color:@fontBlock;
-              overflow:hidden;
+            .item-cont {
+              height: 100%;
+              font-size: 14px;
+              color: @fontBlock;
+              overflow: hidden;
             }
           }
-          .state-items:nth-child(2n){
-            margin-right:0;
+          .state-items:nth-child(2n) {
+            margin-right: 0;
           }
         }
       }
       .dynamic-qr {
-        width:27%;
-        display:flex;
+        width: 27%;
+        display: flex;
         flex-direction: column;
-        align-items:center;
+        align-items: center;
         justify-content: center;
-.zz-qr{
-  width:158px;
-  height:158px;
-  background: url("../../assets/img/images/erweima.png") no-repeat center center;
-}
-        .qr-text{
-          margin-top:10px;
-          font-size:16px;
-          color:#666;
-          text-align:center;
+        .zz-qr {
+          width: 158px;
+          height: 158px;
+        }
+        .qr-text {
+          margin-top: 10px;
+          font-size: 16px;
+          color: #666;
+          text-align: center;
         }
       }
     }
   }
-  .footer{
-    margin-top:80px;
-    line-height:80px;
-    background:#eeeff1;
-    font-size:16px;
-    color:#666;
-    text-align:center;
+  .footer {
+    margin-top: 80px;
+    line-height: 80px;
+    background: #eeeff1;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
   }
+}
+.forget-content{
+  width:1170px;
+  margin:0 auto;
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content: center;
+  .login-form{
+    width:350px;
+  }
+  .login-form-name{
+    width:100%;
+    margin-bottom:40px;
+    padding-bottom:5px;
+    font-size:20px;
+    color:@baseColor;
+    text-align:center;
+    //background: url("../../assets/img/images/lian1.png") no-repeat left bottom;
+    border-bottom:1px solid #ccc;
+    .login-form-text{
+      padding:5px 10px;
+      border-bottom:2px solid @baseColor;
+    }
+  }
+  .backlogo{
+    margin:70px 0 30px 0;
+  }
+  .ant-form{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    .ant-form-item{
+      width:320px;
+    }
+  }
+  .ant-input,.ant-btn{
+    height:40px;
+  }
+  .ant-btn{
+margin-top:36px;
+  }
+  .account-code{
+    width:190px;
+    margin-right:20px;
+}
+    .getcode{
+      display: inline-block;
+      width:110px;
+      background:@baseColor;
+      text-align:center;
+      line-height:40px;
+      color:#fff;
+      border-radius:3px;
+      cursor:pointer;
+    }
 }

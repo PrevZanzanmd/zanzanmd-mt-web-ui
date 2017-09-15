@@ -25,7 +25,7 @@ var server = (router, handle) => {
 	    }
 
         if ( extname === '' ) {    
-        	router(handle, pathname, res, param)        	   
+        	router(handle, pathname, res, param, req.headers)        	   
         } else { 
             fsload.fsload(realPath, type, res)  
         }

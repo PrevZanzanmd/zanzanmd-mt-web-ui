@@ -23,7 +23,8 @@ const fetchDataStructure = {
 	withdrawMsg: '',
 	userinfodata: {},
 	uploadData: {},
-	downloaddata: {url: '', key: ''}
+	downloaddata: {url: '', key: ''},
+	forgetdata: {}
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -49,6 +50,7 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 		case ACTION.GET_USERINFO_SUCCESS: return Assign(state, { userinfodata: action.data })
 		case ACTION.GET_UPTOKEN_COMPLETE: return Assign(state, { uploadData: action.data })
 		case ACTION.DOWNLOAD_COMPLETE: return Assign(state, { downloaddata: action.data })
+		case ACTION.VALIDATEFORGETCOMPLETE: return Assign(state, { forgetdata: action.data })
 
 		case ACTION.DOWN_LOADLIST_COMPLETE: return Assign(state, { shoplist: (_ => {
 			let copyArr = state.shoplist.map(val => val)

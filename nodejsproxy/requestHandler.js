@@ -5,7 +5,8 @@ var http = require('http')
 let cookie = ''
 
 let opt = {
-	hostname: 'zanzanmd.sssvip4.natapp.cc'
+	// hostname: 'zanzanmd.sssvip4.natapp.cc'
+	hostname: 'vfvkxe.natappfree.cc'
 }
 let loginOpt = {
 	hostname:'zanzanmd.sssvip4.natapp.cc',
@@ -32,15 +33,18 @@ const postParamHandler = param => {
 	return baseStr
 }
 
-exports.proxy = (res, param) => new Promise((reslove, reject) => {
+exports.proxy = (res, param, header) => new Promise((reslove, reject) => {
 	let body = ''
+	header.authorization ? opt.headers = {
+		'Authorization': header.authorization
+	} : null
 	let fnParam = param.param ? JSON.parse(param.param) : {}
 	let req = http.request(Object.assign({}, opt, {
 			method: param.method,
 			path: param.type === 'normal' ? param.method === 'GET' ? `${param.path}${getParamHandler(fnParam)}` : param.path : `${param.path}${postParamHandler(fnParam)}`
 		}, param.method === 'POST' ? {
-			headers: Object.assign({}, opt.headers, {'Content-Type': 'application/x-www-form-urlencoded'})
-		} : {}), res => {
+			headers: Object.assign({}, opt.headers ? opt.headers : {}, {'Content-Type': 'application/x-www-form-urlencoded'})
+		} : opt.headers ? {headers: opt.headers} : {}), res => {
 			console.log(param.path)
 			console.log("Got response: " + res.statusCode);
 			res.on('data', d => {
@@ -80,7 +84,7 @@ exports.login = (res, param) => new Promise((reslove, reject) => {
 })
 .then(body => opt = Object.assign(opt, {headers: {'Authorization': JSON.parse(body).data}}))
 .then(opt => {
-	res.writeHead(302, {"Content-type": "text/plain", 'location': 'http://192.168.1.113:8096/dist/index.html'})
+	res.writeHead(302, {"Content-type": "text/plain", 'location': 'http://192.168.1.111:8096/dist/index.html'})
 	res.end()
 })
 

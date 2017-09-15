@@ -50,7 +50,7 @@ class SecureSetting extends React.Component{
 						<FormItem
 						label='新手机号'
 						{...formCol}>
-							{getFieldDecorator('phone', {rules: [{required: true, message: '请填写新手机号'}]})(
+							{getFieldDecorator('phone', {rules: [{required: true, message: '请填写新手机号'}, {pattern: /^1[34578]\d{9}$/, message: '请输入正确手机号'}]})(
 								<Input style={{width: 200}}/>
 							)}
 						</FormItem>

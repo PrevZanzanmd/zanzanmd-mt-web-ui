@@ -6,11 +6,7 @@ import WrappedNormalLoginForm from './signin.jsx'
 class Login extends React.Component {
     render = _ => <div className='login-wrapper'>
         <div className="header">
-            <div style={{
-                width: 385 + 'px',
-                height: 51 + 'px',
-                backgroundImage: `url(${require(`../../assets/img/images/logo.png`)})`
-            }}></div>
+            <img style={{width: 385 + 'px',height: 51 + 'px'}} src={require(`../../assets/img/images/logo.png`)}/>
         </div>
         <div className="content-wrapper" style={{
             width: 100 + '%',
@@ -19,7 +15,7 @@ class Login extends React.Component {
         }}>
             <div className="content">
                 <div className="zzinfor">
-                    <div className="title-header"></div>
+                    <img className="title-header" src={require(`../../assets/img/images/text.png`)}/>
                     <h5 className="infor-h5">带动消费打造最快的商家引流和圈粉平台</h5>
                     <p className="infor-p">以微信支付、支付宝支付的快捷支付为基础，向用户提供安全、快捷、高效的支付服务。</p>
                     <p className="infor-p">带动消费打造最快的商家引流和圈粉平台,以微信支付、支付宝支付的快捷支付为基础，向用户提供安全、快捷、高效的支付服务。</p>
@@ -39,29 +35,29 @@ class Login extends React.Component {
         </div>
         <div className="message">
             <div className="lasted-news">
-                <div className="lasted-title"></div>
+                <img className="lasted-title" src={require(`../../assets/img/images/gonggao.png`)}/>
                 <ul className="newsitems">
                     <li className="news-item">
                         <span className="lasted-date">[7.25]</span>
                         <a className="lasted-cont" href="">关于赞赞买单手机版上线的时...</a>
-                        <div className="newicon"></div>
+                        <img className="newicon" src={require(`../../assets/img/images/new.png`)}/>
                     </li>
                     <li className="news-item">
                         <span className="lasted-date">[7.25]</span>
                         <a className="lasted-cont" href="">关于赞赞买单手机版上线的时...</a>
-                        <div className="newicon"></div>
+                        <img className="newicon" src={require(`../../assets/img/images/new.png`)}/>
                     </li>
                     <li className="news-item">
                         <span className="lasted-date">[7.25]</span>
                         <a className="lasted-cont" href="">关于赞赞买单手机版上线的时...</a>
-                        <div className="newicon"></div>
+                        <img className="newicon" src={require(`../../assets/img/images/new.png`)}/>
                     </li>
                 </ul>
                 <a className="morenews">更多公告>></a>
             </div>
             <div className="dynamic">
                 <div className="dynamic-state">
-                    <div className="state-title"><div className="state-logo"></div>赞赞动态</div>
+                    <div className="state-title"><img className="state-logo" src={require(`../../assets/img/images/logo1.png`)}/>赞赞动态</div>
                     <ul className="state-list">
                         <li className="state-items">
                             <div className="state-date">
@@ -94,7 +90,7 @@ class Login extends React.Component {
                     </ul>
                 </div>
                 <div className="dynamic-qr">
-                    <div className="zz-qr"></div>
+                    <img className="zz-qr" src={require(`../../assets/img/images/erweima.png`)}/>
                     <div>
                         <p className="qr-text">扫一扫立享折扣</p>
                         <p className="qr-text">关注微信公众号，获取更多优惠信息</p>

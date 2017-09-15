@@ -2,7 +2,11 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { Layout } from 'antd';
 const { Header } = Layout;
+import { LOGOUT } from '../../redux/Actions'
 
+@connect(state => ({}), dispath => ({
+	logout(){dispath({type: LOGOUT})}
+}))
 class HomeHeader extends React.Component{
 	constructor(props){
 		super(props)
@@ -22,7 +26,7 @@ class HomeHeader extends React.Component{
 				<div className="userName">
 					<div className="userNameCont">
 						<p>欢迎，张三儿</p>
-						<p className="signOut">退出</p>
+						<p className="signOut" onClick={this.props.logout}>退出</p>
 					</div>
 					<p>上次登录时间：2017.07.26 11:30</p>
 				</div>
