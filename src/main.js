@@ -30,7 +30,7 @@ import ForgetNext from './pages/login/forgetnext.jsx'
 import RegistAccount from './pages/login/regist.jsx'
 
 const handleLogin = (next, replace, cb) => {
-	if(!localStorage.getItem('token') && next.location.pathname != '/login'){
+	if(!localStorage.getItem('token') && next.location.pathname != '/login' && next.location.pathname != '/forget' && next.location.pathname != '/forgetnext' && next.location.pathname != '/regist'){
 		replace('/login')
 	}
 	cb()

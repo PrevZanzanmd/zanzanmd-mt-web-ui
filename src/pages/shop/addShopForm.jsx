@@ -23,7 +23,7 @@ class AddShopForm extends React.Component{
 		formItems: [
 			{label: '店铺名称', key: 'shopName', rules: [{required: true, message: '请填写店铺名称'}, {pattern: !/[@#\$%\^&\*]+/g, message: '不能包含非法字符'}]},
 			{label: '店铺地址', key: 'territoryDetail', rules: [{required: true, message: '请填写地址'}]},
-			{label: '店铺电话', key: 'phone', rules: [{required: true, message: '请填写电话'}]},
+			{label: '店铺电话', key: 'phone', rules: [{required: true, message: '请填写电话'}, {pattern: /^1[34578]\d{9}$/, message: '请输入正确手机号'}]},
 			{label: '店铺负责人', key: 'contacts', rules: [{required: true, message: '请填写负责人'}]}
 		]
 	}

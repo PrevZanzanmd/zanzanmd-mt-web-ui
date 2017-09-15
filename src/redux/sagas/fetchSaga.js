@@ -527,6 +527,58 @@ function* logout(){
 	})
 }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* sendRegCode(){
+	yield takeLatest(ACTION.SENDREGCODE, function* (action){
+		let data = yield call(fetchApi.validatePhone, action.param)
+		data.code === '200' ? yield call(sendCode, fetchApi.sendRegcode, action.param) : (message.error('手机号已被注册'), throwError(data))
+	})
+}
+function* sendCode(api, param){
+	let data = yield call(api, param)
+	data.code === '200' ? (
+		message.success('已向绑定手机号发送验证码'),
+		yield put({type: ACTION.TIME, data: true})
+	) : (message.error(data.msg === 'phone locked' ? '手机号已锁定' : '发送失败，请稍后再试'), throwError(data))
+}
+
+function* register(){
+	yield takeLatest(ACTION.REGISTER, function* (action){
+		let data = yield call(fetchApi.registerPhone, {phone: action.param.phone, code: action.param.code})
+		action.param.phoneNo = action.param.phone
+		delete action.param.phone
+		data.code === '200' ? yield call(saveRegister, action.param) : (message.error('验证码错误'), throwError(data))
+	})
+}
+
+function* saveRegister(param){
+	let data = yield call(fetchApi.saveRegister, param)
+	data.code === '200' ? (message.success('注册成功'), hashHistory.push('/login')) : (message.error('注册失败'), throwError(data))
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* sendForgetCode(){
+	yield takeLatest(ACTION.SENDFORGETCODE, function* (action){
+		yield call(sendCode, fetchApi.sendForgetcode, action.param)
+	})
+}
+
+function* forgetNextstep(){
+	yield takeLatest(ACTION.FORGETNEXTSTEP, function* (action){
+		let data = yield call(fetchApi.forgetNextStep, action.param)
+		data.code === '200' ? (yield put({type: ACTION.VALIDATEFORGETCOMPLETE, data: action.param}), hashHistory.push('/forgetnext')) : (message.error('校验验证码失败'), throwError(data))
+	})
+}
+
+function* setNewpassword(){
+	yield takeLatest(ACTION.SETNEWPASSWORD, function* (action){
+		let data = yield call(fetchApi.setNewpassword, action.param)
+		data.code === '200' ? (message.success('设置新密码成功'), hashHistory.push('/login')) : (message.error('设置新密码失败'), throwError(data))
+	})
+}
+
 export default function* (){
 	yield fork(getShopList)
 	yield fork(getShopDetail)
@@ -575,4 +627,9 @@ export default function* (){
 	yield fork(handleShoplist)
 	yield fork(login)
 	yield fork(logout)
+	yield fork(sendRegCode)
+	yield fork(register)
+	yield fork(sendForgetCode)
+	yield fork(forgetNextstep)
+	yield fork(setNewpassword)
 }

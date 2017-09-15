@@ -1,18 +1,26 @@
 import React from 'react'
-import { Form, Icon, Input, Button} from 'antd';
-const FormItem = Form.Item;
+import { connect } from 'react-redux'
+import { Form, Icon, Input, Button } from 'antd'
+const FormItem = Form.Item
+import { SETNEWPASSWORD } from '../../redux/Actions'
 
+@connect(state => ({
+    forgetdata: state.fetchdata.forgetdata
+}), dispath => ({
+    saveNewpassword(param = {}){dispath({type: SETNEWPASSWORD, param})}
+}))
 class ForgetNext extends React.Component {
     handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                delete values.confirmPassword
+                this.props.saveNewpassword(Object.assign({}, this.props.forgetdata, values))
             }
-        });
+        })
     }
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
         return (
             <div className='login-wrapper'>
                 <div className="header">
@@ -24,19 +32,21 @@ class ForgetNext extends React.Component {
                             <img style={{width:120+'px',height:120+'px'}} src={require(`../../assets/img/images/backlogo.png`)}/>
                         </div>
                         <Form onSubmit={this.handleSubmit} className="login-form">
-                            <div className="login-form-name"><span className="login-form-text">忘记密码</span></div>
+                            <div className="login-form-name"><span className="login-form-text">设置新密码</span></div>
                             <FormItem>
-                                {getFieldDecorator('password', {
-                                    rules: [{ required: true, message: '请输入新密码！' }],
+                                {getFieldDecorator('newPassword', {
+                                    rules: [{ required: true, message: '请输入新密码'}],
                                 })(
-                                    <Input className="account-tel" placeholder="请输入新密码" />
+                                    <Input type="password" placeholder="请输入新密码"/>
                                 )}
                             </FormItem>
                             <FormItem>
-                                {getFieldDecorator('newpassword', {
-                                    rules: [{ required: true, message: '两次密码输入不一致！' }],
+                                {getFieldDecorator('confirmPassword', {
+                                    rules: [{ required: true, message: '请确认密码' },{
+                                    validator: (rule, value, callback) => value && value !== this.props.form.getFieldValue('newPassword') ? callback('两次输入不一致') : callback()
+                                }],
                                 })(
-                                    <Input type="password" placeholder="请确认新密码" />
+                                    <Input type="password" placeholder="请确认新密码"/>
                                 )}
                             </FormItem>
                             <FormItem>
@@ -49,10 +59,10 @@ class ForgetNext extends React.Component {
                 </div>
                 <div className="footer">©2015-2016 赞赞买单 版权所有 ICP证：鲁ICP备14019564号</div>
             </div>
-        );
+        )
     }
 }
 
-const ForgetPassNext = Form.create()(ForgetNext);
+const ForgetPassNext = Form.create()(ForgetNext)
 
 export default ForgetPassNext

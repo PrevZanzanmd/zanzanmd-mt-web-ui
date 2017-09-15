@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
+import { Link } from 'react-router'
 import { LOGIN } from '../../redux/Actions'
 
 @connect(state => ({}), dispath => ({
@@ -38,13 +39,13 @@ class NormalLoginForm extends React.Component {
                 </FormItem>
                 <FormItem>
                     <div style={{textAlign:'right',marginTop:-10+'px'}}>
-                        <a className="login-form-forgot" href="" style={{color:'#fff'}}>忘记登录密码？</a>
+                        <Link className="login-form-forgot" to='/forget' style={{color:'#fff'}}>忘记登录密码？</Link>
                     </div>
                     <Button type="primary" htmlType="submit" className="login-form-button" style={{width:100+'%'}}>
                         登录
                     </Button>
                     <div style={{textAlign:'right'}}>
-                        <a href="">免费注册</a>
+                        <Link to="/regist">免费注册</Link>
                     </div>
                 </FormItem>
             </Form>

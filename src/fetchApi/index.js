@@ -1,9 +1,11 @@
 import fetch from 'isomorphic-fetch'
 
-const baseUrl = 'http://192.168.1.111:8096/proxy'
+const baseUrl = 'http://192.168.1.100:8096/proxy'
 
 const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
-specPath === '/api-auth/auth/v1/login' ? {} : 
+specPath === '/api-auth/auth/v1/login' 
+|| specPath === '/api-mt/user/v1/checkPhone' 
+|| specPath === '/api-mt/user/v1/getVerificationCode' ? {} : 
 {
 	headers: {
 		"Authorization": localStorage.getItem('token')
@@ -118,6 +120,27 @@ export const login = (param = {}) => fetchApi({specPath: '/api-auth/auth/v1/logi
 
 //退出登录
 export const logout = (param = {}) => fetchApi({specPath: '/api-auth/auth/v1/logout', method: 'POST', param})
+
+//验证手机号是否被注册
+export const validatePhone = (param = {}) => fetchApi({specPath: '/api-account/user/v1/checkPhone', method: 'POST', param})
+
+//发送验证码
+export const sendRegcode = (param = {}) => fetchApi({specPath: '/api-account/user/v1/getVerificationCode', method: 'POST', param})
+
+//注册手机号
+export const registerPhone = (param = {}) => fetchApi({specPath: '/api-account/user/v1/check', method: 'POST', param})
+
+//保存注册信息
+export const saveRegister = (param = {}) => fetchApi({specPath: '/api-account/user/v1/register', method: 'POST', param})
+
+//忘记密码发送验证码
+export const sendForgetcode = (param = {}) => fetchApi({specPath: '/api-account/user/v1/send', method: 'POST', param})
+
+//校验忘记密码验证码
+export const forgetNextStep = (param = {}) => fetchApi({specPath: '/api-account/user/v1/forget', method: 'POST', param})
+
+//忘记密码设置新密码
+export const setNewpassword = (param = {}) => fetchApi({specPath: '/api-account/user/v1/newPassword', method: 'POST', param})
 
 
 //获取二维码

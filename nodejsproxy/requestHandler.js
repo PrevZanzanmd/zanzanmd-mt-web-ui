@@ -5,7 +5,8 @@ var http = require('http')
 let cookie = ''
 
 let opt = {
-	hostname: 'zanzanmd.sssvip4.natapp.cc'
+	// hostname: 'zanzanmd.sssvip4.natapp.cc'
+	hostname: 'vfvkxe.natappfree.cc'
 }
 let loginOpt = {
 	hostname:'zanzanmd.sssvip4.natapp.cc',
@@ -42,8 +43,8 @@ exports.proxy = (res, param, header) => new Promise((reslove, reject) => {
 			method: param.method,
 			path: param.type === 'normal' ? param.method === 'GET' ? `${param.path}${getParamHandler(fnParam)}` : param.path : `${param.path}${postParamHandler(fnParam)}`
 		}, param.method === 'POST' ? {
-			headers: Object.assign({}, opt.headers, {'Content-Type': 'application/x-www-form-urlencoded'})
-		} : {headers: opt.headers}), res => {
+			headers: Object.assign({}, opt.headers ? opt.headers : {}, {'Content-Type': 'application/x-www-form-urlencoded'})
+		} : opt.headers ? {headers: opt.headers} : {}), res => {
 			console.log(param.path)
 			console.log("Got response: " + res.statusCode);
 			res.on('data', d => {
