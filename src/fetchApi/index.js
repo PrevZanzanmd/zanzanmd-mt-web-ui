@@ -2,9 +2,14 @@ import fetch from 'isomorphic-fetch'
 
 const baseUrl = 'http://192.168.1.103:8096/proxy'
 
-const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => `${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`
-
-const fetchApi = Obj => fetch(handleUrl(Obj)).then(res => res.json())
+const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
+specPath === '/api-auth/auth/v1/login' ? {} : 
+{
+	headers: {
+		"Authorization": localStorage.getItem('token')
+	}
+}]
+const fetchApi = Obj => fetch(...handleUrl(Obj)).then(res => res.json())
 
 //店铺列表
 export const getShopList = (param = {}) => fetchApi({specPath: '/api-mt/shop/v1/list', param})
@@ -107,6 +112,12 @@ export const upload = (param = {}) => fetch(param.url, {
 
 //下载文件
 export const download = (param = {}) => fetchApi({specPath: '/api-mt/upload/v1/download', param})
+
+//登录
+export const login = (param = {}) => fetchApi({specPath: '/api-auth/auth/v1/login', method: 'POST', param})
+
+//退出登录
+export const logout = (param = {}) => fetchApi({specPath: '/api-auth/auth/v1/logout', method: 'POST', param})
 
 
 //获取二维码

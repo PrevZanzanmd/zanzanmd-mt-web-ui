@@ -5,7 +5,7 @@ const Option = Select.Option
 const FormItem = Form.Item
 import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
-import { MODAL_STATE, GET_USERINFO, CHANGE_USERINFO, GET_UPLOADTOKEN, UPLOAD } from '../../redux/Actions'
+import { MODAL_STATE, GET_USERINFO, CHANGE_USERINFO, GET_UPLOADTOKEN, UPLOAD, BANKCARD_LIST } from '../../redux/Actions'
 import AddBankCard from './addbankCard.jsx'
 import { upload } from '../../fetchApi'
 
@@ -14,16 +14,21 @@ import { upload } from '../../fetchApi'
 	userinfo: state.fetchdata.userinfodata,
 	modalState: state.globaldata.modalState,
 	uploadData: state.fetchdata.uploadData,
-	downloaddata: state.fetchdata.downloaddata
+	downloaddata: state.fetchdata.downloaddata,
+	bankCardlist: state.fetchdata.bankCardlist
 }), dispath => ({
 	changeModal(state){dispath({type: MODAL_STATE, data: state})},
 	getUserInfo(){dispath({type: GET_USERINFO})},
 	changeUserInfo(param = {}){dispath({type: CHANGE_USERINFO, param})},
 	getUploaddata(param = {}){dispath({type: GET_UPLOADTOKEN, param})},
-	upload(param = {}){dispath({type: UPLOAD, param})}
+	upload(param = {}){dispath({type: UPLOAD, param})},
+	getBankCard(param = {}){dispath({type: BANKCARD_LIST, param, loading: true})}
 }))
 class BaseMessage extends React.Component{
-	componentWillMount = _ => this.props.getUserInfo()
+	componentWillMount = _ => {
+		this.props.getUserInfo()
+		this.props.getBankCard()
+	}
 	componentDidMount(){
 		this.props.getUploaddata({type: 2})
 	}
@@ -101,7 +106,7 @@ class BaseMessage extends React.Component{
 						<FormItem
 						label='银行卡'
 						{...formCol}>
-							<span style={{marginRight: 50}}>已绑定<Link>1</Link>张银行卡</span>
+							<span style={{marginRight: 50}}>已绑定<Link>{this.props.bankCardlist.length}</Link>张银行卡</span>
 							<Link to="/home/mybank">查看银行卡列表</Link>
 						</FormItem>
 						<FormItem

@@ -1,13 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
+import { LOGIN } from '../../redux/Actions'
 
+@connect(state => ({}), dispath => ({
+    login(param = {}){dispath({type: LOGIN, param})}
+}))
 class NormalLoginForm extends React.Component {
     handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                values.flag = 'web'
+                this.props.login(values)
             }
         });
     }
@@ -17,10 +23,10 @@ class NormalLoginForm extends React.Component {
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <div className="login-form-name">登录赞赞买单</div>
                 <FormItem>
-                    {getFieldDecorator('userName', {
+                    {getFieldDecorator('username', {
                         rules: [{ required: true, message: '请输入用户名！' }],
                     })(
-                        <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="手机号" />
+                        <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="账号" />
                     )}
                 </FormItem>
                 <FormItem>

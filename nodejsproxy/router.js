@@ -1,3 +1,3 @@
-exports.router = (handle, pathname, res, param = {}) => {
-	typeof handle[pathname] === 'function' ? handle[pathname](res, param) : console.log('no request handlers')
+exports.router = (handle, pathname, res, param = {}, header) => {
+	typeof handle[pathname] === 'function' ? handle[pathname](res, param, header) : console.log('no request handlers')
 }

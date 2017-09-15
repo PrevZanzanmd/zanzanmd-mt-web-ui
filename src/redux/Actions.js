@@ -125,6 +125,12 @@ export const DOWNLOAD_COMPLETE = 'DOWNLOAD_COMPLETE'
 //
 export const DOWN_LOADLIST = 'DOWN_LOADLIST'
 export const DOWN_LOADLIST_COMPLETE = 'DOWN_LOADLIST_COMPLETE'
+//登录
+export const LOGIN = 'LOGIN'
+export const LOGIN_COMPLETE = 'LOGIN_COMPLETE'
+//退出登录
+export const LOGOUT = 'LOGOUT'
+
 
 
 

@@ -26,8 +26,15 @@ import ToBManage from './pages/toBill/toBManage.jsx'
 import Chart from './pages/chart/chart.jsx'
 import Login from './pages/login/login.jsx'
 
+const handleLogin = (next, replace, cb) => {
+	if(!localStorage.getItem('token') && next.location.pathname != '/login'){
+		replace('/login')
+	}
+	cb()
+}
+
 const routeConfig = (
-	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page}>
+	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page} onEnter={handleLogin}>
 		<IndexRedirect to="/home"/>
 		<Route path = {'login'} breadcrumbName='登录' component = {Login}/>
 		<Route path = {'home'} breadcrumbName='首页' component = {Home}>

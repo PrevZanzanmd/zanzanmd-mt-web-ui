@@ -1,21 +1,25 @@
 import { takeLatest, takeEvery } from 'redux-saga'
 import { put, fork, call } from 'redux-saga/effects'
+import { hashHistory } from 'react-router'
 import { message } from 'antd'
 import * as ACTION from '../Actions'
 import * as fetchApi from '../../fetchApi'
 import { handleFullDate } from '../../fetchApi/commonApi'
 
-const throwError = error => console.warn(new Error(error))
+const throwError = data => {
+	data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login')) : null
+	console.warn(new Error(data.msg))
+}
 
 function* baseFetchSaga(action, api, thisAction){
 	yield put({type: ACTION.START_LOADING})
 	let data = yield call(api, thisAction.param)
-	data.code === '200' ? yield put({type: action, data: data.data}) : throwError(data.msg)
+	data.code === '200' ? yield put({type: action, data: data.data}) : throwError(data)
 	yield put({type: ACTION.CLOSE_LOADING})
 }
 function* simpleFetchSaga(action, api, thisAction){
 	let data = yield call(api, thisAction.param ? thisAction.param : {})
-	data.code === '200' ? yield put({type: action, data: data.data}) : throwError(data.msg)
+	data.code === '200' ? yield put({type: action, data: data.data}) : throwError(data)
 }
 
 
@@ -26,7 +30,7 @@ function* getShopList(){
 		data.code === '200' || data.code === '60012' ? (
 			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.code === '200' ? data.data : []}),
 			yield call(handleFor, data.data)
-		) : throwError(data.msg)
+		) : throwError(data)
 		action.spin ? null : yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
@@ -39,7 +43,7 @@ function* getShopDetail(){
 			yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: data.data}),
 			action.edit ? yield put({type: ACTION.GET_INDUSTRY, param: {}, edit: true}) : null,
 			action.edit ? null : yield put({type: ACTION.MODAL_STATE, data: true})
-		) : throwError(data.msg)
+		) : throwError(data)
 	})
 }
 
@@ -49,7 +53,7 @@ function* getSpAccountDetail(){
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_ACCOUNT_DETAIL_SUCCESS, data: data.data}),
 			yield put({type: ACTION.MODAL_STATE, data: true})
-		) : throwError(data.msg)
+		) : throwError(data)
 	})
 }
 
@@ -61,7 +65,7 @@ function* getIndustrydata(){
 	yield takeLatest(ACTION.GET_INDUSTRY, function* (action){
 		yield put({type: ACTION.SELECT_LOAD, data: true})
 		let data = yield call(fetchApi.getIndustrylist, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_INDUSTRY_SUCCESS, data: data.data}) : throwError(data.msg)
+		data.code === '200' ? yield put({type: ACTION.GET_INDUSTRY_SUCCESS, data: data.data}) : throwError(data)
 		yield put({type: ACTION.SELECT_LOAD, data: false})
 		action.edit ? yield put({type: ACTION.MODAL_STATE, data: true}) : null
 	})
@@ -79,7 +83,7 @@ function* getTodayTotal(){
 function* getBilllist(){
 	yield takeLatest(ACTION.GET_BILLLIST, function* (action){
 		let data = yield call(fetchApi.getBilllist, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_BILLLIST_SUCCESS, data: data.data}) : throwError(data.msg)
+		data.code === '200' ? yield put({type: ACTION.GET_BILLLIST_SUCCESS, data: data.data}) : throwError(data)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
@@ -94,7 +98,7 @@ function* getPrimaryBill(){
 			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : ''}})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
@@ -113,7 +117,7 @@ function* getBillDetail(){
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_BILLDETAIL_SUCCESS, data: data.data}),
 			yield put({type: ACTION.MODAL_STATE, data: true})
-		) : throwError(data.msg)
+		) : throwError(data)
 	})
 }
 
@@ -129,7 +133,7 @@ function* getDayTotal(){
 function* getChartdata(){
 	yield takeLatest(ACTION.GET_CHARTDATA, function* (action){
 		let data = yield call(fetchApi.getChartdata, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_CHARTDATA_SUCCESS, data: data.data}) : throwError(data.msg)
+		data.code === '200' ? yield put({type: ACTION.GET_CHARTDATA_SUCCESS, data: data.data}) : throwError(data)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
@@ -146,7 +150,7 @@ function* getPrimaryChart(){
 			yield put({type: ACTION.GET_CHARTDATA, param: {spShopId: data.data[0] ? data.data[0].id : ''}})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
@@ -170,14 +174,14 @@ function* getPrimaryCard(){
 			yield put({type: ACTION.GET_CARDLIST, param: Object.assign({spShopId: data.data[0] ? data.data[0].id : ''}, action.param)})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
 function* cardBaseSaga(action, api, thisAction){
 	yield put({type: ACTION.START_LOADING})
 	let data = yield call(api, thisAction.param)
-	data.code === '200' || data.code === '60012' ? yield put({type: action, data: data.code === '200' ? data.data : {list: []}}) : throwError(data.msg)
+	data.code === '200' || data.code === '60012' ? yield put({type: action, data: data.code === '200' ? data.data : {list: []}}) : throwError(data)
 	yield put({type: ACTION.CLOSE_LOADING})
 }
 
@@ -200,7 +204,7 @@ function* getPrimaryHome(){
 			yield put({type: ACTION.GET_WITHDRAWLIST, param: {spShopId: data.data[0] ? data.data[0].id : '', page: 1, rows: 5}})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
@@ -213,7 +217,7 @@ function* getWithdraw(){
 	yield takeLatest(ACTION.GET_WITHDRAWLIST, function* (action){
 		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.getWithdrawlist, action.param)
-		data.code === '200' || data.code === '60012' ? yield put({type: ACTION.GET_WITHDRAWLIST_SUCCESS, data: data.code === '200' ? data.data : {list: []}}) : throwError(data.msg)
+		data.code === '200' || data.code === '60012' ? yield put({type: ACTION.GET_WITHDRAWLIST_SUCCESS, data: data.code === '200' ? data.data : {list: []}}) : throwError(data)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
@@ -236,13 +240,17 @@ function* getPrimaryWithdraw(){
 			yield put({type: ACTION.GET_WITHDRAWLIST, param: Object.assign({spShopId: data.data[0] ? data.data[0].id : ''}, action.param)})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
-
 function* getBankcard(){
-	yield takeLatest(ACTION.BANKCARD_LIST, baseFetchSaga, ACTION.BANKCARD_LIST_SUCCESS, fetchApi.getBankcardList)
+	yield takeLatest(ACTION.BANKCARD_LIST, function* (action){
+		action.loading ? null : yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getBankcardList, action.param)
+		data.code === '200' ? yield put({type: ACTION.BANKCARD_LIST_SUCCESS, data: data.data}) : throwError(data)
+		action.loading ? null : yield put({type: ACTION.CLOSE_LOADING})
+	})
 }
 
 function* getPrimaryBank(){
@@ -256,7 +264,7 @@ function* getPrimaryBank(){
 			yield put({type: ACTION.CAN_WITHDRAW, param: {spShopId: data.data[0] ? data.data[0].id : ''}})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
@@ -281,7 +289,7 @@ function* getBaseUserInfo(){
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_USERINFO_SUCCESS, data: data.data}),
 			yield put({type: ACTION.DOWNLOAD, param: {key: data.data.headImg}})
-		) : throwError(data.msg)
+		) : throwError(data)
 	})
 }
 
@@ -294,7 +302,7 @@ function* changeShopPrem(){
 		data.code === '200' ? (
 			message.success('修改成功'),
 			yield put({type: ACTION.GET_SHOPPERM, param: {userId: action.param.userId}})
-		) : (message.error('修改失败'), throwError(data.msg))
+		) : (message.error('修改失败'), throwError(data))
 	})
 }
 
@@ -305,7 +313,7 @@ function* changeSaga(action, api, thisAction){
 		yield put({type: action, param: {}})
 	) : (
 		message.error('修改失败'),
-		throwError(data.msg)
+		throwError(data)
 	)
 }
 
@@ -322,7 +330,7 @@ function* uploadShopChange(param){
 	let updata = yield call(fetchApi.upload, param.uploadParam)
 	updata.code == '200' ? (
 		yield call(handleChangeShop, param, 'upload')
-	) : (message.error('上传失败'), throwError(updata.msg))
+	) : (message.error('上传失败'), throwError(updasg))
 }
 
 function* handleChangeShop(param, type){
@@ -334,7 +342,7 @@ function* handleChangeShop(param, type){
 		yield put({type: ACTION.GET_SHOP_LIST, param: {}})
 	) : (
 		message.error('修改失败'),
-		throwError(data.msg)
+		throwError(data)
 	)
 }
 
@@ -350,7 +358,7 @@ function* changeCard(){
 			yield put({type: action.searchParam.couponStatus === '4' ? ACTION.GET_USEDCARD : ACTION.GET_CARDLIST, param: action.searchParam})
 		) : (
 			message.error('添加失败'),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
@@ -364,7 +372,7 @@ function* changeUserInfo(){
 			yield put({type: ACTION.GET_USERINFO, param: {}})
 		) : (
 			message.error('修改失败'),
-			throwError(data.msg)
+			throwError(data)
 		)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
@@ -377,7 +385,7 @@ function* getQrcode(){
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `http://zanzanmd.sssvip4.natapp.cc/api-mt//common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}`}),
 			yield put({type: ACTION.MODAL_STATE, data: true})
-		) : throwError(data.msg)
+		) : throwError(data)
 	})
 }
 
@@ -387,7 +395,7 @@ function* resetPassword(){
 	yield takeLatest(ACTION.RESET_PASSWORD, function* (action){
 		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.resetAuthPassword, action.param)
-		data.code === '200' ? message.success('修改成功') : data.code === '60009' && data.msg === 'OLD_WRONG_PASSWORD' ? message.error('旧密码错误') : (message.error('修改失败'),throwError(data.msg))
+		data.code === '200' ? message.success('修改成功') : data.code === '60009' && data.msg === 'OLD_WRONG_PASSWORD' ? message.error('旧密码错误') : (message.error('修改失败'),throwError(data))
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
@@ -395,7 +403,7 @@ function* resetPassword(){
 function* withdraw(){
 	yield takeLatest(ACTION.WITHDRAW, function* (action){
 		let data = yield call(fetchApi.withDraw, action.param)
-		data.code === '200' ? message.success('提现成功') : (message.error('提现失败'), throwError(data.msg))
+		data.code === '200' ? message.success('提现成功') : (message.error('提现失败'), throwError(data))
 		yield put({type: ACTION.FILTER_WITHDRAWBANK, param: {spShopId: action.param.spShopId}})
 	})
 }
@@ -408,7 +416,7 @@ function* sendModify(){
 		data.code === '200' ? (
 			message.success('已向绑定手机号发送验证码'),
 			yield put({type: ACTION.TIME, data: true})
-		) : (message.error('发送失败，请稍后再试'), throwError(data.msg))
+		) : (message.error('发送失败，请稍后再试'), throwError(data))
 	})
 }
 
@@ -417,7 +425,7 @@ function* changePhone(){
 		let data = yield call(fetchApi.changePhone, action.param)
 		data.code === '200' ? message.success('修改成功') : (
 			message.error(data.code === '60015' && data.msg === 'PHONE_ALREADY_REGISTERED' ? '手机号已被注册' : '修改失败'),
-			throwError(data.msg)
+			throwError(data)
 		)
 	})
 }
@@ -438,7 +446,7 @@ function* deleteShop(){
 		data.code === '200' ? (
 			message.success('删除成功'),
 			yield put({type: ACTION.GET_SHOP_LIST, param: {}})
-		) : (message.error('删除失败'), throwError(data.msg))
+		) : (message.error('删除失败'), throwError(data))
 	})
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -446,7 +454,7 @@ function* deleteShop(){
 function* getUploadToken(){
 	yield takeLatest(ACTION.GET_UPLOADTOKEN, function* (action){
 		let data = yield call(fetchApi.getUploadToken, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_UPTOKEN_COMPLETE, data: data.data}) : throwError(data.msg)
+		data.code === '200' ? yield put({type: ACTION.GET_UPTOKEN_COMPLETE, data: data.data}) : throwError(data)
 	})
 }
 
@@ -463,7 +471,7 @@ function* upload(){
 function* download(){
 	yield takeLatest(ACTION.DOWNLOAD, function* (action){
 		let data = yield call(fetchApi.download, action.param)
-		data.code == '200' ? yield put({type: ACTION.DOWNLOAD_COMPLETE, data: {url: data.data, key: action.param.key}}) : throwError(data.msg)
+		data.code == '200' ? yield put({type: ACTION.DOWNLOAD_COMPLETE, data: {url: data.data, key: action.param.key}}) : throwError(data)
 	})
 }
 
@@ -476,11 +484,48 @@ function* handleFor(shoplist = []){
 function* handleShoplist(){
 	yield takeEvery(ACTION.DOWN_LOADLIST, function* (action){
 		let data = yield call(fetchApi.download, {key: action.param.key})
-		data.code == '200' ? yield put({type: ACTION.DOWN_LOADLIST_COMPLETE, data: {url: data.data, key: action.param.key, arrKey: action.param.arrKey}}) : throwError(data.msg)
+		data.code == '200' ? yield put({type: ACTION.DOWN_LOADLIST_COMPLETE, data: {url: data.data, key: action.param.key, arrKey: action.param.arrKey}}) : throwError(data)
 	})
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function* login(){
+	yield takeLatest(ACTION.LOGIN, function* (action){
+		let data = yield call(fetchApi.login, action.param)
+		console.log(data)
+		switch(data.code){
+			case '200': 
+				message.success('登录成功')
+				localStorage.setItem('token', data.data)
+				hashHistory.push('/home')
+				break
+			case '40002': 
+				message.error('用户名或密码错误')
+				break
+			case '40003':
+			case '40001': 
+				message.error('请重新登录')
+				break
+			case '40009': 
+				message.error('账号已被锁定')
+				break
+			case '40008': 
+				message.error('账号禁止登录')
+				break
+			default: 
+				message.error('登录失败，请稍后再试')
+				break
+		}
+	})
+}
+
+function* logout(){
+	yield takeLatest(ACTION.LOGOUT, function* (action){
+		let data = yield call(fetchApi.logout)
+		data.code === '200' ? (message.success('退出成功'),localStorage.removeItem('token'),hashHistory.push('/login')) : (message.error('退出登录失败，请刷新重试'), throwError(data))
+	})
+}
 
 export default function* (){
 	yield fork(getShopList)
@@ -528,4 +573,6 @@ export default function* (){
 	yield fork(upload)
 	yield fork(download)
 	yield fork(handleShoplist)
+	yield fork(login)
+	yield fork(logout)
 }
