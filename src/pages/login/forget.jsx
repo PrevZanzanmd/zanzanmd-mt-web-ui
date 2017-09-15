@@ -24,7 +24,7 @@ class ForgetPasswrod extends React.Component {
                         <img style={{width:120+'px',height:120+'px'}} src={require(`../../assets/img/images/backlogo.png`)}/>
                     </div>
                     <Form onSubmit={this.handleSubmit} className="login-form">
-                        <div className="login-form-name">忘记密码</div>
+                        <div className="login-form-name"><span className="login-form-text">忘记密码</span></div>
                         <FormItem>
                             {getFieldDecorator('userName', {
                                 rules: [{ required: true, message: '请输入手机号！' }],

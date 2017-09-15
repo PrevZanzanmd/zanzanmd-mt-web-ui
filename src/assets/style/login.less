@@ -12,7 +12,7 @@
     margin: 0 auto;
   }
   .content-wrapper{
-    border-top:1px solid #eee;
+    border-top:1px solid #ccc;
   }
   .header {
     height: 130px;
@@ -246,7 +246,12 @@
     font-size:20px;
     color:@baseColor;
     text-align:center;
-    background: url("../../assets/img/images/lian1.png") no-repeat left bottom;
+    //background: url("../../assets/img/images/lian1.png") no-repeat left bottom;
+    border-bottom:1px solid #ccc;
+    .login-form-text{
+      padding:5px 10px;
+      border-bottom:2px solid @baseColor;
+    }
   }
   .backlogo{
     margin:70px 0 30px 0;
@@ -269,10 +274,8 @@ margin-top:36px;
     width:190px;
     margin-right:20px;
 }
-  .ant-form-item-control{
-    display:flex;
-    flex-direction:row;
     .getcode{
+      display: inline-block;
       width:110px;
       background:@baseColor;
       text-align:center;
@@ -281,5 +284,4 @@ margin-top:36px;
       border-radius:3px;
       cursor:pointer;
     }
-  }
 }
