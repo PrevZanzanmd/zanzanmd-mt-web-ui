@@ -25,6 +25,9 @@ import Mybank from './pages/accountManage/mybank.jsx'
 import ToBManage from './pages/toBill/toBManage.jsx'
 import Chart from './pages/chart/chart.jsx'
 import Login from './pages/login/login.jsx'
+import ForgetPassword from './pages/login/forget.jsx'
+import ForgetNext from './pages/login/forgetnext.jsx'
+import RegistAccount from './pages/login/regist.jsx'
 
 const handleLogin = (next, replace, cb) => {
 	if(!localStorage.getItem('token') && next.location.pathname != '/login'){
@@ -37,6 +40,9 @@ const routeConfig = (
 	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page} onEnter={handleLogin}>
 		<IndexRedirect to="/home"/>
 		<Route path = {'login'} breadcrumbName='登录' component = {Login}/>
+		<Route path = {'forget'} breadcrumbName='忘记密码' component = {ForgetPassword}/>
+		<Route path = {'forgetnext'} breadcrumbName='忘记密码' component = {ForgetNext}/>
+		<Route path = {'regist'} breadcrumbName='用户注册' component = {RegistAccount}/>
 		<Route path = {'home'} breadcrumbName='首页' component = {Home}>
 			<IndexRedirect to="/home/contentContainer"/>
 			<Route path = {'contentContainer'} breadcrumbName='动态' component = {ContentContainer}/>
