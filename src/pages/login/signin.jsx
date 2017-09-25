@@ -5,7 +5,9 @@ const FormItem = Form.Item;
 import { Link } from 'react-router'
 import { LOGIN } from '../../redux/Actions'
 
-@connect(state => ({}), dispath => ({
+@connect(state => ({
+    loading: state.globaldata.loading
+}), dispath => ({
     login(param = {}){dispath({type: LOGIN, param})}
 }))
 class NormalLoginForm extends React.Component {
@@ -41,7 +43,12 @@ class NormalLoginForm extends React.Component {
                     <div style={{textAlign:'right',marginTop:-10+'px'}}>
                         <Link className="login-form-forgot" to='/forget' style={{color:'#fff'}}>忘记登录密码？</Link>
                     </div>
-                    <Button type="primary" htmlType="submit" className="login-form-button" style={{width:100+'%'}}>
+                    <Button 
+                    type="primary" 
+                    htmlType="submit" 
+                    className="login-form-button" 
+                    loading={this.props.loading}
+                    style={{width:100+'%'}}>
                         登录
                     </Button>
                     <div style={{textAlign:'right'}}>

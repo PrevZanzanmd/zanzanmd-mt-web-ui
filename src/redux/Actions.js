@@ -1,6 +1,7 @@
 export const START_LOADING = 'START_LOADING'
 export const CLOSE_LOADING = 'CLOSE_LOADING'
 
+export const GET_SIDEMENU = 'GET_SIDEMENU'
 export const SIDEMENU_COMPLETE = 'SIDEMENU_COMPLETE'
 
 export const MODAL_STATE = 'MODAL_STATE'
@@ -141,6 +142,8 @@ export const FORGETNEXTSTEP = 'FORGETNEXTSTEP'
 export const VALIDATEFORGETCOMPLETE = 'VALIDATEFORGETCOMPLETE'
 //设置新密码
 export const SETNEWPASSWORD = 'SETNEWPASSWORD'
+//reset all data
+export const RESET = 'RESET'
 
 
 

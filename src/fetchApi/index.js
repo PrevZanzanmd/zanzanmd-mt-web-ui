@@ -1,16 +1,42 @@
 import fetch from 'isomorphic-fetch'
 
-const baseUrl = 'http://192.168.1.100:8096/proxy'
+const baseUrl = 'http://mt.qdxiao2.com'
 
-const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
-specPath === '/api-auth/auth/v1/login' 
-|| specPath === '/api-mt/user/v1/checkPhone' 
-|| specPath === '/api-mt/user/v1/getVerificationCode' ? {} : 
-{
-	headers: {
-		"Authorization": localStorage.getItem('token')
+// const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
+// specPath === '/api-auth/auth/v1/login' 
+// || specPath === '/api-mt/user/v1/checkPhone' 
+// || specPath === '/api-mt/user/v1/getVerificationCode' ? {} : 
+// {
+// 	headers: {
+// 		"Authorization": localStorage.getItem('token')
+// 	}
+// }]
+
+const getParamHandler = param => {
+	let baseStr = '?'
+	for(let i in param){
+		baseStr += `${i}=${param[i]}&`
 	}
-}]
+	return param === {} ? '' : baseStr.substring(0, baseStr.length - 1)
+}
+const postParamHandler = param => {
+	let baseStr = ''
+	for(let i in param){
+		baseStr += `/${param[i]}`
+	}
+	return baseStr
+}
+
+const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}${specPath}${paramType === 'url' ? postParamHandler(param) : method === 'GET' ? getParamHandler(param) : ''}`, Object.assign({
+	method
+}, {
+	headers: Object.assign({}, paramType === 'normal' && method === 'POST' ? {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"} : {}, specPath === '/api-auth/auth/v1/login' 
+	|| specPath === '/api-mt/user/v1/checkPhone' 
+	|| specPath === '/api-mt/user/v1/getVerificationCode' ? {} : {"Authorization": localStorage.getItem('token')})
+}, method === 'POST' && paramType === 'normal' ? {
+	body: getParamHandler(param).substring(1, getParamHandler(param).length)
+} : {})]
+
 const fetchApi = Obj => fetch(...handleUrl(Obj)).then(res => res.json())
 
 //店铺列表

@@ -4,7 +4,10 @@ import { Layout } from 'antd';
 const { Header } = Layout;
 import { LOGOUT } from '../../redux/Actions'
 
-@connect(state => ({}), dispath => ({
+@connect(state => ({
+	downloaddata: state.fetchdata.downloaddata,
+	userinfo: state.fetchdata.userinfodata
+}), dispath => ({
 	logout(){dispath({type: LOGOUT})}
 }))
 class HomeHeader extends React.Component{
@@ -22,13 +25,12 @@ class HomeHeader extends React.Component{
 				</div>
 			</div>
 			<div className="headerName">
-				<img className="userNameImg" style={{width:40+'px',height:40+'px',borderRadius:20+'px',backgroundColor:'#aaa'}}/>
+				<img className="userNameImg" src={this.props.downloaddata.url != '' ? this.props.downloaddata.url : require(`../../assets/img/personHeadImg.jpg`)} style={{width:40+'px',height:40+'px',borderRadius:20+'px',backgroundColor:'#aaa'}}/>
 				<div className="userName">
 					<div className="userNameCont">
-						<p>欢迎，张三儿</p>
+						<p>{`欢迎, ${this.props.userinfo.nickname ? this.props.userinfo.nickname : '赞赞买单'}`}</p>
 						<p className="signOut" onClick={this.props.logout}>退出</p>
 					</div>
-					<p>上次登录时间：2017.07.26 11:30</p>
 				</div>
 			</div>
 		</div>

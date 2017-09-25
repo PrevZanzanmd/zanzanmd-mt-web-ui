@@ -8,7 +8,7 @@ import { handleFullDate } from '../../fetchApi/commonApi'
 
 const throwError = data => {
 	data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login')) : null
-	console.warn(new Error(data.msg))
+	// console.warn(new Error(data.msg))
 }
 
 function* baseFetchSaga(action, api, thisAction){
@@ -292,6 +292,9 @@ function* getBaseUserInfo(){
 		) : throwError(data)
 	})
 }
+function* getuserinfoReload(){
+	yield put({type: ACTION.GET_USERINFO})
+}
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -492,13 +495,16 @@ function* handleShoplist(){
 
 function* login(){
 	yield takeLatest(ACTION.LOGIN, function* (action){
+		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.login, action.param)
-		console.log(data)
+		yield put({type: ACTION.CLOSE_LOADING})
+		yield put({type: ACTION.GET_SIDEMENU})
 		switch(data.code){
 			case '200': 
 				message.success('登录成功')
 				localStorage.setItem('token', data.data)
 				hashHistory.push('/home')
+				yield put({type: ACTION.GET_USERINFO})
 				break
 			case '40002': 
 				message.error('用户名或密码错误')
@@ -523,7 +529,11 @@ function* login(){
 function* logout(){
 	yield takeLatest(ACTION.LOGOUT, function* (action){
 		let data = yield call(fetchApi.logout)
-		data.code === '200' ? (message.success('退出成功'),localStorage.removeItem('token'),hashHistory.push('/login')) : (message.error('退出登录失败，请刷新重试'), throwError(data))
+		data.code === '200' ? (
+			message.success('退出成功'),
+			localStorage.removeItem('token'),hashHistory.push('/login'),
+			yield put({type: ACTION.RESET})
+		) : (message.error('退出登录失败，请刷新重试'), throwError(data))
 	})
 }
 
@@ -632,4 +642,5 @@ export default function* (){
 	yield fork(sendForgetCode)
 	yield fork(forgetNextstep)
 	yield fork(setNewpassword)
+	yield fork(getuserinfoReload)
 }

@@ -7,7 +7,8 @@ import sagas from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 
-export default createStore(reducer, applyMiddleware(logger, sagaMiddleware))
+// export default createStore(reducer, applyMiddleware(logger, sagaMiddleware))
+export default createStore(reducer, applyMiddleware(sagaMiddleware))
 
 sagas.map(val => {
 	sagaMiddleware.run(val)
