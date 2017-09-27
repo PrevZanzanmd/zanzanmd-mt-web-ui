@@ -67,11 +67,7 @@ class Chart extends React.Component{
 		            axisTick: {
 		                alignWithLabel: true
 		            },
-		            axisLine: {
-				    	lineStyle: {
-				    		color: '#888'
-				    	}
-				    }
+		            axisLine: {lineStyle: {color: '#888'}}
 		        }
 		    ],
 		    yAxis : [
