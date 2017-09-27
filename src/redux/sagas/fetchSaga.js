@@ -164,7 +164,6 @@ function* filterChart(){
 }
 
 
-
 function* getPrimaryCard(){
 	yield takeLatest(ACTION.CARD_PRIMARY_LOAD, function* (action){
 		yield put({type: ACTION.START_LOADING})
@@ -293,7 +292,7 @@ function* getBaseUserInfo(){
 	})
 }
 function* getuserinfoReload(){
-	yield put({type: ACTION.GET_USERINFO})
+	location.hash == '#/login' || location.hash == '#/forget' || location.hash == '#/forgetnext' || location.hash == '#/regist' ? null : yield put({type: ACTION.GET_USERINFO})
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -303,9 +302,9 @@ function* changeShopPrem(){
 		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.changeShopperm, action.param)
 		data.code === '200' ? (
-			message.success('修改成功'),
+			message.success('操作成功'),
 			yield put({type: ACTION.GET_SHOPPERM, param: {userId: action.param.userId}})
-		) : (message.error('修改失败'), throwError(data))
+		) : (message.error('操作失败'), throwError(data))
 	})
 }
 
@@ -325,7 +324,6 @@ function* changeShopDetail(){
 		action.param.headPortrait === 'block' ? 
 		yield call(uploadShopChange, action.param)
 		: yield call(handleChangeShop, action.param, 'normal')
-		
 	})
 }
 
@@ -341,10 +339,10 @@ function* handleChangeShop(param, type){
 	delete param.uploadParam
 	let data = yield call(fetchApi.changeShop, param)
 	data.code === '200' ? (
-		message.success('修改成功'),
+		message.success('操作成功'),
 		yield put({type: ACTION.GET_SHOP_LIST, param: {}})
 	) : (
-		message.error('修改失败'),
+		message.error('操作失败'),
 		throwError(data)
 	)
 }
@@ -415,7 +413,7 @@ function* withdraw(){
 
 function* sendModify(){
 	yield takeLatest(ACTION.SEND_MODIFY, function* (action){
-		let data = yield call(fetchApi.sendModify)
+		let data = yield call(fetchApi.sendModify, action.param)
 		data.code === '200' ? (
 			message.success('已向绑定手机号发送验证码'),
 			yield put({type: ACTION.TIME, data: true})

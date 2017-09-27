@@ -18,6 +18,24 @@ let item = ''
 	changeShopDetail(param = {}){dispath({type: CHANGE_SHOPDETAIL, param: param})}
 }))
 class AddShopForm extends React.Component{
+	componentWillReceiveProps = nextprops => {
+		if(this.props.type != nextprops.type && nextprops.type === 'add'){
+			this.state.formItems.map(val => {
+				let obj = {}
+				obj[val.key] = {}
+				obj[val.key].value = ''
+				nextprops.form.setFields(obj)
+			})
+		}
+		if(nextprops.type === 'edit' && this.props.shopDetail !== nextprops.shopDetail){
+			this.state.formItems.map(val => {
+				let obj = {}
+				obj[val.key] = {}
+				obj[val.key].value = nextprops.shopDetail[val.key]
+				nextprops.form.setFields(obj)
+			})
+		}
+	}
 	state = {
 		fileList: [],
 		formItems: [

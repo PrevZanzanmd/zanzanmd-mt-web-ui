@@ -48,6 +48,12 @@ class Regist extends React.Component {
             ) : null
         }, 1000)
     }
+    send = _ => {
+        this.props.form.validateFields(['phone', 'invitationCode'], (err, val) => {
+            if(!err)
+                this.props.sendregcode(val)
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form
         return (
@@ -68,7 +74,6 @@ class Regist extends React.Component {
                                         rules: val.rules
                                     })(
                                         <Input 
-                                        onChange={e => val.key === 'phone' ? this.setState({phone: e.target.value}) : null} 
                                         placeholder={val.placeholder} 
                                         {...val.key === 'password' || val.key === 'confirmPassword' ? {type: 'password'} : {}}/>
                                     )}
@@ -84,9 +89,7 @@ class Regist extends React.Component {
                                 type='primary' 
                                 style={{marginTop: 0}} 
                                 disabled={this.state.timeBtnDisabled}
-                                onClick={_ => {
-                                    this.state.phone === '' ? message.error('请填写手机号') : this.props.sendregcode({phone: this.state.phone})
-                                }}>{this.state.timeStr}</Button>
+                                onClick={this.send}>{this.state.timeStr}</Button>
                             </FormItem>
                             <FormItem>
                                 <div style={{textAlign:'right',marginTop:-15+'px',marginBottom:-10+'px'}}>
