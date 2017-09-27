@@ -7,7 +7,7 @@ import BCrumb from '../Components/bCrumb.jsx'
 const Option = Select.Option
 const { MonthPicker, RangePicker } = DatePicker
 import { BILL_PRIMARY_LOAD, FILTER_BILL, GET_BILLDETAIL, MODAL_STATE, TODO_EXCEL } from '../../redux/Actions'
-import { handleTime } from '../../fetchApi/commonApi'
+import { handleTime, fmoney } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     loading: state.globaldata.loading,
@@ -43,12 +43,12 @@ class Bill extends React.Component {
         columns: [{title: '支付方式', dataIndex: 'paymentType', key: 'paymentType', render: (text, record) => <div>{record.paymentType === 'WX' ? '微信' : '支付宝'}</div>},
         {title: '订单号', dataIndex: 'serialNumber', key: 'serialNumber'},
         {title: '交易时间', dataIndex: 'date', key: 'date'},
-        {title: '交易金额（元）', dataIndex: 'transactionPrice', key: 'transactionPrice', render: (text, record) => <div>{`¥${record.transactionPrice}`}</div>},
+        {title: '交易金额（元）', dataIndex: 'transactionPrice', key: 'transactionPrice', render: (text, record) => <div>{`¥${fmoney(record.transactionPrice)}`}</div>},
         {title: '交易状态', dataIndex: 'paymentStatus', key: 'paymentStatus', render: (text, record) => <div>{this.chooseState(record.paymentStatus)}</div>},
         {title: '操作', dataIndex: 'operate', key: 'operate', render: (text, record) => <Link onClick={_ => this.props.getBillDetail({id: record.id})}>详情</Link>}],
         detailItem: [{label: '交易状态', key: 'paymentStatus', render: state => this.chooseState(state)},
-        {label: '实收金额', key: 'receivedPrice'},
-        {label: '交易金额', key: 'transactionPrice'},
+        {label: '实收金额', key: 'receivedPrice', render: m => fmoney(m)},
+        {label: '交易金额', key: 'transactionPrice', render: m => fmoney(m)},
         {label: '交易时间', key: 'tradingTime', render: time => handleTime(time)},
         {label: '付款方式', key: 'paymentType', render: type => type === 'WX' ? '微信' : '支付宝'},
         {label: '收银员', key: 'cashierName'},
@@ -77,7 +77,6 @@ class Bill extends React.Component {
         this.state.searchParam.startTime && this.state.searchParam.endTime ? 
             this.props.todoExcel({startTime: this.state.searchParam.startTime, endTime: this.state.searchParam.endTime, shopId: this.state.searchParam.spShopId}) : message.error('请选择时间范围')
     }
-    handleInitialVal = val => val ? val : 0
     render = _ =><div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
         <div className="trade">
@@ -111,11 +110,11 @@ class Bill extends React.Component {
             <div className="home-account">
                 <div className="home-accountitem">
                     <p className="home-stitle">今日总交易额</p>
-                    <p className="home-cash">{this.handleInitialVal(this.props.todaytotal.todayTotalMoney)}<span>元</span></p>
+                    <p className="home-cash">{fmoney(this.props.todaytotal.todayTotalMoney)}<span style={{paddingLeft: 5}}>元</span></p>
                 </div>
                 <div className="home-accountitem">
                     <p className="home-stitle">成功交易笔数</p>
-                    <p className="home-cash">{this.handleInitialVal(this.props.todaytotal.succeedTotalNumber)}<span>笔</span></p>
+                    <p className="home-cash">{this.props.todaytotal.succeedTotalNumber || 0}<span style={{paddingLeft: 5}}>笔</span></p>
                 </div>
             </div>
 

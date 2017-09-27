@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
-// export const baseUrl = 'http://mt.qdxiao2.com'
-export const baseUrl = 'http://192.168.1.106:8096/proxy'
+export const baseUrl = 'http://mt.qdxiao2.com'
+export const proxybaseUrl = 'http://192.168.1.106:8096/proxy'
 
 const getParamHandler = param => {
 	let baseStr = '?'
@@ -18,7 +18,7 @@ const postParamHandler = param => {
 	return baseStr
 }
 
-const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
+const handleUrl = ({path = proxybaseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
 specPath === '/api-auth/auth/v1/login' 
 || specPath === '/api-mt/user/v1/checkPhone' 
 || specPath === '/api-mt/user/v1/getVerificationCode' ? {} : 

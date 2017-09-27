@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
 import { GET_PRIMARYHOME, FILTER_HOMEMESS, MODAL_STATE } from '../../redux/Actions'
 import WithdrawModal from './withdrawModal.jsx'
-import { judgeWithDrawState } from '../../fetchApi/commonApi'
+import { judgeWithDrawState, fmoney } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     loading: state.globaldata.loading,
@@ -37,7 +37,7 @@ class ContentContainer extends React.Component {
         {title: '成功交易笔数', num: 'todaytotal'}],
         columns: [{title: '提现时间', dataIndex: 'createTime', key: 'createTime'},
         {title: '提现方式', dataIndex: 'bcBankCardTypeN', key: 'bcBankCardTypeN'},
-        {title: '提现金额', dataIndex: 'cashWithdrawal', key: 'cashWithdrawal', render: (text, record) => <div>{`¥${record.cashWithdrawal}`}</div>},
+        {title: '提现金额', dataIndex: 'cashWithdrawal', key: 'cashWithdrawal', render: (text, record) => <div>{`¥${fmoney(record.cashWithdrawal)}`}</div>},
         {title: '提现状态', dataIndex: 'cashWithdrawalStatus', key: 'cashWithdrawalStatus', render: (text, record) => judgeWithDrawState(record.cashWithdrawalStatus)},
         {title: '操作', dataIndex: 'operate', key: 'operate', render: (text, record) => <Link onClick={async _ => {
             await new Promise((rsl, rej) => this.setState({withdrawItem: record}, _ => rsl()))
@@ -73,9 +73,9 @@ class ContentContainer extends React.Component {
                     <div className="home-accountitem" key={index}>
                         <p className="home-stitle">{val.title}</p>
                         <p className="home-cash">
-                            {this.handleNum(val.num === 'shopBalance' ? this.props.shopBalance.shopBalance 
-                            : val.title === '成功交易笔数' ? this.props.todaytotal.succeedTotalNumber : this.props.todaytotal.todayTotalMoney)}
-                            <span>{val.title === '成功交易笔数' ? '笔' : '元'}</span>
+                            {this.handleNum(val.num === 'shopBalance' ? fmoney(this.props.shopBalance.shopBalance) 
+                            : val.title === '成功交易笔数' ? this.props.todaytotal.succeedTotalNumber : fmoney(this.props.todaytotal.todayTotalMoney))}
+                            <span style={{paddingLeft: 5}}>{val.title === '成功交易笔数' ? '笔' : '元'}</span>
                         </p>
                         {val.render ? val.render() : null}
                     </div>

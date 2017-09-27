@@ -7,6 +7,7 @@ import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import { CHART_PRIMARY_LOAD, FILTER_CHART } from '../../redux/Actions'
+import { fmoney } from '../../fetchApi/commonApi'
 
 let chart
 @connect(state => ({
@@ -135,7 +136,7 @@ class Chart extends React.Component{
 				<Row className='wrap'>
 					<Col span={12}>
 						<p className='title'>今日总交易额</p>
-						<p className='count'>{this.props.dayTotaldata.totalMoney || 0}</p>
+						<p className='count'>{fmoney(this.props.dayTotaldata.totalMoney)}</p>
 					</Col>
 					<Col span={12}>
 						<p className='title'>成功交易笔数</p>
@@ -147,7 +148,7 @@ class Chart extends React.Component{
 				<Row className='wrap'>
 					<Col span={12}>
 						<p className='title'>累计收入</p>
-						<p className='count'>{this.props.allTotaldata.totalMoney || 0}</p>
+						<p className='count'>{fmoney(this.props.allTotaldata.totalMoney)}</p>
 					</Col>
 					<Col span={12}>
 						<p className='title'>交易笔数</p>
@@ -165,7 +166,7 @@ class Chart extends React.Component{
 						{[{title: '交易金额', key: 'totalMoney'}, {title: '交易笔数', key: 'totalNumber'}].map((val, index) => 
 							<Row key={index}>
 								<Col span={14} style={{textAlign: 'right', paddingRight: 10}} className='itemCol'>{val.title}</Col>
-								<Col span={10} className='itemCol'>{this.props.dayTotaldata[`${item}${val.key}`] || 0}</Col>
+								<Col span={10} className='itemCol'>{val.key === 'totalMoney' ? fmoney(this.props.dayTotaldata[`${item}${val.key}`]) : this.props.dayTotaldata[`${item}${val.key}`] || 0}</Col>
 							</Row>
 						)}
 					</div>
