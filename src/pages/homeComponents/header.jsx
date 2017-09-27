@@ -28,7 +28,7 @@ class HomeHeader extends React.Component{
 				<img className="userNameImg" src={this.props.downloaddata.url != '' ? this.props.downloaddata.url : require(`../../assets/img/personHeadImg.jpg`)} style={{width:40+'px',height:40+'px',borderRadius:20+'px',backgroundColor:'#aaa'}}/>
 				<div className="userName">
 					<div className="userNameCont">
-						<p>{`欢迎, ${this.props.userinfo.nickname ? this.props.userinfo.nickname : '赞赞买单'}`}</p>
+						<p>{`欢迎, ${this.props.userinfo.nickname ? this.props.userinfo.nickname : '赞赞商家'}`}</p>
 						<p className="signOut" onClick={this.props.logout}>退出</p>
 					</div>
 				</div>

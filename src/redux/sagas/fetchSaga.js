@@ -386,7 +386,7 @@ function* getQrcode(){
 	yield takeLatest(ACTION.GET_PAYSRCRET, function* (action){
 		let data = yield call(fetchApi.getPaySecret, action.param)
 		data.code === '200' ? (
-			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `http://zanzanmd.sssvip4.natapp.cc/api-mt//common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}`}),
+			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `${fetchApi.baseUrl}/api-mt/common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}`}),
 			yield put({type: ACTION.MODAL_STATE, data: true})
 		) : throwError(data)
 	})
@@ -437,7 +437,7 @@ function* changePhone(){
 
 function* excelSaga(){
 	yield takeLatest(ACTION.TODO_EXCEL, function* (action){
-		window.location.href = `http://zanzanmd.sssvip4.natapp.cc/api-mt/tb/excel/v1/exportXls?startTime=${action.param.startTime}&endTime=${action.param.endTime}&shopId=${action.param.shopId}`
+		window.location.href = `${fetchApi.baseUrl}/api-mt/tb/excel/v1/exportXls?startTime=${action.param.startTime}&endTime=${action.param.endTime}&shopId=${action.param.shopId}`
 		message.success('下载成功')
 	})
 }

@@ -139,11 +139,11 @@ class Chart extends React.Component{
 				<Row className='wrap'>
 					<Col span={12}>
 						<p className='title'>今日总交易额</p>
-						<p className='count'>{this.props.dayTotaldata.totalMoney ? this.props.dayTotaldata.totalMoney : 0}</p>
+						<p className='count'>{this.props.dayTotaldata.totalMoney || 0}</p>
 					</Col>
 					<Col span={12}>
 						<p className='title'>成功交易笔数</p>
-						<p className='count'>{this.props.dayTotaldata.totalNumber ? this.props.dayTotaldata.totalNumber : 0}</p>
+						<p className='count'>{this.props.dayTotaldata.totalNumber || 0}</p>
 					</Col>
 				</Row>
 			</Col>
@@ -151,25 +151,25 @@ class Chart extends React.Component{
 				<Row className='wrap'>
 					<Col span={12}>
 						<p className='title'>累计收入</p>
-						<p className='count'>{this.props.allTotaldata.totalMoney ? this.props.allTotaldata.totalMoney : 0}</p>
+						<p className='count'>{this.props.allTotaldata.totalMoney || 0}</p>
 					</Col>
 					<Col span={12}>
 						<p className='title'>交易笔数</p>
-						<p className='count'>{this.props.allTotaldata.totalNumber ? this.props.allTotaldata.totalNumber : 0}</p>
+						<p className='count'>{this.props.allTotaldata.totalNumber || 0}</p>
 					</Col>
 				</Row>
 			</Col>
 		</Row>
 		<Row className='billCountContainer' style={{border: 'none', position: 'relative'}}>
 			<span style={{position: 'absolute', left: 25, top: 12, fontSize: 15}}>交易记录</span>
-			{['wX', 'aLIY'].map((item, key) => 
-				<Col span={12} className='ContainerCol' key={key}  style={item === 'wX' ? {justifyContent: 'flex-end'} : {}}>
-					<div className={item === 'wX' ? 'WXitemContainer' : 'ALIYitemContainer'}>
-						<span className='iconContainer'><img src={require(`../../assets/img/images/${item === 'wX' ? '微信' : '支付宝'}icon.png`)}/><p>支付宝</p></span>
-						{[{title: '交易金额', key: 'TotalMoney'}, {title: '交易笔数', key: 'TotalNumber'}].map((val, index) => 
+			{['wx', 'aliy'].map((item, key) => 
+				<Col span={12} className='ContainerCol' key={key}  style={item === 'wx' ? {justifyContent: 'flex-end'} : {}}>
+					<div className={item === 'wx' ? 'WXitemContainer' : 'ALIYitemContainer'}>
+						<span className='iconContainer'><img src={require(`../../assets/img/images/${item === 'wx' ? '微信' : '支付宝'}icon.png`)}/><p>{item === 'wx' ? '微信' : '支付宝'}</p></span>
+						{[{title: '交易金额', key: 'totalMoney'}, {title: '交易笔数', key: 'totalNumber'}].map((val, index) => 
 							<Row key={index}>
 								<Col span={14} style={{textAlign: 'right', paddingRight: 10}} className='itemCol'>{val.title}</Col>
-								<Col span={10} className='itemCol'>{this.props.dayTotaldata[`${item}${val.key}`] ? this.props.dayTotaldata[`${item}${val.key}`] : 0}</Col>
+								<Col span={10} className='itemCol'>{this.props.dayTotaldata[`${item}${val.key}`] || 0}</Col>
 							</Row>
 						)}
 					</div>

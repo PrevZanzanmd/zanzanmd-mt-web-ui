@@ -5,16 +5,7 @@ var http = require('http')
 let cookie = ''
 
 let opt = {
-	// hostname: 'zanzanmd.sssvip4.natapp.cc'
-	hostname: 'vfvkxe.natappfree.cc'
-}
-let loginOpt = {
-	hostname:'zanzanmd.sssvip4.natapp.cc',
-	method:'POST',
-	path: '/api-auth/auth/v1/login',
-	headers: {
-		'Content-Type': 'application/x-www-form-urlencoded'
-	}
+	hostname: 'mt.qdxiao2.com'
 }
 
 
@@ -23,7 +14,7 @@ const getParamHandler = param => {
 	for(let i in param){
 		baseStr += `${i}=${param[i]}&`
 	}
-	return param === {} ? '' : baseStr
+	return param === {} ? '' : baseStr.substring(0, baseStr.length - 1)
 }
 const postParamHandler = param => {
 	let baseStr = ''
@@ -64,32 +55,3 @@ exports.proxy = (res, param, header) => new Promise((reslove, reject) => {
     res.write(body)
 	res.end()
 })
-
-exports.login = (res, param) => new Promise((reslove, reject) => {
-	let body = ''
-	let fnParam = {username: 'admin', password: '123456'}
-	// let fnParam = param.param ? JSON.parse(param.param) : {}
-	let req = http.request(loginOpt, res => {
-			console.log("Got response: " + res.statusCode);
-			res.on('data', d => {
-			  	body += d;
-			}).on('end', _ => {
-			  	reslove(body)
-			});
-		}).on('error', e => {
-		  console.log("Got error: " + e.message);
-		})
-	req.write(querystring.stringify(fnParam))
-	req.end();
-})
-.then(body => opt = Object.assign(opt, {headers: {'Authorization': JSON.parse(body).data}}))
-.then(opt => {
-	res.writeHead(302, {"Content-type": "text/plain", 'location': 'http://192.168.1.111:8096/dist/index.html'})
-	res.end()
-})
-
-
-
-
-
-
