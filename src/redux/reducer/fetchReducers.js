@@ -58,6 +58,8 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 			return copyArr
 		})()})
 
+		case ACTION.RESET: return fetchDataStructure
+
 		default: return state
 	}
 }

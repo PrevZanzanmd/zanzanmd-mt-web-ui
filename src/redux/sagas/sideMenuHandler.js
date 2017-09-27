@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects'
-import { SIDEMENU_COMPLETE } from '../Actions'
+import { takeLatest, takeEvery } from 'redux-saga'
+import { SIDEMENU_COMPLETE, GET_SIDEMENU } from '../Actions'
 
 const sideMenu = [
 	{	icon:'\ue600',
@@ -59,5 +60,11 @@ export function* getSideMenu(){
 	yield put({
 		type: SIDEMENU_COMPLETE,
 		data: sideMenu
+	})
+	yield takeLatest(GET_SIDEMENU, function* (action){
+		yield put({
+			type: SIDEMENU_COMPLETE,
+			data: sideMenu
+		})
 	})
 }

@@ -40,7 +40,7 @@ class ShopPermission extends React.Component{
 					this.props.getShopPerm({userId: id})
 				}}
 				placeholder='请选择店铺'>{
-					this.props.shoplist.map((val, index) => <Option value={val.id} key={index}>{val.shopName}</Option>)
+					this.props.shoplist.map((val, index) => <Option value={val.mtUserId} key={index}>{val.shopName}</Option>)
 				}</Select>
 			</Row>
 			<Spin
