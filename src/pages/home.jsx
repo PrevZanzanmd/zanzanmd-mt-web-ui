@@ -10,7 +10,7 @@ class Home extends React.Component{
 		<Layout className="wrapper">
 			<HomeHeader></HomeHeader>
 			<Layout className = 'contentWrap ant-layout-has-sider'>
-				<SideBar location={this.props.location.pathname}></SideBar>
+				<SideBar path={location.hash}></SideBar>
 				<Content style = {{paddingLeft: 36}}>{this.props.children}</Content>
 			</Layout>
 		</Layout>

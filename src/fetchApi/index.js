@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
 export const baseUrl = 'http://mt.qdxiao2.com'
-export const proxybaseUrl = 'http://192.168.1.106:8096/proxy'
+export const proxybaseUrl = 'http://192.168.1.103:8096/proxy'
 
 const getParamHandler = param => {
 	let baseStr = '?'
