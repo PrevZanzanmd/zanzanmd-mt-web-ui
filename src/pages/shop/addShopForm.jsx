@@ -28,10 +28,11 @@ class AddShopForm extends React.Component{
 			})
 		}
 		if(nextprops.type === 'edit' && this.props.shopDetail !== nextprops.shopDetail){
-			this.state.formItems.map(val => {
+			this.state.formItems.concat([{key: 'spIndustryCode'}, {key: 'jcTerritoryId'}]).map(val => {
 				let obj = {}
 				obj[val.key] = {}
-				obj[val.key].value = nextprops.shopDetail[val.key]
+				obj[val.key].value = val.key == 'jcTerritoryId' ? this.handleInitialValue(nextprops.shopDetail[val.key]) 
+				: nextprops.shopDetail[val.key]
 				nextprops.form.setFields(obj)
 			})
 		}

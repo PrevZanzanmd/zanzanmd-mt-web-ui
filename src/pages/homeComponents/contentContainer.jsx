@@ -49,7 +49,7 @@ class ContentContainer extends React.Component {
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         this.props.filterHome(this.state.searchParam)
     }
-    handleNum = num => num ? num : 0
+    handleNum = num => num || 0
     render = _ =><div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
         <div style={{display: 'flex', alignItems: 'center'}}>

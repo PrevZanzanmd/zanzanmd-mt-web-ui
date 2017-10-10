@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
 export const baseUrl = 'http://mt.qdxiao2.com'
-export const proxybaseUrl = 'http://192.168.1.103:8096/proxy'
+export const proxybaseUrl = 'http://192.168.1.106:8096/proxy'
 
 const getParamHandler = param => {
 	let baseStr = '?'
@@ -39,6 +39,9 @@ specPath === '/api-auth/auth/v1/login'
 // } : {})]
 
 const fetchApi = Obj => fetch(...handleUrl(Obj)).then(res => res.json())
+
+//获取用户信息判断角色
+export const getInitialUserInfo = (param = {}) => fetchApi({specPath: '/api-auth/user/v1/userinfo', method: 'POST', param})
 
 //店铺列表
 export const getShopList = (param = {}) => fetchApi({specPath: '/api-mt/shop/v1/list', param})

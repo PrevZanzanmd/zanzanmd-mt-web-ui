@@ -29,16 +29,13 @@ class BaseMessage extends React.Component{
 		this.props.getUserInfo()
 		this.props.getBankCard()
 	}
-	componentDidMount(){
-		this.props.getUploaddata({type: 2})
-	}
 	state={
 		fileList: [],
 		modalType: 'edit'
 	}
 	openModal = async type => {
 		await new Promise((rsl, rej) => this.setState({modalType: type}, _ => rsl()))
-		this.props.changeModal(true)
+		this.props.getUploaddata({type: 2})
 	}
 
 	removePic = file => this.setState({fileList: []})
