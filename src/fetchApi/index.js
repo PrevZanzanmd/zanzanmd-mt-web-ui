@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
 export const baseUrl = 'http://mt.qdxiao2.com'
-export const proxybaseUrl = 'http://192.168.1.106:8096/proxy'
+export const proxybaseUrl = 'http://192.168.1.104:8096/proxy'
 
 const getParamHandler = param => {
 	let baseStr = '?'
@@ -172,6 +172,20 @@ export const forgetNextStep = (param = {}) => fetchApi({specPath: '/api-account/
 //忘记密码设置新密码
 export const setNewpassword = (param = {}) => fetchApi({specPath: '/api-account/user/v1/newPassword', method: 'POST', param})
 
+//收银员列表
+export const getCashierList = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/list', param})
+
+//删除收银员
+export const deleteCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/del/', param, paramType: 'url'})
+
+//收银员详情
+export const cashierDetail = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/infos', param, paramType: 'url'})
+
+//修改收银员
+export const updateCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/update', param, method: 'POST'})
+
+//添加收银员
+export const addCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/add', param, method: 'POST'})
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})

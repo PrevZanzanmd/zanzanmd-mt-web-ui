@@ -69,17 +69,38 @@ const ShopMenu = [
         title: '卡包',
         path: '/home/sAcard'
     },{
-        icon:'\ue610',
+        icon:'\ue626',
         title: '消息提醒',
         path: '/home/messageSetting'
+    },{
+        icon:'\ue610',
+        title: '收银员管理',
+        path: '/home/sAcashManager'
     }
 ]
 
 const countMenu = [
-	{	icon:'\ue600',
-		title: '首页',
-		path: '/home/ContentContainer'
-	}
+	{
+        icon:'\ue626',
+        title: '账单',
+        path: '/home/sAbill'
+    },{
+        icon:'\ue6a8',
+        title: '店铺',
+        path: '/home/cAshop'
+    },{
+        icon:'\ue615',
+        title: '卡包',
+        path: '/home/sAcard'
+    },{
+        icon:'\ue610',
+        title: '消息提醒',
+        path: '/home/messageSetting'
+    },{
+        icon:'\ue610',
+        title: '我的二维码',
+        path: '/home/cAqrcode'
+    }
 ]
 
 export function* getSideMenu(){

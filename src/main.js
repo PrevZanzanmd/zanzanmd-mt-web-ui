@@ -35,6 +35,12 @@ import SAccountHome from './pages/ShopPages/sAccountHome.jsx'
 import SABill from './pages/ShopPages/sAbill.jsx'
 import SAChart from './pages/ShopPages/sAchart.jsx'
 import SACard from './pages/ShopPages/sAcard.jsx'
+import SAcashManager from './pages/ShopPages/cashierManage.jsx'
+
+//----店铺账号
+
+import CAShop from './pages/CashierPages/myshop.jsx'
+import CAQrcode from './pages/CashierPages/myQrcode.jsx'
 
 
 const handleLogin = (next, replace, cb) => {
@@ -73,6 +79,10 @@ const routeConfig = (
 			<Route path = {'sAbill'} breadcrumbName='账单' component = {SABill}/>
 			<Route path = {'sAchart'} breadcrumbName='报表' component = {SAChart}/>
 			<Route path = {'sAcard'} breadcrumbName='卡包' component = {SACard}/>
+			<Route path = {'sAcashManager'} breadcrumbName='收银员管理' component = {SAcashManager}/>
+
+			<Route path = {'cAshop'} breadcrumbName='店铺' component = {CAShop}/>
+			<Route path = {'cAqrcode'} breadcrumbName='我的二维码' component = {CAQrcode}/>
 		</Route>
 	</Route>
 )

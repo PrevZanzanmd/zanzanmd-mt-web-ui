@@ -23,10 +23,16 @@ function* SAshopdetail(){
 	yield takeLatest(ACTION.S_GET_SHOPDETAIL, getShopInfo, function* (p){
 		let data = yield call(fetchApi.getShopDetail, p.data.id || '')
 		data.code === '200' ? (
-			yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: data.data}),
+			yield call(downloadDetail, data.data),
 			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data.id || ''}})
 		) : throwError(data)
 	})
+}
+
+function* downloadDetail(param){
+	let data = yield call(fetchApi.download, {key: param.headPortrait})
+	data.code == '200' ? yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: Object.assign(param, {headPortrait: data.data})})
+	: yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: param})
 }
 
 function* getPrimaryBill(){
@@ -43,7 +49,6 @@ function* getPrimaryChart(){
 		yield put({type: ACTION.GET_DAYTOTAL, param: {dayTime: handleFullDate()}}),
 		yield put({type: ACTION.GET_CHARTDATA, param: {}})
 	})
-
 }
 
 function* getPrimaryCard(){
@@ -52,9 +57,73 @@ function* getPrimaryCard(){
 	})
 }
 
+function* getQrcode(){
+	yield takeLatest(ACTION.C_GET_PAYSRCRET, function* (action){
+		let data = yield call(fetchApi.getPaySecret, {})
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `${fetchApi.baseUrl}/api-mt/common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}`})
+		) : throwError(data)
+	})
+}
+
+//cashier
+
+function* getCashierlist(){
+	yield takeLatest(ACTION.GET_CASHIERLIST, function* (p){
+		yield put({type: ACTION.START_LOADING})
+		yield put({type: ACTION.S_GET_SHOPDETAIL})
+		let data = yield call(fetchApi.getCashierList)
+		data.code == '200' ? yield put({type: ACTION.GET_CASHIERLIST_COMPLETE, data: data.data}) : throwError(data)
+		yield put({type: ACTION.CLOSE_LOADING})
+	})
+}
+
+function* deleteCashier(){
+	yield takeLatest(ACTION.DELETECASHIER, function* (action){
+		let data = yield call(fetchApi.deleteCashier, action.param)
+		data.code == '200' ? (
+			message.success('删除成功'),
+			yield put({type: ACTION.GET_CASHIERLIST})
+		) : (message.error('删除失败'), throwError(data))
+	})
+}
+
+function* getCashierDetail(){
+	yield takeLatest(ACTION.GET_CASHIERDETAIL, function* (action){
+		let data = yield call(fetchApi.cashierDetail, action.param)
+		data.code == '200' ? (
+			yield put({type: ACTION.GET_CASHIERDETAIL_COMPLETE, data: data.data}),
+			yield put({type: ACTION.MODAL_STATE, data: true})
+		) : throwError(data)
+	})
+}
+
+function* editCashier(cb, action){
+	let data = yield call(cb, action.param)
+	data.code == '200' ? (
+		message.success('操作成功'),
+		yield put({type: ACTION.MODAL_STATE, data: false}),
+		yield put({type: ACTION.GET_CASHIERLIST})
+	) : (message.error('操作失败'), throwError(data))
+}
+
+function* addCashier(){
+	yield takeLatest(ACTION.ADD_CASHIER, editCashier, fetchApi.addCashier)
+}
+
+function* updateCashier(){
+	yield takeLatest(ACTION.EDIT_CASHIER, editCashier, fetchApi.updateCashier)
+}
+
 export default function* (){
 	yield fork(SAshopdetail)
 	yield fork(getPrimaryBill)
 	yield fork(getPrimaryChart)
 	yield fork(getPrimaryCard)
+	yield fork(getQrcode)
+	yield fork(getCashierlist)
+	yield fork(deleteCashier)
+	yield fork(getCashierDetail)
+	yield fork(addCashier)
+	yield fork(updateCashier)
 }
