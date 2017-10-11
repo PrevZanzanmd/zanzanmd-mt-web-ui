@@ -1,11 +1,11 @@
 export const handleTime = time => {
-	let DateTime = new Date(time)
-	return `${DateTime.getFullYear()}-${DateTime.getMonth() + 1 < 10 ? `0${DateTime.getMonth() + 1}` : DateTime.getMonth() + 1}-${DateTime.getDate() < 10 ? `0${DateTime.getDate()}` : DateTime.getDate()}`
+	let D = new Date(time)
+	return `${D.getFullYear()}-${D.getMonth() + 1 < 10 ? `0${D.getMonth() + 1}` : D.getMonth() + 1}-${D.getDate() < 10 ? `0${D.getDate()}` : D.getDate()} ${D.getHours()}:${D.getMinutes()}:${D.getSeconds()}`
 }
 
 export const handleFullDate = _ => {
-	let date = new Date()
-	return `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+	let D = new Date()
+	return `${D.getFullYear()}-${D.getMonth() + 1 < 10 ? `0${D.getMonth() + 1}` : D.getMonth() + 1}-${D.getDate() < 10 ? `0${D.getDate()}` : D.getDate()} ${D.getHours()}:${D.getMinutes()}:${D.getSeconds()}`
 }
 
 export const judgeWithDrawState = state => {

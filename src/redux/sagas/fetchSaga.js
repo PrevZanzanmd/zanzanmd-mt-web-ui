@@ -106,8 +106,16 @@ function* getPrimaryBill(){
 function* filterBill(){
 	yield takeLatest(ACTION.FILTER_BILL, function* (action){
 		yield put({type: ACTION.START_LOADING})
-		yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: action.param.spShopId}})
+		yield put({type: ACTION.GET_TODAYTOTAL, param: action.param.spShopId ? {spShopId: action.param.spShopId} : {} })
 		yield put({type: ACTION.GET_BILLLIST, param: action.param})
+	})
+}
+
+function* filterChart(){
+	yield takeLatest(ACTION.FILTER_CHART, function* (action){
+		yield put({type: ACTION.GET_ALLTOTAL, param: action.param.spShopId ? {spShopId: action.param.spShopId} : {}})
+		yield put({type: ACTION.GET_CHARTDATA, param: action.param.spShopId ? {spShopId: action.param.spShopId} : {}})
+		yield put({type: ACTION.GET_DAYTOTAL, param: Object.assign({}, {dayTime: action.param.dayTime ? action.param.dayTime : handleFullDate()}, action.param.spShopId ? {spShopId: action.param.spShopId} : {}) })
 	})
 }
 
@@ -154,15 +162,6 @@ function* getPrimaryChart(){
 		)
 	})
 }
-
-function* filterChart(){
-	yield takeLatest(ACTION.FILTER_CHART, function* (action){
-		yield put({type: ACTION.GET_ALLTOTAL, param: {spShopId: action.param.spShopId}})
-		yield put({type: ACTION.GET_CHARTDATA, param: {spShopId: action.param.spShopId}})
-		yield put({type: ACTION.GET_DAYTOTAL, param: {spShopId: action.param.spShopId, dayTime: action.param.dayTime ? action.param.dayTime : handleFullDate()}})
-	})
-}
-
 
 function* getPrimaryCard(){
 	yield takeLatest(ACTION.CARD_PRIMARY_LOAD, function* (action){
