@@ -7,8 +7,8 @@ module.exports = {
 	output: {
 		path: resolve(__dirname, '../dist'),
 		publicPath: '/',
-		// filename: '[name][hash].js'
-		filename: '[name].js'
+		filename: '[name][hash].js'
+		// filename: '[name].js'
 	},
 	module: {
 		loaders: [
@@ -39,22 +39,22 @@ module.exports = {
 		]
 	},
 	plugins: [
-		// new htmlPlugin({
-		// 	template: resolve(__dirname, '../index.html')
-		// }),
+		new htmlPlugin({
+			template: resolve(__dirname, '../index.html')
+		}),
 		new webpack.LoaderOptionsPlugin({
 		    minimize: true
 		}),
-		// new webpack.optimize.UglifyJsPlugin({
-	 //      compress: {
-	 //        warnings: false
-	 //      }
-	 //    }),
-	 //    new webpack.DefinePlugin({
-		//   "process.env": { 
-		//      NODE_ENV: JSON.stringify("production") 
-		//    }
-		// })
+		new webpack.optimize.UglifyJsPlugin({
+	      compress: {
+	        warnings: false
+	      }
+	    }),
+	    new webpack.DefinePlugin({
+		  "process.env": { 
+		     NODE_ENV: JSON.stringify("production") 
+		   }
+		})
 	],
 	devtool: 'cheap-source-map'
 }

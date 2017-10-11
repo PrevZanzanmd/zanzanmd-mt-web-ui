@@ -56,7 +56,6 @@ class Bill extends React.Component {
         {label: '交易门店', key: 'merchantName'}]
     }
     handleFilter = async param => {
-        this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         this.props.filterBill(this.state.searchParam)
     }
@@ -71,12 +70,11 @@ class Bill extends React.Component {
             default: return 
         }
     }
-    // handleInitialShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shopInfo.id})}, _ => rsl()))
     handleInitialShopId = _ => null
     handleExcel = async _ => {
         this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
         this.state.searchParam.startTime && this.state.searchParam.endTime ? 
-            this.props.todoExcel({startTime: this.state.searchParam.startTime, endTime: this.state.searchParam.endTime, shopId: this.state.searchParam.spShopId}) : message.error('请选择时间范围')
+            this.props.todoExcel({startTime: this.state.searchParam.startTime, endTime: this.state.searchParam.endTime}) : message.error('请选择时间范围')
     }
     render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>

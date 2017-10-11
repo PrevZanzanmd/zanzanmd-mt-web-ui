@@ -24,7 +24,7 @@ function* SAshopdetail(){
 		let data = yield call(fetchApi.getShopDetail, p.data.id || '')
 		data.code === '200' ? (
 			yield call(downloadDetail, data.data),
-			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data.id || ''}})
+			yield put({type: ACTION.GET_TODAYTOTAL, param: data.data.id ? {spShopId: data.data.id} : {} })
 		) : throwError(data)
 	})
 }
