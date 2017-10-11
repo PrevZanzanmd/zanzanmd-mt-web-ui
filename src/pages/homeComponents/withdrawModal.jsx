@@ -1,12 +1,12 @@
 import React from 'react'
 import { Form, Modal, Button } from 'antd'
 const FormItem = Form.Item
-import { judgeWithDrawState } from '../../fetchApi/commonApi'
+import { judgeWithDrawState, fmoney } from '../../fetchApi/commonApi'
 
 const withdrawItem = [{label: '交易状态', key: 'cashWithdrawalStatus', render: state => judgeWithDrawState(state)},
 {label: '银行卡', key: 'bcBankCardTypeN'},
 {label: '流水号', key: 'orderNumber'},
-{label: '提现金额', key: 'cashWithdrawal'},
+{label: '提现金额', key: 'cashWithdrawal', render: m => fmoney(m)},
 {label: '提现时间', key: 'createTime'}]
 
 const WithdrawModal = props => <Modal

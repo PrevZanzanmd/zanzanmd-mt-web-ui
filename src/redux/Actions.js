@@ -145,7 +145,34 @@ export const SETNEWPASSWORD = 'SETNEWPASSWORD'
 //reset all data
 export const RESET = 'RESET'
 
+//保存判断用户类型用户信息
+export const SAVE_USERCHARACTER = 'SAVE_USERCHARACTER'
 
+
+//--------------------------SHOP ACCOUNT----------------------------------//
+export const S_GET_SHOPDETAIL = 'S_GET_SHOPDETAIL'
+
+export const S_BILL_PRIMARY_LOAD = 'S_BILL_PRIMARY_LOAD'
+
+export const S_CHART_PRIMARY_LOAD = 'S_CHART_PRIMARY_LOAD'
+
+export const S_CARD_PRIMARY_LOAD = 'S_CARD_PRIMARY_LOAD'
+
+export const GET_CASHIERLIST = 'GET_CASHIERLIST'
+export const GET_CASHIERLIST_COMPLETE = 'GET_CASHIERLIST_COMPLETE'
+
+export const DELETECASHIER = 'DELETECASHIER'
+
+export const GET_CASHIERDETAIL = 'GET_CASHIERDETAIL'
+export const GET_CASHIERDETAIL_COMPLETE = 'GET_CASHIERDETAIL_COMPLETE'
+
+export const ADD_CASHIER = 'ADD_CASHIER'
+
+export const EDIT_CASHIER = 'EDIT_CASHIER'
+
+//--------------------------CASHIER ACCOUNT----------------------------------//
+
+export const C_GET_PAYSRCRET = 'C_GET_PAYSRCRET'
 
 
 

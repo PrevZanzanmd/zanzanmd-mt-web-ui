@@ -5,9 +5,9 @@ import { Link } from 'react-router'
 const Option = Select.Option
 const TabPane = Tabs.TabPane
 import BCrumb from '../Components/bCrumb.jsx'
-import CardList from './cardList.jsx'
-import CardForm from './cardForm.jsx'
-import { MODAL_STATE, GET_CARDLIST, CARD_PRIMARY_LOAD, GET_USEDCARD } from '../../redux/Actions'
+import CardList from '../accountManage/cardList.jsx'
+import CardForm from '../accountManage/cardForm.jsx'
+import { MODAL_STATE, GET_CARDLIST, S_CARD_PRIMARY_LOAD, GET_USEDCARD } from '../../redux/Actions'
 
 @connect(state => ({
     loading: state.globaldata.loading,
@@ -17,7 +17,7 @@ import { MODAL_STATE, GET_CARDLIST, CARD_PRIMARY_LOAD, GET_USEDCARD } from '../.
 }), dispath => ({
 	changeModal(state){dispath({type: MODAL_STATE, data: state})},
 	getCardlist(param = {}){dispath({type: GET_CARDLIST, param})},
-	getPrimaryCard(param = {}){dispath({type: CARD_PRIMARY_LOAD, param})},
+	getPrimaryCard(param = {}){dispath({type: S_CARD_PRIMARY_LOAD, param})},
 	getUSedCard(param = {}){dispath({type: GET_USEDCARD, param})}
 }))
 class Card extends React.Component{
@@ -41,7 +41,6 @@ class Card extends React.Component{
     }
 	openNotification = _ => 'This is the content of the notification. This is the content of the notification. This is the content of the notification.'
 	handleFilter = async (param = {}, cb = this.props.getCardlist) => {
-        this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         cb(this.state.searchParam)
     }
@@ -49,7 +48,6 @@ class Card extends React.Component{
     	let obj = Object.assign({}, this.state.searchParam)
     	delete obj.couponStatus
     	delete obj.couponType
-    	obj.spShopId ? null : obj.spShopId = this.props.shoplist[0].id
     	this.props.getUSedCard(obj)
     }
     // getCb = _ => this.state.searchParam.couponStatus === '4' ? this.props.getUSedCard : this.props.getCardlist
@@ -62,20 +60,11 @@ class Card extends React.Component{
 	render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params} />
 		<Row style={{background: '#fff'}}>
-			<Tabs onChange={this.handleTabCheck} tabBarExtraContent={<div>
-						<Link onClick={_ => this.props.changeModal(true)}>卡券使用说明</Link>
-						<Select 
-		                placeholder='请选择店铺'
-		                size='small'
-		                onChange={val => {
-		                    this.setState({selectedItem: val})
-		                    this.handleFilter({spShopId: val}, this.getCb())
-		                }}
-		                {...(_ => this.state.selectedItem !== '' ? {value: this.state.selectedItem} : {})()}                      
-		                style={{ width: 120, margin: '0 20px' }}>
-		                    {this.props.shoplist.map((val, index) => <Option value={val.id} key={index}>{val.shopName}</Option>)}
-		                </Select>
-					</div>}>
+			<Tabs onChange={this.handleTabCheck} tabBarExtraContent={
+					<Link 
+					style={{paddingRight: 15}}
+					onClick={_ => this.props.changeModal(true)}>卡券使用说明</Link>
+				}>
 			    {['优惠券', '红包', '已使用'].map((val, index) => 
 				    <TabPane tab={val} key={index}>
 				    	<Spin spinning={this.props.loading}>

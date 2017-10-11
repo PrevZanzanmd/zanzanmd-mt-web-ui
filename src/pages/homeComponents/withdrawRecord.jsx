@@ -5,7 +5,7 @@ const Option = Select.Option
 import BCrumb from '../Components/bCrumb.jsx'
 import { GET_WITHDRAWLIST, GET_PRIMARYWITHDRAW, MODAL_STATE } from '../../redux/Actions'
 import WithdrawModal from './withdrawModal.jsx'
-import { judgeWithDrawState } from '../../fetchApi/commonApi'
+import { judgeWithDrawState, fmoney } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     loading: state.globaldata.loading,
@@ -65,7 +65,7 @@ class WithdrawRecord extends React.Component {
                                 <span>{val.bcBankCardTypeN}</span>
                             </div>
                             <div style={{flex:2}}>
-                                <p className="widthdraw-money">￥<span>{val.cashWithdrawal}</span></p>
+                                <p className="widthdraw-money">￥<span>{fmoney(val.cashWithdrawal)}</span></p>
                             </div>
                             <div style={{flex:2}}>{val.cashWithdrawalStatus ? judgeWithDrawState(val.cashWithdrawalStatus) : ''}</div>
                             <div className="details" style={{flex:2}}><a className="withdraw-link" onClick={async _ => {

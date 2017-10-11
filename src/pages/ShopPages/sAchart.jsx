@@ -6,7 +6,7 @@ import BCrumb from '../Components/bCrumb.jsx'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
-import { CHART_PRIMARY_LOAD, FILTER_CHART } from '../../redux/Actions'
+import { S_CHART_PRIMARY_LOAD, FILTER_CHART } from '../../redux/Actions'
 import { fmoney } from '../../fetchApi/commonApi'
 
 let chart
@@ -18,10 +18,10 @@ let chart
     dayTotaldata: state.fetchdata.dayTotaldata,
     chartData: state.fetchdata.chartData.coordinateList
 }), dispath => ({
-	getPrimaryChart(){dispath({type: CHART_PRIMARY_LOAD})},
+	getPrimaryChart(){dispath({type: S_CHART_PRIMARY_LOAD})},
 	filterChart(param = {}){dispath({type: FILTER_CHART, param: param})}
 }))
-class Chart extends React.Component{
+class SAChart extends React.Component{
 	componentWillMount = _ => this.props.getPrimaryChart()
 	state = {
 		searchParam: {},
@@ -107,28 +107,13 @@ class Chart extends React.Component{
 		chart.setOption(option)
 	}
 
-	
 	handleFilter = async param => {
-        this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         this.props.filterChart(this.state.searchParam)
     }
 	render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
 		<div style={{display: 'flex', alignItems: 'center'}}>
-			<div>
-				<span style={{padding: '0 10px 0 25px'}}>交易店铺</span>
-				<Select 
-                placeholder='请选择'
-                onChange={val => {
-                	this.setState({selectedItem: val})
-                	this.handleFilter({spShopId: val})
-                }}
-                {...(_ => this.state.selectedItem !== '' ? {value: this.state.selectedItem} : {})()}                       
-                style={{ width: 120}}>
-                    {this.props.shoplist.map((val, index) => <Option value={val.id} key={index}>{val.shopName}</Option>)}
-                </Select>
-			</div>
 			<span style={{padding: '0 10px 0 25px'}}>请选择交易时间</span><DatePicker onChange={(date, dateStr) => this.handleFilter({dayTime: dateStr})}/>
 		</div>
 		<Row style={{marginTop: 17}}>
@@ -182,4 +167,4 @@ class Chart extends React.Component{
 	</div>
 }
 
-export default Chart
+export default SAChart

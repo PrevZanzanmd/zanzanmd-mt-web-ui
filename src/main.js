@@ -29,6 +29,20 @@ import ForgetPassword from './pages/login/forget.jsx'
 import ForgetNext from './pages/login/forgetnext.jsx'
 import RegistAccount from './pages/login/regist.jsx'
 
+//----店铺账号
+
+import SAccountHome from './pages/ShopPages/sAccountHome.jsx'
+import SABill from './pages/ShopPages/sAbill.jsx'
+import SAChart from './pages/ShopPages/sAchart.jsx'
+import SACard from './pages/ShopPages/sAcard.jsx'
+import SAcashManager from './pages/ShopPages/cashierManage.jsx'
+
+//----店铺账号
+
+import CAShop from './pages/CashierPages/myshop.jsx'
+import CAQrcode from './pages/CashierPages/myQrcode.jsx'
+
+
 const handleLogin = (next, replace, cb) => {
 	if(!localStorage.getItem('token') && next.location.pathname != '/login' && next.location.pathname != '/forget' && next.location.pathname != '/forgetnext' && next.location.pathname != '/regist'){
 		replace('/login')
@@ -44,7 +58,7 @@ const routeConfig = (
 		<Route path = {'forgetnext'} breadcrumbName='忘记密码' component = {ForgetNext}/>
 		<Route path = {'regist'} breadcrumbName='用户注册' component = {RegistAccount}/>
 		<Route path = {'home'} breadcrumbName='首页' component = {Home}>
-			<IndexRedirect to="/home/contentContainer"/>
+			// <IndexRedirect to="/home/contentContainer"/>
 			<Route path = {'contentContainer'} breadcrumbName='动态' component = {ContentContainer}/>
 			<Route path = {'withdrawRecord'} breadcrumbName='提现记录' component = {WithdrawRecord}/>
 			<Route path = {'withdraw'} breadcrumbName='提现' component = {Withdraw}/>
@@ -60,6 +74,15 @@ const routeConfig = (
 			<Route path = {'tobill'} breadcrumbName='对账' component = {ToBManage}/>
 			<Route path = {'chart'} breadcrumbName='报表' component = {Chart}/>
 			<Route path = {'mybank'} breadcrumbName='我的银行卡' component = {Mybank}/>
+
+			<Route path = {'sAccountHome'} breadcrumbName='动态' component = {SAccountHome}/>
+			<Route path = {'sAbill'} breadcrumbName='账单' component = {SABill}/>
+			<Route path = {'sAchart'} breadcrumbName='报表' component = {SAChart}/>
+			<Route path = {'sAcard'} breadcrumbName='卡包' component = {SACard}/>
+			<Route path = {'sAcashManager'} breadcrumbName='收银员管理' component = {SAcashManager}/>
+
+			<Route path = {'cAshop'} breadcrumbName='店铺' component = {CAShop}/>
+			<Route path = {'cAqrcode'} breadcrumbName='我的二维码' component = {CAQrcode}/>
 		</Route>
 	</Route>
 )

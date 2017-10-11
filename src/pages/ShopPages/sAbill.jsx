@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 import BCrumb from '../Components/bCrumb.jsx'
 const Option = Select.Option
 const { MonthPicker, RangePicker } = DatePicker
-import { BILL_PRIMARY_LOAD, FILTER_BILL, GET_BILLDETAIL, MODAL_STATE, TODO_EXCEL } from '../../redux/Actions'
+import { S_BILL_PRIMARY_LOAD, FILTER_BILL, GET_BILLDETAIL, MODAL_STATE, TODO_EXCEL } from '../../redux/Actions'
 import { handleTime, fmoney } from '../../fetchApi/commonApi'
 
 @connect(state => ({
@@ -15,11 +15,11 @@ import { handleTime, fmoney } from '../../fetchApi/commonApi'
     billlistdata: state.fetchdata.billlistdata,
     shoplist: state.fetchdata.shoplist,
     todaytotal: state.fetchdata.todaytotal,
-    billDetail: state.fetchdata.billDetail
+    billDetail: state.fetchdata.billDetail,
 }), dispath => ({
-    getPrimaryBill(param = {}){dispath({type: BILL_PRIMARY_LOAD, param: param})},
-    filterBill(param = {}){dispath({type: FILTER_BILL, param: param})},
-    getBillDetail(param = {}){dispath({type: GET_BILLDETAIL, param: param})},
+    getPrimaryBill(param = {}){dispath({type: S_BILL_PRIMARY_LOAD, param})},
+    filterBill(param = {}){dispath({type: FILTER_BILL, param})},
+    getBillDetail(param = {}){dispath({type: GET_BILLDETAIL, param})},
     changeModal(state){dispath({type: MODAL_STATE, data: state})},
     todoExcel(param = {}){dispath({type: TODO_EXCEL, param})}
 }))
@@ -71,7 +71,8 @@ class Bill extends React.Component {
             default: return 
         }
     }
-    handleInitialShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
+    // handleInitialShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shopInfo.id})}, _ => rsl()))
+    handleInitialShopId = _ => null
     handleExcel = async _ => {
         this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
         this.state.searchParam.startTime && this.state.searchParam.endTime ? 
@@ -79,21 +80,8 @@ class Bill extends React.Component {
     }
     render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
-        <div className="trade">
-            <div>
-                <span className="trade-label">交易店铺</span>
-                <Select 
-                placeholder='请选择'
-                onChange={val => {
-                    this.setState({selectedItem: val})
-                    this.handleFilter({spShopId: val})
-                }}
-                {...(_ => this.state.selectedItem !== '' ? {value: this.state.selectedItem} : {})()}                      
-                style={{ width: 120}}>
-                    {this.props.shoplist.map((val, index) => <Option value={val.id} key={index}>{val.shopName}</Option>)}
-                </Select>
-            </div>
-            {this.state.searchRender.map((val, index) => <div key={index}>
+        <div className="trade" style={{justifyContent: 'flex-start'}}>
+            {this.state.searchRender.map((val, index) => <div key={index} style={{marginRight: 10}}>
                 <span className="trade-label">{val.title}</span>
                 {val.render ? val.render() : 
                     <Select 

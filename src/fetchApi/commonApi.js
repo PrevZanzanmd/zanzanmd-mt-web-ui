@@ -1,6 +1,6 @@
 export const handleTime = time => {
 	let DateTime = new Date(time)
-	return `${DateTime.getFullYear()}-${DateTime.getMonth() < 10 ? `0${DateTime.getMonth()}` : DateTime.getMonth()}-${DateTime.getDate() < 10 ? `0${DateTime.getDate()}` : DateTime.getDate()}`
+	return `${DateTime.getFullYear()}-${DateTime.getMonth() + 1 < 10 ? `0${DateTime.getMonth() + 1}` : DateTime.getMonth() + 1}-${DateTime.getDate() < 10 ? `0${DateTime.getDate()}` : DateTime.getDate()}`
 }
 
 export const handleFullDate = _ => {
@@ -31,3 +31,15 @@ export const getBankType = code => {
         default: ''
 	}
 }
+
+export const fmoney = (s = s || '0', n = 2) => {  
+	n = n > 0 && n <= 20 ? n : 2;  
+	s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";  
+	let l = s.split(".")[0].split("").reverse()
+	let r = s.split(".")[1];  
+	let t = "";  
+	for (let i = 0; i < l.length; i++) {  
+		t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");  
+	}  
+	return t.split("").reverse().join("") + "." + r;  
+} 

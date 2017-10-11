@@ -24,10 +24,10 @@ class Sidebar extends React.Component{
         })
     }
     componentWillReceiveProps(nextProps){
-        (f => f(f))(f => list => list.map(val => val.submenu ? f(f)(val.submenu) : val.path === nextProps.location ? this.setState({defaultSelectedKeys: val.title}) : null ))(this.props.sideMenuData)
+        (f => f(f))(f => list => list.map(val => val.submenu ? f(f)(val.submenu) : `#${val.path}` === nextProps.path ? this.setState({defaultSelectedKeys: val.title}) : null ))(this.props.sideMenuData)
     }
     state={defaultSelectedKeys: '', defaultOpenKeys: []}
-    handleHashHistory = (val, state) => location.hash.substring(1, location.hash.length) === val.path ? this.setState(state) : null
+    handleHashHistory = (val, state) => location.hash === `#${val.path}` ? this.setState(state) : null
 
     render = _ => <Sider width={210}>
         <Menu

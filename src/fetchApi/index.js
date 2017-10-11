@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
-// export const baseUrl = 'http://mt.qdxiao2.com'
-export const baseUrl = 'http://192.168.1.106:8096/proxy'
+export const baseUrl = 'http://mt.qdxiao2.com'
+export const proxybaseUrl = 'http://192.168.1.104:8096/proxy'
 
 const getParamHandler = param => {
 	let baseStr = '?'
@@ -18,7 +18,7 @@ const postParamHandler = param => {
 	return baseStr
 }
 
-const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
+const handleUrl = ({path = proxybaseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
 specPath === '/api-auth/auth/v1/login' 
 || specPath === '/api-mt/user/v1/checkPhone' 
 || specPath === '/api-mt/user/v1/getVerificationCode' ? {} : 
@@ -39,6 +39,9 @@ specPath === '/api-auth/auth/v1/login'
 // } : {})]
 
 const fetchApi = Obj => fetch(...handleUrl(Obj)).then(res => res.json())
+
+//获取用户信息判断角色
+export const getInitialUserInfo = (param = {}) => fetchApi({specPath: '/api-auth/user/v1/userinfo', method: 'POST', param})
 
 //店铺列表
 export const getShopList = (param = {}) => fetchApi({specPath: '/api-mt/shop/v1/list', param})
@@ -169,6 +172,20 @@ export const forgetNextStep = (param = {}) => fetchApi({specPath: '/api-account/
 //忘记密码设置新密码
 export const setNewpassword = (param = {}) => fetchApi({specPath: '/api-account/user/v1/newPassword', method: 'POST', param})
 
+//收银员列表
+export const getCashierList = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/list', param})
+
+//删除收银员
+export const deleteCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/del/', param, paramType: 'url'})
+
+//收银员详情
+export const cashierDetail = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/infos', param, paramType: 'url'})
+
+//修改收银员
+export const updateCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/update', param, method: 'POST'})
+
+//添加收银员
+export const addCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/add', param, method: 'POST'})
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})

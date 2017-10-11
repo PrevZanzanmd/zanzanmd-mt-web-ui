@@ -10,7 +10,7 @@ import { SEND_MODIFY, TIME, CHANGE_PHONE } from '../../redux/Actions'
 	loading: state.globaldata.loading,
 	time: state.globaldata.time
 }), dispath => ({
-	sendModify(){dispath({type: SEND_MODIFY})},
+	sendModify(param = {}){dispath({type: SEND_MODIFY, param})},
 	handleTime(state){dispath({type: TIME, data: state})},
 	changePhone(param = {}){dispath({type: CHANGE_PHONE, param})}
 }))
@@ -39,6 +39,12 @@ class SecureSetting extends React.Component{
 	      	}
 	    })
 	}
+	send = _ => {
+		this.props.form.validateFields(['phone'], (err, values) => {
+			if(!err)
+				this.props.sendModify(values)
+		})
+	}
 	render = _ => {
 		const { getFieldDecorator } = this.props.form
 		const formCol = {labelCol: {span: 8}, wrapperCol: {span: 16}}
@@ -63,7 +69,7 @@ class SecureSetting extends React.Component{
 							<Button 
 							size='small' 
 							disabled={this.state.timeBtnDisabled}
-							onClick={this.props.sendModify}
+							onClick={this.send}
 							style={{marginLeft: 10, width: 100}}>{this.state.timeStr}</Button>
 						</FormItem>
 						<FormItem

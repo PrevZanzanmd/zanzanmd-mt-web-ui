@@ -164,7 +164,6 @@ function* filterChart(){
 }
 
 
-
 function* getPrimaryCard(){
 	yield takeLatest(ACTION.CARD_PRIMARY_LOAD, function* (action){
 		yield put({type: ACTION.START_LOADING})
@@ -199,9 +198,9 @@ function* getPrimaryHome(){
 		let data = yield call(fetchApi.getShopList)
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
-			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
-			yield put({type: ACTION.GET_HOMEBALANCE, param: {id: data.data[0] ? data.data[0].id : ''}}),
-			yield put({type: ACTION.GET_WITHDRAWLIST, param: {spShopId: data.data[0] ? data.data[0].id : '', page: 1, rows: 5}})
+			yield put({type: ACTION.GET_TODAYTOTAL, param: {spShopId: data.data[0].id || ''}}),
+			yield put({type: ACTION.GET_HOMEBALANCE, param: {id: data.data[0].id || ''}}),
+			yield put({type: ACTION.GET_WITHDRAWLIST, param: {spShopId: data.data[0].id || '', page: 1, rows: 5}})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
 			throwError(data)
@@ -293,7 +292,7 @@ function* getBaseUserInfo(){
 	})
 }
 function* getuserinfoReload(){
-	yield put({type: ACTION.GET_USERINFO})
+	location.hash == '#/login' || location.hash == '#/forget' || location.hash == '#/forgetnext' || location.hash == '#/regist' ? null : yield put({type: ACTION.GET_USERINFO})
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -303,9 +302,9 @@ function* changeShopPrem(){
 		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.changeShopperm, action.param)
 		data.code === '200' ? (
-			message.success('修改成功'),
+			message.success('操作成功'),
 			yield put({type: ACTION.GET_SHOPPERM, param: {userId: action.param.userId}})
-		) : (message.error('修改失败'), throwError(data))
+		) : (message.error('操作失败'), throwError(data))
 	})
 }
 
@@ -325,7 +324,6 @@ function* changeShopDetail(){
 		action.param.headPortrait === 'block' ? 
 		yield call(uploadShopChange, action.param)
 		: yield call(handleChangeShop, action.param, 'normal')
-		
 	})
 }
 
@@ -341,10 +339,11 @@ function* handleChangeShop(param, type){
 	delete param.uploadParam
 	let data = yield call(fetchApi.changeShop, param)
 	data.code === '200' ? (
-		message.success('修改成功'),
+		message.success('操作成功'),
+		yield put({type: ACTION.MODAL_STATE, data: false}),
 		yield put({type: ACTION.GET_SHOP_LIST, param: {}})
 	) : (
-		message.error('修改失败'),
+		message.error('操作失败'),
 		throwError(data)
 	)
 }
@@ -415,7 +414,7 @@ function* withdraw(){
 
 function* sendModify(){
 	yield takeLatest(ACTION.SEND_MODIFY, function* (action){
-		let data = yield call(fetchApi.sendModify)
+		let data = yield call(fetchApi.sendModify, action.param)
 		data.code === '200' ? (
 			message.success('已向绑定手机号发送验证码'),
 			yield put({type: ACTION.TIME, data: true})
@@ -457,7 +456,10 @@ function* deleteShop(){
 function* getUploadToken(){
 	yield takeLatest(ACTION.GET_UPLOADTOKEN, function* (action){
 		let data = yield call(fetchApi.getUploadToken, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_UPTOKEN_COMPLETE, data: data.data}) : throwError(data)
+		data.code === '200' ? (
+			yield put({type: ACTION.GET_UPTOKEN_COMPLETE, data: data.data}),
+			yield put({type: ACTION.MODAL_STATE, data: true})
+		) : throwError(data)
 	})
 }
 
@@ -466,7 +468,8 @@ function* upload(){
 		let data = yield call(fetchApi.upload, action.param)
 		data.code == '200' ? (
 			message.success('上传成功'),
-			yield put({type: ACTION.DOWNLOAD, param: {key: action.param.key}})
+			yield put({type: ACTION.DOWNLOAD, param: {key: action.param.key}}),
+			yield put({type: ACTION.MODAL_STATE, data: false})
 		) : (message.error('上传失败'))
 	})
 }
@@ -498,13 +501,10 @@ function* login(){
 		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.login, action.param)
 		yield put({type: ACTION.CLOSE_LOADING})
-		yield put({type: ACTION.GET_SIDEMENU})
 		switch(data.code){
 			case '200': 
-				message.success('登录成功')
 				localStorage.setItem('token', data.data)
-				hashHistory.push('/home')
-				yield put({type: ACTION.GET_USERINFO})
+				yield call(judgeUserCharacter)
 				break
 			case '40002': 
 				message.error('用户名或密码错误')
@@ -524,6 +524,16 @@ function* login(){
 				break
 		}
 	})
+}
+
+function* judgeUserCharacter(){
+	let data = yield call(fetchApi.getInitialUserInfo)
+	data.code == '200' ? (
+		message.success('登录成功'),
+		yield put({type: ACTION.SAVE_USERCHARACTER, data: data.data || {}}),
+		yield put({type: ACTION.GET_SIDEMENU, data: data.data.accountType}),
+		yield put({type: ACTION.GET_USERINFO})
+	) : (message.error('登录失败，请稍后再试'), throwError(data))
 }
 
 function* logout(){

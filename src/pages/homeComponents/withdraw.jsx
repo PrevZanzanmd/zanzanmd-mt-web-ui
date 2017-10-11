@@ -47,7 +47,6 @@ class Withdraw extends React.Component {
                 values.bankNo = JSON.parse(values.bankCard).bankNo
                 delete values.bankCard
                 values.spShopId = this.state.searchParam.spShopId
-                console.log(values)
                 this.props.withdraw(values)
             }
         })
@@ -60,10 +59,10 @@ class Withdraw extends React.Component {
         return `${handletime(h)}: ${handletime(m)}`
     }
     getTip = _ => {
-        switch(this.props.withdrawMsg){
+        switch(this.props.withdrawMsg.toUpperCase()){
             case 'SUCCESS': return ''
-            case 'PLEASE_BINDING_THE_BANKCARD': return '未绑定银行卡'
-            case 'WITHDRAWAL_IS_SUCCESS': return '当日已经提现'
+            case 'PLEASE BINDING THE BANKCARD': return '未绑定银行卡'
+            case 'WITHDRAWAL IS SUCCESS': return '当日已经提现'
             case 'OVERTIME': return '提现时间为9:00-18:00'
             default: return ''
         }
