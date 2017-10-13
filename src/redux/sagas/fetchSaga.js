@@ -342,7 +342,7 @@ function* handleChangeShop(param, type){
 		yield put({type: ACTION.MODAL_STATE, data: false}),
 		yield put({type: ACTION.GET_SHOP_LIST, param: {}})
 	) : (
-		message.error('操作失败'),
+		message.error(data.code == '60016' ? '店铺名称重复' : '操作失败'),
 		throwError(data)
 	)
 }
@@ -384,7 +384,7 @@ function* getQrcode(){
 	yield takeLatest(ACTION.GET_PAYSRCRET, function* (action){
 		let data = yield call(fetchApi.getPaySecret, action.param)
 		data.code === '200' ? (
-			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `${fetchApi.baseUrl}/api-mt/common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}`}),
+			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `${fetchApi.baseUrl}/api-mt/common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}&codeNo=${data.data.codeNo}`}),
 			yield put({type: ACTION.MODAL_STATE, data: true})
 		) : throwError(data)
 	})
@@ -475,8 +475,12 @@ function* upload(){
 
 function* download(){
 	yield takeLatest(ACTION.DOWNLOAD, function* (action){
-		let data = yield call(fetchApi.download, action.param)
-		data.code == '200' ? yield put({type: ACTION.DOWNLOAD_COMPLETE, data: {url: data.data, key: action.param.key}}) : throwError(data)
+		if(action.param.key){
+			let data = yield call(fetchApi.download, action.param)
+			data.code == '200' ? yield put({type: ACTION.DOWNLOAD_COMPLETE, data: {url: data.data, key: action.param.key}}) : throwError(data)
+		}else{
+			yield put({type: ACTION.DOWNLOAD_COMPLETE, data: {url: undefined, key: action.param.key}})
+		}
 	})
 }
 
@@ -488,8 +492,10 @@ function* handleFor(shoplist = []){
 
 function* handleShoplist(){
 	yield takeEvery(ACTION.DOWN_LOADLIST, function* (action){
-		let data = yield call(fetchApi.download, {key: action.param.key})
-		data.code == '200' ? yield put({type: ACTION.DOWN_LOADLIST_COMPLETE, data: {url: data.data, key: action.param.key, arrKey: action.param.arrKey}}) : throwError(data)
+		if(action.param.key){
+			let data = yield call(fetchApi.download, {key: action.param.key})
+			data.code == '200' ? yield put({type: ACTION.DOWN_LOADLIST_COMPLETE, data: {url: data.data, key: action.param.key, arrKey: action.param.arrKey}}) : throwError(data)
+		}
 	})
 }
 

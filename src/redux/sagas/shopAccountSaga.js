@@ -21,7 +21,7 @@ function* getShopInfo(cb){
 
 function* SAshopdetail(){
 	yield takeLatest(ACTION.S_GET_SHOPDETAIL, getShopInfo, function* (p){
-		let data = yield call(fetchApi.getShopDetail, p.data.id || '')
+		let data = yield call(fetchApi.getShopDetail, p.data.id ? {id: p.data.id} : {})
 		data.code === '200' ? (
 			yield call(downloadDetail, data.data),
 			yield put({type: ACTION.GET_TODAYTOTAL, param: data.data.id ? {spShopId: data.data.id} : {} })
@@ -30,9 +30,13 @@ function* SAshopdetail(){
 }
 
 function* downloadDetail(param){
-	let data = yield call(fetchApi.download, {key: param.headPortrait})
-	data.code == '200' ? yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: Object.assign(param, {headPortrait: data.data})})
-	: yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: param})
+	if(param.headPortrait){
+		let data = yield call(fetchApi.download, {key: param.headPortrait})
+		data.code == '200' ? yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: Object.assign(param, {headPortrait: data.data})})
+		: yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: param})
+	}else{
+		yield put({type: ACTION.GET_SHOP_DETAIL_SUCCESS, data: Object.assign(param, {headPortrait: undefined})})
+	}
 }
 
 function* getPrimaryBill(){
@@ -61,7 +65,7 @@ function* getQrcode(){
 	yield takeLatest(ACTION.C_GET_PAYSRCRET, function* (action){
 		let data = yield call(fetchApi.getPaySecret, {})
 		data.code === '200' ? (
-			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `${fetchApi.baseUrl}/api-mt/common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}`})
+			yield put({type: ACTION.GET_PAYSRCRET_SUCCESS, data: `${fetchApi.baseUrl}/api-mt/common/gen/qrcode/v1/gennerateQcode?paySecret=${data.data.paySecret}&codeNo=${data.data.codeNo}`})
 		) : throwError(data)
 	})
 }

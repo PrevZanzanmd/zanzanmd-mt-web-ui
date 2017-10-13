@@ -1,11 +1,25 @@
 export const handleTime = time => {
-	let D = new Date(time)
-	return `${D.getFullYear()}-${D.getMonth() + 1 < 10 ? `0${D.getMonth() + 1}` : D.getMonth() + 1}-${D.getDate() < 10 ? `0${D.getDate()}` : D.getDate()} ${D.getHours()}:${D.getMinutes()}:${D.getSeconds()}`
+	let D = new Date(time),
+		Y = D.getFullYear(),
+		M = D.getMonth() + 1,
+		Day = D.getDate(),
+		H = D.getHours(),
+		Minute = D.getMinutes(),
+		S = D.getSeconds(),
+		handleTimenum = num => num < 10 ? `0${num}` : num
+	return `${Y}-${handleTimenum(M)}-${handleTimenum(Day)} ${handleTimenum(H)}:${handleTimenum(Minute)}:${handleTimenum(S)}`
 }
 
 export const handleFullDate = _ => {
-	let D = new Date()
-	return `${D.getFullYear()}-${D.getMonth() + 1 < 10 ? `0${D.getMonth() + 1}` : D.getMonth() + 1}-${D.getDate() < 10 ? `0${D.getDate()}` : D.getDate()} ${D.getHours()}:${D.getMinutes()}:${D.getSeconds()}`
+	let D = new Date(),
+		Y = D.getFullYear(),
+		M = D.getMonth() + 1,
+		Day = D.getDate(),
+		H = D.getHours(),
+		Minute = D.getMinutes(),
+		S = D.getSeconds(),
+		handleTimenum = num => num < 10 ? `0${num}` : num
+	return `${Y}-${handleTimenum(M)}-${handleTimenum(Day)} ${handleTimenum(H)}:${handleTimenum(Minute)}:${handleTimenum(S)}`
 }
 
 export const judgeWithDrawState = state => {

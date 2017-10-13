@@ -40,12 +40,14 @@ class Bill extends React.Component {
             {title: '交易状态', option: [{title: '待支付', value: '1'}, {title: '收款成功', value: '2'}, {title: '已关闭', value: '3'}, {title: '已退款', value: '4'}, {title: '退款失败', value: '5'}]},
             {title: '交易方式', option: [{title: '微信', value: 'WX'}, {title: '支付宝', value: 'ALIY'}]}],
         mtCount: [{title: '今日总交易额', num: '8000.00'}, {title: '成功交易笔数', num: '300'}],
+        
         columns: [{title: '支付方式', dataIndex: 'paymentType', key: 'paymentType', render: (text, record) => <div>{record.paymentType === 'WX' ? '微信' : '支付宝'}</div>},
         {title: '订单号', dataIndex: 'serialNumber', key: 'serialNumber'},
         {title: '交易时间', dataIndex: 'date', key: 'date'},
         {title: '交易金额（元）', dataIndex: 'transactionPrice', key: 'transactionPrice', render: (text, record) => <div>{`¥${fmoney(record.transactionPrice)}`}</div>},
         {title: '交易状态', dataIndex: 'paymentStatus', key: 'paymentStatus', render: (text, record) => <div>{this.chooseState(record.paymentStatus)}</div>},
         {title: '操作', dataIndex: 'operate', key: 'operate', render: (text, record) => <Link onClick={_ => this.props.getBillDetail({id: record.id})}>详情</Link>}],
+
         detailItem: [{label: '交易状态', key: 'paymentStatus', render: state => this.chooseState(state)},
         {label: '实收金额', key: 'receivedPrice', render: m => fmoney(m)},
         {label: '交易金额', key: 'transactionPrice', render: m => fmoney(m)},
