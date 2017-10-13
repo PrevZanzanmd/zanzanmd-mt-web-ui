@@ -5,7 +5,7 @@ const FormItem = Form.Item
 const TabPane = Tabs.TabPane
 import BCrumb from '../Components/bCrumb.jsx'
 import AddShopForm from './addShopForm.jsx'
-import { GET_SHOP_LIST, GET_SHOP_DETAIL, MODAL_STATE, GET_PAYSRCRET, DELETE_SHOP, GET_AREA } from '../../redux/Actions'
+import { GET_SHOP_LIST, GET_SHOP_DETAIL, MODAL_STATE, GET_PAYSRCRET, DELETE_SHOP, GET_AREA, GET_UPLOADTOKEN } from '../../redux/Actions'
 
 @connect(state => ({
 	loading: state.globaldata.loading,
@@ -19,7 +19,8 @@ import { GET_SHOP_LIST, GET_SHOP_DETAIL, MODAL_STATE, GET_PAYSRCRET, DELETE_SHOP
 	changeModal(param){dispath({type: MODAL_STATE, data: param})},
 	getQrcode(param){dispath({type: GET_PAYSRCRET, param: param})},
 	deleteShop(param = {}){dispath({type: DELETE_SHOP, param: param})},
-	getareadata(param = {}){dispath({type: GET_AREA, param: param})}
+	getareadata(param = {}){dispath({type: GET_AREA, param: param})},
+	getUpload(){dispath({type: GET_UPLOADTOKEN, param: {type: 3}})}
 }))
 class MyShop extends React.Component{
 	componentWillMount = _ => {
@@ -85,6 +86,7 @@ class MyShop extends React.Component{
 		<Row>
 			<Tabs onChange={this.handleTabChange} tabBarExtraContent={<Button onClick={_ => {
 				this.props.changeModal(true)
+				this.props.getUpload()
 				this.modalAddShop({type: 'add', title: '添加店铺'})
 			}}>添加店铺</Button>}>
 			    {['所有店铺', '已上线店铺', '已下线店铺'].map((val, index) => 

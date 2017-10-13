@@ -8,6 +8,7 @@ import { GET_INDUSTRY, CHANGE_SHOPDETAIL } from '../../redux/Actions'
 let item = ''
 
 @connect(state => ({
+	loading: state.globaldata.loading,
 	shopDetail: state.fetchdata.shopDetail,
 	industrydata: state.fetchdata.industrydata,
 	selectload: state.globaldata.selectload,
@@ -152,7 +153,7 @@ class AddShopForm extends React.Component{
 			{...formSet}>
 				<Row>
 					<Col>
-						<Button type="primary" htmlType="submit">保存</Button>
+						<Button type="primary" htmlType="submit" loading={this.props.loading}>保存</Button>
 					</Col>
 				</Row>
 			</FormItem>

@@ -320,6 +320,7 @@ function* changeSaga(action, api, thisAction){
 
 function* changeShopDetail(){
 	yield takeLatest(ACTION.CHANGE_SHOPDETAIL, function* (action){
+		yield put({type: ACTION.START_LOADING})
 		action.param.headPortrait === 'block' ? 
 		yield call(uploadShopChange, action.param)
 		: yield call(handleChangeShop, action.param, 'normal')
@@ -327,6 +328,7 @@ function* changeShopDetail(){
 }
 
 function* uploadShopChange(param){
+	console.log(param)
 	let updata = yield call(fetchApi.upload, param.uploadParam)
 	updata.code == '200' ? (
 		yield call(handleChangeShop, param, 'upload')
@@ -345,6 +347,7 @@ function* handleChangeShop(param, type){
 		message.error(data.code == '60016' ? '店铺名称重复' : '操作失败'),
 		throwError(data)
 	)
+	yield put({type: ACTION.CLOSE_LOADING})
 }
 
 function* changeSpAccount(){
