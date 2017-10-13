@@ -20,7 +20,7 @@ let item = ''
 class AddShopForm extends React.Component{
 	componentWillReceiveProps = nextprops => {
 		if(this.props.type != nextprops.type && nextprops.type === 'add'){
-			this.state.formItems.map(val => {
+			this.state.formItems.concat([{key: 'spIndustryCode'}, {key: 'jcTerritoryId'}]).map(val => {
 				let obj = {}
 				obj[val.key] = {}
 				obj[val.key].value = ''
@@ -70,12 +70,12 @@ class AddShopForm extends React.Component{
 	      		this.getIndustryName(values.jcTerritoryId, this.props.areadata, jcList, 'id')
 	        	this.props.changeShopDetail( Object.assign(values, 
 	        		this.props.type === 'edit' ? {
-	        			id: this.props.shopDetail.id,
-	        			uploadParam: {url: this.props.uploadData.url, formData, key: this.props.uploadData.key}
+	        			id: this.props.shopDetail.id
 	        		} : {}, 
+	        		{uploadParam: {url: this.props.uploadData.url, formData, key: this.props.uploadData.key}},
 	        		{spIndustryName: nameList.join('-')},
 	        		{jcTerritoryName: jcList.join('-')},
-	        		{headPortrait: this.state.fileList.length > 0 ? 'block' : this.props.shopDetail.headPortrait}, 
+	        		{headPortrait: this.state.fileList.length > 0 ? 'block' : this.props.type == 'edit' ? this.props.shopDetail.headPortrait : 'personHeadImg.jpg'}, 
 	        		{jcTerritoryId: values.jcTerritoryId[values.jcTerritoryId.length - 1]}) )
 	      	}
 	    })
@@ -95,7 +95,7 @@ class AddShopForm extends React.Component{
 		const { getFieldDecorator } = this.props.form
 		const formSet = {labelCol: {span: 8}, wrapperCol: {span: 16}}
 		return (<Form onSubmit={this.handleSubmit}>
-			{this.props.type === 'edit' ? <FormItem
+			<FormItem
 			label = '店铺头像'
 			{...formSet}>
 				<Upload
@@ -108,7 +108,7 @@ class AddShopForm extends React.Component{
 					    <Icon type="upload" /> 选择文件
 					</Button>
 				</Upload>
-			</FormItem> : null}
+			</FormItem> 
 			<FormItem
 			label = '行业分类'
 			{...formSet}>
@@ -140,7 +140,9 @@ class AddShopForm extends React.Component{
 				label = {val.label}
 				{...formSet}>
 					{getFieldDecorator(val.key, this.handleFormType(val.key, val.rules))(
-						<Input style={{ width: 200 }}/>
+						<Input 
+						disabled= {val.key == 'shopName' && this.props.type == 'edit' ? true : false}
+						style={{ width: 200 }}/>
 					)}
 				</FormItem>
 			)}
