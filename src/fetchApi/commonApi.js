@@ -46,6 +46,8 @@ export const getBankType = code => {
 	}
 }
 
+export const trim = s => s.replace(/(^\s*)|(\s*$)/g, "")
+
 export const fmoney = (s = s || '0', n = 2) => {  
 	n = n > 0 && n <= 20 ? n : 2;  
 	s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";  

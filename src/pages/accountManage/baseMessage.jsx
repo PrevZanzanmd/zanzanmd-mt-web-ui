@@ -8,6 +8,7 @@ import BCrumb from '../Components/bCrumb.jsx'
 import { MODAL_STATE, GET_USERINFO, CHANGE_USERINFO, GET_UPLOADTOKEN, UPLOAD, BANKCARD_LIST } from '../../redux/Actions'
 import AddBankCard from './addbankCard.jsx'
 import { upload } from '../../fetchApi'
+import { trim } from '../../fetchApi/commonApi'
 
 @connect(state => ({
 	loading: state.globaldata.loading,
@@ -85,7 +86,7 @@ class BaseMessage extends React.Component{
 						<FormItem
 						label='昵称'
 						{...formCol}>
-							{getFieldDecorator('nickname', this.handleRules([{required: true, message: '请填写昵称'}], 'nickname'))(
+							{getFieldDecorator('nickname', Object.assign(this.handleRules([{required: true, message: '请填写昵称'}], 'nickname'), {getValueFromEvent: e => trim(e.target.value)}) )(
 								<Input style={{width: 200}}/>
 							)}
 						</FormItem>

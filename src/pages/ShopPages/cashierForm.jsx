@@ -4,6 +4,7 @@ import { Form, Row, Col, Button, Input, Select, Upload, Icon, Spin, Cascader } f
 const FormItem = Form.Item
 const { Option, OptGroup } = Select
 import { GET_INDUSTRY, CHANGE_SHOPDETAIL, ADD_CASHIER, EDIT_CASHIER } from '../../redux/Actions'
+import { trim } from '../../fetchApi/commonApi'
 
 let item = ''
 
@@ -48,7 +49,7 @@ class CashierForm extends React.Component{
 	    })
 	}
 
-	handleFormType = (initialKey, rules = []) => ({rules: rules, initialValue: this.props.type === 'edit' ? this.props.cashierDetail[initialKey] : ''})
+	handleFormType = (initialKey, rules = []) => ({rules: rules, getValueFromEvent: e => trim(e.target.value), initialValue: this.props.type === 'edit' ? this.props.cashierDetail[initialKey] : ''})
 	render = _ => {
 		const { getFieldDecorator } = this.props.form
 		const formSet = {labelCol: {span: 8}, wrapperCol: {span: 16}}

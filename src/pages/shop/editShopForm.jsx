@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Input, Row, Col, Button } from 'antd'
 const FormItem = Form.Item
 import { CHANGE_SHOP_ACCOUNT } from '../../redux/Actions'
+import { trim } from '../../fetchApi/commonApi'
 
 @connect(state => ({
 	shopAccountdata: state.fetchdata.shopAccountdata
@@ -14,8 +15,6 @@ class EditShopForm extends React.Component{
 	    e.preventDefault();
 	    this.props.form.validateFieldsAndScroll((err, values) => {
 	      	if (!err) {
-	        	console.log(values)
-	        	console.log(this.props.id)
 	        	this.props.saveChanges(Object.assign(values, {id: this.props.id}))
 	      	}
 	    })
@@ -30,6 +29,7 @@ class EditShopForm extends React.Component{
 				{...formSet}>
 					{getFieldDecorator('account', {
 					    rules: [{required: true, message: '请填写账号'}, {pattern: !/[@#\$%\^&\*]+/g, message: '不能包含非法字符'}],
+					    getValueFromEvent: e => trim(e.target.value),
 					    initialValue: this.props.shopAccountdata.account
 					})(
 						<Input style={{ width: 200 }}/>
@@ -40,6 +40,7 @@ class EditShopForm extends React.Component{
 				{...formSet}>
 					{getFieldDecorator('password', {
 					    rules: [{required: true, message: '请填写密码'}],
+					    getValueFromEvent: e => trim(e.target.value),
 					    initialValue: this.props.shopAccountdata.password
 					})(
 						<Input style={{ width: 200 }}/>

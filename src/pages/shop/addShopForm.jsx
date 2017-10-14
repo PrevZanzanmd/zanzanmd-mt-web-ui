@@ -4,6 +4,7 @@ import { Form, Row, Col, Button, Input, Select, Upload, Icon, Spin, Cascader } f
 const FormItem = Form.Item
 const { Option, OptGroup } = Select
 import { GET_INDUSTRY, CHANGE_SHOPDETAIL } from '../../redux/Actions'
+import { trim } from '../../fetchApi/commonApi'
 
 let item = ''
 
@@ -91,7 +92,9 @@ class AddShopForm extends React.Component{
 	})(id)(this.props.areadata)
 
 	handleArea = list => (f => f(f))(f => list => list.map(val => Object.assign({value: val.id, label: val.name}, val.childList ? {children: f(f)(val.childList)} : {})))(list)
-	handleFormType = (initialKey, rules = []) => ({rules: rules, initialValue: this.props.type === 'edit' ? this.props.shopDetail[initialKey] : ''})
+	handleFormType = (initialKey, rules = []) => Object.assign({rules: rules,
+		initialValue: this.props.type === 'edit' ? this.props.shopDetail[initialKey] : ''},
+		initialKey == 'spIndustryCode' ? {} : {getValueFromEvent: e => trim(e.target.value)} )
 	render = _ => {
 		const { getFieldDecorator } = this.props.form
 		const formSet = {labelCol: {span: 8}, wrapperCol: {span: 16}}

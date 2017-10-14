@@ -311,7 +311,8 @@ function* changeSaga(action, api, thisAction){
 	let data = yield call(api, thisAction.param)
 	data.code === '200' ? (
 		message.success('修改成功'),
-		yield put({type: action, param: {}})
+		yield put({type: action, param: {}}),
+		yield put({type: ACTION.MODAL_STATE, data: false})
 	) : (
 		message.error('修改失败'),
 		throwError(data)
