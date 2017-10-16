@@ -60,7 +60,7 @@ class CashierForm extends React.Component{
 				label = {val.label}
 				{...formSet}>
 					{getFieldDecorator(val.key, this.handleFormType(val.key, val.rules))(
-						<Input style={{ width: 200 }}/>
+						<Input disabled={this.props.type == 'edit' && val.key == 'account' ? true : false } style={{ width: 200 }}/>
 					)}
 				</FormItem>
 			)}

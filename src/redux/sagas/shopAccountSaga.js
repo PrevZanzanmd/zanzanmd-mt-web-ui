@@ -7,8 +7,8 @@ import * as fetchApi from '../../fetchApi'
 import { handleFullDate } from '../../fetchApi/commonApi'
 
 const throwError = data => {
-	data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login')) : null
-	// console.warn(new Error(data.msg))
+	// data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login')) : null
+	console.warn(new Error(data.msg))
 }
 
 function* getShopInfo(cb){
@@ -21,11 +21,11 @@ function* getShopInfo(cb){
 
 function* SAshopdetail(){
 	yield takeLatest(ACTION.S_GET_SHOPDETAIL, getShopInfo, function* (p){
-		let data = yield call(fetchApi.getShopDetail, p.data.id ? {id: p.data.id} : {})
-		data.code === '200' ? (
+		let data = yield call(fetchApi.getShopDetail)
+		data.code == '200' ? (
 			yield call(downloadDetail, data.data),
 			yield put({type: ACTION.GET_TODAYTOTAL, param: data.data.id ? {spShopId: data.data.id} : {} })
-		) : throwError(data)
+		) : (message.error('获取店铺信息失败'), throwError(data))
 	})
 }
 

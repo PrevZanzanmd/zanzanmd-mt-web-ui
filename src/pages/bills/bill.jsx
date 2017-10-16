@@ -60,7 +60,18 @@ class Bill extends React.Component {
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         this.props.filterBill(this.state.searchParam)
     }
-    handleDate = dateString => this.handleFilter({startTime: dateString[0], endTime: `${dateString[1]} 23:59:59`})
+    handleDate = async dateString => {
+        this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
+        let obj = {...this.state.searchParam}
+        if(dateString[0] == ''){
+            delete obj.startTime
+            delete obj.endTime
+        }else{
+            obj = Object.assign({}, obj, {startTime: dateString[0], endTime: `${dateString[1]} 23:59:59`})
+        }
+        await new Promise((rsl, rej) => this.setState({searchParam: obj}, _ => rsl()))
+        this.props.filterBill(this.state.searchParam)
+    }
     chooseState = state => {
         switch(state){
             case '1': return '待支付'

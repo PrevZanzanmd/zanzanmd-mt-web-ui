@@ -32,7 +32,7 @@ class EditShopForm extends React.Component{
 					    getValueFromEvent: e => trim(e.target.value),
 					    initialValue: this.props.shopAccountdata.account
 					})(
-						<Input style={{ width: 200 }}/>
+						<Input disabled style={{ width: 200 }}/>
 					)}
 				</FormItem>
 				<FormItem

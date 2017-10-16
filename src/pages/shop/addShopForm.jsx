@@ -86,6 +86,7 @@ class AddShopForm extends React.Component{
 	  	nameList.push(val.name),
   		val.childList ? f(f)(val.childList)(arr)(++num) : null
 	) : null ))(list)(arr)(0)
+
 	handleInitialValue = id => (f => f(f))(f => id => list => {
 		(g => g(g))(g => id => list => list.map(i => i.id === id ? (item = i) : i.childList ? g(g)(id)(i.childList) : null ))(id)(list)
 		return item.parentId !== '0' ? f(f)(item.parentId)(this.props.areadata).concat([id]) : [id]
@@ -94,7 +95,8 @@ class AddShopForm extends React.Component{
 	handleArea = list => (f => f(f))(f => list => list.map(val => Object.assign({value: val.id, label: val.name}, val.childList ? {children: f(f)(val.childList)} : {})))(list)
 	handleFormType = (initialKey, rules = []) => Object.assign({rules: rules,
 		initialValue: this.props.type === 'edit' ? this.props.shopDetail[initialKey] : ''},
-		initialKey == 'spIndustryCode' ? {} : {getValueFromEvent: e => trim(e.target.value)} )
+		initialKey == 'spIndustryCode' ? {} : {getValueFromEvent: e => trim(e.target.value)} 
+		)
 	render = _ => {
 		const { getFieldDecorator } = this.props.form
 		const formSet = {labelCol: {span: 8}, wrapperCol: {span: 16}}

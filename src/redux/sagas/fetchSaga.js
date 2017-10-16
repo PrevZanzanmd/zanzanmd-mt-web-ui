@@ -7,8 +7,8 @@ import * as fetchApi from '../../fetchApi'
 import { handleFullDate } from '../../fetchApi/commonApi'
 
 const throwError = data => {
-	data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login')) : null
-	// console.warn(new Error(data.msg))
+	// data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login')) : null
+	console.warn(new Error(data.msg))
 }
 
 function* baseFetchSaga(action, api, thisAction){
@@ -83,7 +83,7 @@ function* getTodayTotal(){
 function* getBilllist(){
 	yield takeLatest(ACTION.GET_BILLLIST, function* (action){
 		let data = yield call(fetchApi.getBilllist, action.param)
-		data.code === '200' ? yield put({type: ACTION.GET_BILLLIST_SUCCESS, data: data.data}) : throwError(data)
+		data.code === '200' ? yield put({type: ACTION.GET_BILLLIST_SUCCESS, data: data.data}) : data.code == '60012' ? yield put({type: ACTION.GET_BILLLIST_SUCCESS, data: {transactionLists: []} }) : throwError(data)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
