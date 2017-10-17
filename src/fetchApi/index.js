@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-fetch'
 import { hashHistory } from 'react-router'
-import { message } from 'antd'
 
 export const baseUrl = 'http://mt.qdxiao2.com'
 export const proxybaseUrl = 'http://192.168.1.106:8096/proxy'
@@ -41,7 +40,10 @@ const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType =
 } : {})]
 
 const fetchApi = Obj => fetch(...handleUrl(Obj)).then(res => res.json()).then(data => {
-	data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login'), data = {code: data.code}) : null
+	data.code === '40003' || data.code === '40001' ? (hashHistory.push({
+		pathname: '/login',
+		state: 'LOSE_EFFECTIVENESS'
+	}), data = {code: data.code}) : null
 	return data
 })
 

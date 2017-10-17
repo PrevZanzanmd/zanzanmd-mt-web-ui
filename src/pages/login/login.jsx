@@ -2,8 +2,12 @@ import React from 'react'
 import {Form, Icon, Input, Button} from 'antd';
 const FormItem = Form.Item;
 import WrappedNormalLoginForm from './signin.jsx'
+import { message } from 'antd'
 
 class Login extends React.Component {
+    componentWillMount(){
+        this.props.location.state ? message.error('登录失效') : null
+    }
     render = _ => <div className='login-wrapper'>
         <div className="header">
             <img style={{width: 385 + 'px',height: 51 + 'px'}} src={require(`../../assets/img/images/logo.png`)}/>
