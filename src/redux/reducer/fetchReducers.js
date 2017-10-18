@@ -26,7 +26,8 @@ const fetchDataStructure = {
 	downloaddata: {url: '', key: ''},
 	forgetdata: {},
 	cashierlist: [],
-	cashierDetail: {}
+	cashierDetail: {},
+	changeShopState: false
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -56,6 +57,9 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 
 		case ACTION.GET_CASHIERLIST_COMPLETE: return Assign(state, { cashierlist: action.data })
 		case ACTION.GET_CASHIERDETAIL_COMPLETE: return Assign(state, { cashierDetail: action.data })
+
+
+		case ACTION.CHANGE_SHOP_COMPLETE: return Assign(state, { changeShopState: action.data })
 
 		case ACTION.DOWN_LOADLIST_COMPLETE: return Assign(state, { shoplist: (_ => {
 			let copyArr = state.shoplist.map(val => val)

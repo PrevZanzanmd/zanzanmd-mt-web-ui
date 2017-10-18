@@ -14,20 +14,27 @@ let item = ''
 	industrydata: state.fetchdata.industrydata,
 	selectload: state.globaldata.selectload,
 	areadata: state.fetchdata.areadata,
-	uploadData: state.fetchdata.uploadData
+	uploadData: state.fetchdata.uploadData,
+	changeShopState: state.fetchdata.changeShopState
 }), dispath => ({
 	getIndustry(param = {}){dispath({type: GET_INDUSTRY, param: param})},
 	changeShopDetail(param = {}){dispath({type: CHANGE_SHOPDETAIL, param: param})}
 }))
 class AddShopForm extends React.Component{
 	componentWillReceiveProps = nextprops => {
-		if(this.props.type != nextprops.type && nextprops.type === 'add'){
+		let clearAddForm = _ => {
 			this.state.formItems.concat([{key: 'spIndustryCode'}, {key: 'jcTerritoryId'}]).map(val => {
 				let obj = {}
 				obj[val.key] = {}
 				obj[val.key].value = ''
 				nextprops.form.setFields(obj)
 			})
+		}
+		if(this.props.changeShopState != nextprops.changeShopState && nextprops.changeShopState){
+			clearAddForm()
+		}
+		if(this.props.type != nextprops.type && nextprops.type === 'add'){
+			clearAddForm()
 		}
 		if(nextprops.type === 'edit' && this.props.shopDetail !== nextprops.shopDetail){
 			this.state.formItems.concat([{key: 'spIndustryCode'}, {key: 'jcTerritoryId'}]).map(val => {

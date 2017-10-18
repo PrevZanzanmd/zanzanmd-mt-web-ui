@@ -342,6 +342,7 @@ function* handleChangeShop(param, type){
 	let data = yield call(fetchApi.changeShop, param)
 	data.code === '200' ? (
 		message.success('操作成功'),
+		yield put({type: ACTION.CHANGE_SHOP_COMPLETE, data: true}),
 		yield put({type: ACTION.MODAL_STATE, data: false}),
 		yield put({type: ACTION.GET_SHOP_LIST, param: {}})
 	) : (
