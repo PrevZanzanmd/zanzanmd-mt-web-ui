@@ -82,7 +82,7 @@ class Bill extends React.Component {
             default: return 
         }
     }
-    handleInitialShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
+    handleInitialShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0] ? this.props.shoplist[0].id : '' })}, _ => rsl()))
     handleExcel = async _ => {
         this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
         this.state.searchParam.startTime && this.state.searchParam.endTime ? 

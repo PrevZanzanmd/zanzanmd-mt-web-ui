@@ -7,8 +7,52 @@ import * as fetchApi from '../../fetchApi'
 import { handleFullDate } from '../../fetchApi/commonApi'
 
 const throwError = data => {
-	// data.code === '40003' || data.code === '40001' ? (message.error('登录失效，请重新登录'), hashHistory.push('/login')) : null
-	console.warn(new Error(data.msg))
+	switch(data.code){
+		case '60001': message.error('修改失败');break
+		case '60002': message.error('数据调取失败，请稍后再试');break
+		case '60003': message.error('账号信息异常,请联系客服提交异常信息');break
+		case '60005': message.error('验证码错误');break
+		case '60008': message.error('实名认证失败');break
+		case '60009': message.error('密码认证失败');break
+		case '60010': message.error('验证码发送失败，请检查网络连接是否正常');break
+		case '60011': message.error('手机未被注册');break
+		case '60013': message.error('请先选择店铺');break
+		case '60014': message.error('请输入商家用户');break
+		case '60015': message.error('⼿机号码已被注册，请修改后再试');break
+		case '60016': message.error('该店铺已存在');break
+		case '60017': message.error('请添加银行卡');break
+		case '60018': message.error('当日已提现，不能重复提现');break
+		case '60019': message.error('不在提现时间');break
+		case '60020': message.error('提现失败');break
+		case '60022': message.error('今日已提现');break
+		case '60023': message.error('获取数据出错，请稍后再试');break
+		case '60026': message.error('持卡人信息错误，请重新核对信息');break
+		case '60027': message.error('手机号错误，请输入正确的手机号');break
+		case '60028': message.error('银行卡信息错误，请核对后再试');break
+		case '60029': message.error('申请充值金失败');break
+		case '60030': message.error('保存失败，请稍后再试');break
+		case '60031': message.error('优惠券已过期，不能进行此操作');break
+		case '60032': message.error('请勿重复操作');break
+		case '60033': message.error('对不起，系统开小差了,请稍后再试');break
+		case '60034': message.error('该身份证号已经绑定账号，请勿重复绑定');break
+		case '60035': message.error('删除失败，请稍后再试');break
+		case '60038': message.error('余额不足');break
+		case '60039': message.error('当前交易状态⽆法退款');break
+		case '60040': message.error('邀请码错误，请核对后再试');break
+		case '60041': message.error('请先添加店铺');break
+		case '60042': message.error('请勿修改相同手机号');break
+		case '60044': message.error('退款失败');break
+		case '60045': message.error('正在退款…');break
+		case '60046': message.error('店铺账号不能为手机号');break
+		case '40050': message.error('账号已存在');break
+		case '40001':
+		case '40002':
+		case '40003':
+		case '40008':
+		case '60012':
+		case '40009': break
+		default: message.error('操作失败！');break
+	}
 }
 
 function* baseFetchSaga(action, api, thisAction){
@@ -303,7 +347,7 @@ function* changeShopPrem(){
 		data.code === '200' ? (
 			message.success('操作成功'),
 			yield put({type: ACTION.GET_SHOPPERM, param: {userId: action.param.userId}})
-		) : (message.error('操作失败'), throwError(data))
+		) : throwError(data)
 	})
 }
 
@@ -313,10 +357,7 @@ function* changeSaga(action, api, thisAction){
 		message.success('修改成功'),
 		yield put({type: action, param: {}}),
 		yield put({type: ACTION.MODAL_STATE, data: false})
-	) : (
-		message.error('修改失败'),
-		throwError(data)
-	)
+	) : throwError(data)
 }
 
 function* changeShopDetail(){
@@ -333,7 +374,7 @@ function* uploadShopChange(param){
 	let updata = yield call(fetchApi.upload, param.uploadParam)
 	updata.code == '200' ? (
 		yield call(handleChangeShop, param, 'upload')
-	) : (message.error('上传失败'), throwError(updasg))
+	) : throwError(updasg)
 }
 
 function* handleChangeShop(param, type){
@@ -345,10 +386,7 @@ function* handleChangeShop(param, type){
 		yield put({type: ACTION.CHANGE_SHOP_COMPLETE, data: true}),
 		yield put({type: ACTION.MODAL_STATE, data: false}),
 		yield put({type: ACTION.GET_SHOP_LIST, param: {}})
-	) : (
-		message.error(data.code == '60016' ? '店铺名称重复' : '操作失败'),
-		throwError(data)
-	)
+	) : throwError(data)
 	yield put({type: ACTION.CLOSE_LOADING})
 }
 
@@ -362,10 +400,7 @@ function* changeCard(){
 		data.code === '200' ? (
 			message.success('添加成功'),
 			yield put({type: action.searchParam.couponStatus === '4' ? ACTION.GET_USEDCARD : ACTION.GET_CARDLIST, param: action.searchParam})
-		) : (
-			message.error('添加失败'),
-			throwError(data)
-		)
+		) : throwError(data)
 	})
 }
 
@@ -376,10 +411,7 @@ function* changeUserInfo(){
 		data.code === '200' ? (
 			message.success('修改成功'),
 			yield put({type: ACTION.GET_USERINFO, param: {}})
-		) : (
-			message.error('修改失败'),
-			throwError(data)
-		)
+		) : throwError(data)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
@@ -401,7 +433,7 @@ function* resetPassword(){
 	yield takeLatest(ACTION.RESET_PASSWORD, function* (action){
 		yield put({type: ACTION.START_LOADING})
 		let data = yield call(fetchApi.resetAuthPassword, action.param)
-		data.code === '200' ? message.success('修改成功') : data.code === '60009' && data.msg === 'OLD_WRONG_PASSWORD' ? message.error('旧密码错误') : (message.error('修改失败'),throwError(data))
+		data.code === '200' ? message.success('修改成功') : throwError(data)
 		yield put({type: ACTION.CLOSE_LOADING})
 	})
 }
@@ -409,7 +441,7 @@ function* resetPassword(){
 function* withdraw(){
 	yield takeLatest(ACTION.WITHDRAW, function* (action){
 		let data = yield call(fetchApi.withDraw, action.param)
-		data.code === '200' ? message.success('提现成功') : (message.error('提现失败'), throwError(data))
+		data.code === '200' ? message.success('提现成功') : throwError(data)
 		yield put({type: ACTION.FILTER_WITHDRAWBANK, param: {spShopId: action.param.spShopId}})
 	})
 }
@@ -422,17 +454,14 @@ function* sendModify(){
 		data.code === '200' ? (
 			message.success('已向绑定手机号发送验证码'),
 			yield put({type: ACTION.TIME, data: true})
-		) : (message.error('发送失败，请稍后再试'), throwError(data))
+		) : throwError(data)
 	})
 }
 
 function* changePhone(){
 	yield takeLatest(ACTION.CHANGE_PHONE, function* (action){
 		let data = yield call(fetchApi.changePhone, action.param)
-		data.code === '200' ? message.success('修改成功') : (
-			message.error(data.code === '60015' && data.msg === 'PHONE_ALREADY_REGISTERED' ? '手机号已被注册' : '修改失败'),
-			throwError(data)
-		)
+		data.code === '200' ? message.success('修改成功') : throwError(data)
 	})
 }
 
@@ -452,7 +481,7 @@ function* deleteShop(){
 		data.code === '200' ? (
 			message.success('删除成功'),
 			yield put({type: ACTION.GET_SHOP_LIST, param: {}})
-		) : (message.error('删除失败'), throwError(data))
+		) : throwError(data)
 	})
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -543,7 +572,7 @@ function* judgeUserCharacter(){
 		yield put({type: ACTION.SAVE_USERCHARACTER, data: data.data || {}}),
 		yield put({type: ACTION.GET_SIDEMENU, data: data.data.accountType}),
 		yield put({type: ACTION.GET_USERINFO})
-	) : (message.error('登录失败，请稍后再试'), throwError(data))
+	) : message.error('登录失败，请稍后再试')
 }
 
 function* logout(){
@@ -553,7 +582,7 @@ function* logout(){
 			message.success('退出成功'),
 			localStorage.removeItem('token'),hashHistory.push('/login'),
 			yield put({type: ACTION.RESET})
-		) : (message.error('退出登录失败，请刷新重试'), throwError(data))
+		) : message.error('退出登录失败，请刷新重试')
 	})
 }
 
@@ -562,7 +591,7 @@ function* logout(){
 function* sendRegCode(){
 	yield takeLatest(ACTION.SENDREGCODE, function* (action){
 		let data = yield call(fetchApi.validatePhone, action.param)
-		data.code === '200' ? yield call(sendCode, fetchApi.sendRegcode, action.param) : (message.error('手机号已被注册'), throwError(data))
+		data.code === '200' ? yield call(sendCode, fetchApi.sendRegcode, action.param) : throwError(data)
 	})
 }
 function* sendCode(api, param){
@@ -570,7 +599,7 @@ function* sendCode(api, param){
 	data.code === '200' ? (
 		message.success('已向绑定手机号发送验证码'),
 		yield put({type: ACTION.TIME, data: true})
-	) : (message.error(data.msg === 'phone locked' ? '手机号已锁定' : '发送失败，请稍后再试'), throwError(data))
+	) : throwError(data)
 }
 
 function* register(){
@@ -578,13 +607,13 @@ function* register(){
 		let data = yield call(fetchApi.registerPhone, {phone: action.param.phone, code: action.param.code})
 		action.param.phoneNo = action.param.phone
 		delete action.param.phone
-		data.code === '200' ? yield call(saveRegister, action.param) : (message.error('验证码错误'), throwError(data))
+		data.code === '200' ? yield call(saveRegister, action.param) : throwError(data)
 	})
 }
 
 function* saveRegister(param){
 	let data = yield call(fetchApi.saveRegister, param)
-	data.code === '200' ? (message.success('注册成功'), hashHistory.push('/login')) : (message.error('注册失败'), throwError(data))
+	data.code === '200' ? (message.success('注册成功'), hashHistory.push('/login')) : throwError(data)
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -598,14 +627,14 @@ function* sendForgetCode(){
 function* forgetNextstep(){
 	yield takeLatest(ACTION.FORGETNEXTSTEP, function* (action){
 		let data = yield call(fetchApi.forgetNextStep, action.param)
-		data.code === '200' ? (yield put({type: ACTION.VALIDATEFORGETCOMPLETE, data: action.param}), hashHistory.push('/forgetnext')) : (message.error('校验验证码失败'), throwError(data))
+		data.code === '200' ? (yield put({type: ACTION.VALIDATEFORGETCOMPLETE, data: action.param}), hashHistory.push('/forgetnext')) : throwError(data)
 	})
 }
 
 function* setNewpassword(){
 	yield takeLatest(ACTION.SETNEWPASSWORD, function* (action){
 		let data = yield call(fetchApi.setNewpassword, action.param)
-		data.code === '200' ? (message.success('设置新密码成功'), hashHistory.push('/login')) : (message.error('设置新密码失败'), throwError(data))
+		data.code === '200' ? (message.success('设置新密码成功'), hashHistory.push('/login')) : throwError(data)
 	})
 }
 

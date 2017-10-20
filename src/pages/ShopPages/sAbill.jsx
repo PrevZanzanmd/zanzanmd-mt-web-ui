@@ -82,12 +82,6 @@ class Bill extends React.Component {
             default: return 
         }
     }
-    handleInitialShopId = _ => null
-    handleExcel = async _ => {
-        this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
-        this.state.searchParam.startTime && this.state.searchParam.endTime ? 
-            this.props.todoExcel({startTime: this.state.searchParam.startTime, endTime: this.state.searchParam.endTime}) : message.error('请选择时间范围')
-    }
     render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
         <div className="trade" style={{justifyContent: 'flex-start'}}>

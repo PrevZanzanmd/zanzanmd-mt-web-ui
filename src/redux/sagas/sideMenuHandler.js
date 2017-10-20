@@ -41,10 +41,12 @@ const sideMenu = [
 			},{
 				title: '安全设置',
 				path: '/home/secureSetting'
-			},{
-				title: '消息提醒',
-				path: '/home/messageSetting'
-			},{
+			},
+			// {
+			// 	title: '消息提醒',
+			// 	path: '/home/messageSetting'
+			// },
+			{
 				title: '卡包',
 				path: '/home/card'
 			}
@@ -68,11 +70,13 @@ const ShopMenu = [
         icon:'\ue6a8',
         title: '卡包',
         path: '/home/sAcard'
-    },{
-        icon:'\ue626',
-        title: '消息提醒',
-        path: '/home/messageSetting'
-    },{
+    },
+    // {
+    //     icon:'\ue626',
+    //     title: '消息提醒',
+    //     path: '/home/messageSetting'
+    // },
+    {
         icon:'\ue610',
         title: '收银员管理',
         path: '/home/sAcashManager'
@@ -92,11 +96,13 @@ const countMenu = [
         icon:'\ue615',
         title: '卡包',
         path: '/home/sAcard'
-    },{
-        icon:'\ue610',
-        title: '消息提醒',
-        path: '/home/messageSetting'
-    },{
+    },
+    // {
+    //     icon:'\ue610',
+    //     title: '消息提醒',
+    //     path: '/home/messageSetting'
+    // },
+    {
         icon:'\ue610',
         title: '我的二维码',
         path: '/home/cAqrcode'
@@ -107,7 +113,7 @@ export function* getSideMenu(){
 	if(localStorage.getItem('token')){
 		let data = yield call(getInitialUserInfo)
 		yield put({type: SAVE_USERCHARACTER, data: data.data || {} })
-		let type = data.data.accountType
+		let type = data.data ? data.data.accountType : '1'
 		data.code == '200' ? yield put({type: SIDEMENU_COMPLETE, data: type == '3' ? countMenu : type == '2' ? ShopMenu : sideMenu }) : throwError(data)
 	}
 	yield takeLatest(GET_SIDEMENU, function* (action){
