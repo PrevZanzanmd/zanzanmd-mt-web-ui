@@ -42,7 +42,7 @@ export const getBankType = code => {
         case '406254': return 'guangdabank'
         case '545947': return 'zhaoshangbank'
         case '622848': return 'nongyebank'
-        default: ''
+        default: return 'defaultBank'
 	}
 }
 

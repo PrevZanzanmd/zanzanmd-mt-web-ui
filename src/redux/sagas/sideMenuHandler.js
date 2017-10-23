@@ -114,7 +114,7 @@ export function* getSideMenu(){
 		let data = yield call(getInitialUserInfo)
 		yield put({type: SAVE_USERCHARACTER, data: data.data || {} })
 		let type = data.data ? data.data.accountType : '1'
-		data.code == '200' ? yield put({type: SIDEMENU_COMPLETE, data: type == '3' ? countMenu : type == '2' ? ShopMenu : sideMenu }) : throwError(data)
+		data.code == '200' ? yield put({type: SIDEMENU_COMPLETE, data: type == '3' ? countMenu : type == '2' ? ShopMenu : sideMenu }) : null
 	}
 	yield takeLatest(GET_SIDEMENU, function* (action){
 		let menu = action.data == '3' ? countMenu : action.data == '2' ? ShopMenu : sideMenu
