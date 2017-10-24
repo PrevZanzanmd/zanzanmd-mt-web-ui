@@ -11,6 +11,16 @@ import { trim } from '../../fetchApi/commonApi'
 	saveChanges(param = {}){dispath({type: CHANGE_SHOP_ACCOUNT, param: param})}
 }))
 class EditShopForm extends React.Component{
+	componentWillReceiveProps = n => {
+		if(this.props.shopAccountdata !== n.shopAccountdata){
+			[{key: 'account'}, {key: 'password'}].map(val => {
+				let obj = {}
+				obj[val.key] = {}
+				obj[val.key].value = n.shopAccountdata[val.key]
+				n.form.setFields(obj)
+			})
+		}
+	}
 	handleSubmit = (e) => {
 	    e.preventDefault();
 	    this.props.form.validateFieldsAndScroll((err, values) => {

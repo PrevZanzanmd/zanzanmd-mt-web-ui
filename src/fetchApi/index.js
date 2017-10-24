@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 import { hashHistory } from 'react-router'
 
 export const baseUrl = 'http://mt.qdxiao2.com'
-export const proxybaseUrl = 'http://192.168.1.106:8096/proxy'
+export const proxybaseUrl = 'http://192.168.1.104:8096/proxy'
 
 const getParamHandler = param => {
 	let baseStr = '?'
@@ -197,6 +197,9 @@ export const updateCashier = (param = {}) => fetchApi({specPath: '/api-account/c
 
 //添加收银员
 export const addCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v1/add', param, method: 'POST'})
+
+//获取提现手续费
+export const getWithdrawFee = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/getCommission', param, method: 'GET'})
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})

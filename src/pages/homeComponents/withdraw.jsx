@@ -5,22 +5,27 @@ const FormItem = Form.Item
 const Option = Select.Option
 import BCrumb from '../Components/bCrumb.jsx'
 const RadioGroup = Radio.Group;
-import { GET_PRIMARYBANK, FILTER_WITHDRAWBANK, WITHDRAW } from '../../redux/Actions'
-import { getBankType } from '../../fetchApi/commonApi'
+import { GET_PRIMARYBANK, FILTER_WITHDRAWBANK, WITHDRAW, GET_FEE } from '../../redux/Actions'
+import { getBankType, fmoney } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     shoplist: state.fetchdata.shoplist,
     bankCardlist: state.fetchdata.bankCardlist,
     shopBalance: state.fetchdata.shopBalance,
-    withdrawMsg: state.fetchdata.withdrawMsg
+    withdrawMsg: state.fetchdata.withdrawMsg,
+    withdrawFee: state.fetchdata.withdrawFee
 }), dispath => ({
     getPrimaryBank(param = {}){dispath({type: GET_PRIMARYBANK, param})},
     filterbank(param = {}){dispath({type: FILTER_WITHDRAWBANK, param})},
-    withdraw(param = {}){dispath({type: WITHDRAW, param})}
+    withdraw(param = {}){dispath({type: WITHDRAW, param})},
+    getFee(){dispath({type: GET_FEE})}
 }))
 class Withdraw extends React.Component {
     constructor(props){super(props)}
-    componentWillMount = _ => this.props.getPrimaryBank()
+    componentWillMount = _ => {
+        this.props.getPrimaryBank()
+        this.props.getFee()
+    }
     componentDidUpdate(){
         if(!this.state.selected && this.props.shoplist.length > 0)
             this.setState({selected: true, selectedItem: this.props.shoplist[0].id})
@@ -29,7 +34,8 @@ class Withdraw extends React.Component {
         radioVal: '',
         selected: false,
         selectedItem: '',
-        searchParam: {}
+        searchParam: {},
+        num: 0
     }
     setPrimaryShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
     handleFilter = async param => {
@@ -47,6 +53,7 @@ class Withdraw extends React.Component {
                 values.bankNo = JSON.parse(values.bankCard).bankNo
                 delete values.bankCard
                 values.spShopId = this.state.searchParam.spShopId
+                values.commission = fmoney(values.cashWithdrawal * this.props.withdrawFee / 1000)
                 this.props.withdraw(values)
             }
         })
@@ -114,12 +121,13 @@ class Withdraw extends React.Component {
                                     ) : '未绑定银行卡'}
                                 </RadioGroup>
                             )}
+                            <span style={{color: 'rgb(163,163,163)'}}>{`提现手续费率${this.props.withdrawFee}‰`}</span>
                         </FormItem>
                         <FormItem
                         {...formCol}
                         label='提现金额'>
                             {getFieldDecorator('cashWithdrawal', {rules:[{required: true, message: '请填写提现金额'}]})(
-                                <InputNumber width={120} min={0.01}/>
+                                <InputNumber width={120} min={0.01} onChange={val => this.setState({num: val || 0 }) }/>
                             )}
                             <span style={{fontSize:12+'px',color:'#a3a3a3', paddingLeft: 10}}>{`当前店铺余额${this.props.shopBalance.shopBalance ? this.props.shopBalance.shopBalance : 0}元`}</span>
                         </FormItem>   
@@ -138,6 +146,11 @@ class Withdraw extends React.Component {
                                 type="primary" 
                                 style={{marginRight: 20}} 
                                 htmlType="submit">确定</Button>
+
+                                <span style={ Object.assign({
+                                    color: 'rgb(163, 163, 163)', 
+                                    paddingRight: 20}, this.props.withdrawMsg != 'SUCCESS' || this.state.num <= 0 ? {display: 'none'} : null ) }>{`额外收取${ fmoney(this.state.num * this.props.withdrawFee / 1000) }元手续费`}</span>
+
                                 <span 
                                 style={Object.assign({color: 'red'}, this.props.withdrawMsg === 'SUCCESS' ? {visibility: 'hidden'} : null )}>{this.getTip()}</span>
                             </Row>

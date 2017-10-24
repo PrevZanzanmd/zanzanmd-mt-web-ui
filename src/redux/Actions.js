@@ -149,6 +149,10 @@ export const RESET = 'RESET'
 //保存判断用户类型用户信息
 export const SAVE_USERCHARACTER = 'SAVE_USERCHARACTER'
 
+//获取提现手续费
+export const GET_FEE = 'GET_FEE'
+export const GET_FEE_COMPLETE = 'GET_FEE_COMPLETE'
+
 
 //--------------------------SHOP ACCOUNT----------------------------------//
 export const S_GET_SHOPDETAIL = 'S_GET_SHOPDETAIL'

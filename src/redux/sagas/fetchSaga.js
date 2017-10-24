@@ -638,6 +638,13 @@ function* setNewpassword(){
 	})
 }
 
+function* getWithdrawFee(){
+	yield takeLatest(ACTION.GET_FEE, function* (action){
+		let data = yield call(fetchApi.getWithdrawFee, action.param)
+		data.code == '200' ? yield put({type: ACTION.GET_FEE_COMPLETE, data: data.data }) : throwError(data)
+	})
+}
+
 export default function* (){
 	yield fork(getShopList)
 	yield fork(getShopDetail)
@@ -692,4 +699,5 @@ export default function* (){
 	yield fork(forgetNextstep)
 	yield fork(setNewpassword)
 	yield fork(getuserinfoReload)
+	yield fork(getWithdrawFee)
 }

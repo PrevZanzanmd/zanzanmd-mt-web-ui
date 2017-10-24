@@ -56,12 +56,12 @@ class ForgetPasswrod extends React.Component {
                         <div className="login-form-name"><span className="login-form-text">忘记密码</span></div>
                         <FormItem>
                             {getFieldDecorator('phone', {
-                                rules: [{ required: true, message: '请输入手机号！' }, {pattern: /^1[34578]\d{9}$/, message: '请输入正确手机号'}],
+                                rules: [{ required: true, message: '请输入账号！' }, {pattern: /^1[34578]\d{9}$/, message: '请输入正确账号'}],
                             })(
                                 <Input 
                                 className="account-tel" 
                                 onChange={e => this.setState({phone: e.target.value})} 
-                                placeholder="请输入手机号" />
+                                placeholder="请输入账号" />
                             )}
                         </FormItem>
                         <FormItem>
