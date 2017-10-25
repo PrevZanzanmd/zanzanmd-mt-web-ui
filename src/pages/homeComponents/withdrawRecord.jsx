@@ -5,7 +5,7 @@ const Option = Select.Option
 import BCrumb from '../Components/bCrumb.jsx'
 import { GET_WITHDRAWLIST, GET_PRIMARYWITHDRAW, MODAL_STATE } from '../../redux/Actions'
 import WithdrawModal from './withdrawModal.jsx'
-import { judgeWithDrawState, fmoney } from '../../fetchApi/commonApi'
+import { judgeWithDrawState, fmoney, getBankType } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     loading: state.globaldata.loading,
@@ -55,7 +55,9 @@ class WithdrawRecord extends React.Component {
                     {this.props.withdrawlist.list.map((val, index) => 
                         <li className="widthdraw-record" key={index}>
                             <div style={{flex:2}}>
-                                <img className="bankimg" src="http://p2.so.qhimgs1.com/t016449f1b71623bc92.jpg"/>
+                                <span 
+                                style={{backgroundImage: `url(${require(`../../assets/img/images/${getBankType(val.typeSix)}.png`)})`, backgroundSize: '16px 16px'}}
+                                className="bankimg" ></span>
                                 <div className="bank-time">
                                     <span>{val.createTime.split(' ')[0]}</span>
                                     <span className="widthdarw-sub">{val.createTime.split(' ')[1]}</span>
