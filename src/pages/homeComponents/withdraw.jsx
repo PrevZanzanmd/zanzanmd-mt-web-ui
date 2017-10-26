@@ -111,7 +111,7 @@ class Withdraw extends React.Component {
                                             <div className="cash-bankbox">
                                                 <div className="bank-box">
                                                     <span 
-                                                    style={{backgroundImage: `url(${require(`../../assets/img/images/${getBankType(val.bcBankCardTypeCode)}.png`)})`, backgroundSize: '16px 16px'}}
+                                                    style={{backgroundImage: `url(${require(`../../assets/img/images/${getBankType(val.bcBankCardTypeN)}.png`)})`, backgroundSize: '16px 16px'}}
                                                     className="bank-img" ></span>
                                                     <span className="bank-name">{val.bcBankCardTypeN}</span>
                                                 </div>

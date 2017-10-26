@@ -31,18 +31,25 @@ export const judgeWithDrawState = state => {
 	}
 }
 
-export const getBankType = code => {
-	switch(code){
-		case '622760': return 'zhongguobank'
-        case '458123': return 'jiaotongbank'
-        case '552599': return 'nongyebank'
-        case '436742': return 'jianshebank'
-        case '622230': return 'gongshangbank'
-        case '528948': return 'minshengbank'
-        case '406254': return 'guangdabank'
-        case '545947': return 'zhaoshangbank'
-        case '622848': return 'nongyebank'
-        default: return 'defaultBank'
+export const getBankType = name => {
+	switch(name){
+        case '中国银行': return 'zhongguobank'
+        case '交通银行': return 'jiaotongbank'
+        case '农业银行': return 'nongyebank'
+        case '建设银行': return 'jianshebank'
+        case '工商银行': return 'gongshangbank'
+        case '民生银行': return 'minshengbank'
+        case '光大银行': return 'guangdabank'
+        case '招商银行': return 'zhaoshangbank'
+        case '平安银行': return 'pinganbank'
+        case '上海银行': return 'shanghaibank'
+        case '兴业银行': return 'xingyebank'
+        case '广发银行': return 'guangfabank'
+        case '中信银行': return 'zhongxinbank'
+        case '邮政银行': return 'youzhengbank'
+        case '青岛银行': return 'qingdaobank'
+        case '青岛农商银行': return 'qingdaonongshangbank'
+        default: return 'banklogo'
 	}
 }
 

@@ -33,7 +33,7 @@ class Mybank extends React.Component {
                                         <div className="bank-name">
                                             <div className="bank-which">
                                                 <img className="bankicon"
-                                                src={require(`../../assets/img/images/${getBankType(val.bcBankCardTypeCode)}.png`)}/>
+                                                src={require(`../../assets/img/images/${getBankType(val.bcBankCardTypeN)}.png`)}/>
                                                 <span>{val.bcBankCardTypeN}</span>
                                             </div>
                                             <div className="bank-num">

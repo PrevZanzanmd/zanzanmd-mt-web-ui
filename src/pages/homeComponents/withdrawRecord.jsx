@@ -56,7 +56,7 @@ class WithdrawRecord extends React.Component {
                         <li className="widthdraw-record" key={index}>
                             <div style={{flex:2}}>
                                 <span 
-                                style={{backgroundImage: `url(${require(`../../assets/img/images/${getBankType(val.typeSix)}.png`)})`, backgroundSize: '16px 16px'}}
+                                style={{backgroundImage: `url(${require(`../../assets/img/images/${getBankType(val.bcBankCardTypeN)}.png`)})`, backgroundSize: '16px 16px'}}
                                 className="bankimg" ></span>
                                 <div className="bank-time">
                                     <span>{val.createTime.split(' ')[0]}</span>
