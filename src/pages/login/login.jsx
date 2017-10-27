@@ -14,92 +14,30 @@ class Login extends React.Component {
         </div>
         <div className="content-wrapper" style={{
             width: 100 + '%',
-            height: 464 + 'px',
-            backgroundImage: `url(${require(`../../assets/img/images/bg.png`)})`
+            height: 464 + 'px'
         }}>
             <div className="content">
-                <div className="zzinfor">
-                    <img className="title-header" src={require(`../../assets/img/images/text.png`)}/>
-                    <h5 className="infor-h5">带动消费打造最快的商家引流和圈粉平台</h5>
-                    <p className="infor-p">以微信支付、支付宝支付的快捷支付为基础，向用户提供安全、快捷、高效的支付服务。</p>
-                    <p className="infor-p">带动消费打造最快的商家引流和圈粉平台,以微信支付、支付宝支付的快捷支付为基础，向用户提供安全、快捷、高效的支付服务。</p>
-                </div>
                 <div className="zzlogin">
                     <div className="login-cont">
-                        <div className="login-btn"></div>
                         <WrappedNormalLoginForm></WrappedNormalLoginForm>
-                        <div className="login-qr">
-                            <div className="login-form-name">扫码登录</div>
-                            <div className="login-form-qr"></div>
-                            <div className="login-form-dec">请使用手机扫码登录</div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div className="message">
-            <div className="lasted-news">
-                <img className="lasted-title" src={require(`../../assets/img/images/gonggao.png`)}/>
-                <ul className="newsitems">
-                    <li className="news-item">
-                        <span className="lasted-date">[7.25]</span>
-                        <a className="lasted-cont" href="">关于赞赞买单手机版上线的时...</a>
-                        <img className="newicon" src={require(`../../assets/img/images/new.png`)}/>
-                    </li>
-                    <li className="news-item">
-                        <span className="lasted-date">[7.25]</span>
-                        <a className="lasted-cont" href="">关于赞赞买单手机版上线的时...</a>
-                        <img className="newicon" src={require(`../../assets/img/images/new.png`)}/>
-                    </li>
-                    <li className="news-item">
-                        <span className="lasted-date">[7.25]</span>
-                        <a className="lasted-cont" href="">关于赞赞买单手机版上线的时...</a>
-                        <img className="newicon" src={require(`../../assets/img/images/new.png`)}/>
-                    </li>
-                </ul>
-                <a className="morenews">更多公告>></a>
-            </div>
             <div className="dynamic">
-                <div className="dynamic-state">
-                    <div className="state-title"><img className="state-logo" src={require(`../../assets/img/images/logo1.png`)}/>赞赞动态</div>
-                    <ul className="state-list">
-                        <li className="state-items">
-                            <div className="state-date">
-                                <div className="date">26</div>
-                                <div className="year">2017-07</div>
-                            </div>
-                            <div className="item-cont">新闻，也叫消息，是通过报纸、电台、广播、电视台等媒体途径所传播信息的一种称谓。是记录社会、传播信息、反映时代的一种文体。新闻概念有广义与狭义之分。广义上:除了发表于报刊、广播、互联网、电视上的评论与专文外的常用文本都属于新闻，包括消息、通讯、特写、速写(有的将速写纳入特写之列)等等;狭义上:消息是用概括的叙述方式，以较简明扼要的文字，迅速及时地报道附近新近发生的、有价值的事实，使一定人群了解。新闻一般包括标题、导语、主体、背景和结语五部分。</div>
-                        </li>
-                        <li className="state-items">
-                            <div className="state-date">
-                                <div className="date">26</div>
-                                <div className="year">2017-07</div>
-                            </div>
-                            <div className="item-cont">新闻，也叫消息，是通过报纸、电台、广播、电视台等媒体途径所传播信息的一种称谓。是记录社会、传播信息、反映时代的一种文体。新闻概念有广义与狭义之分。广义上:除了发表于报刊、广播、互联网、电视上的评论与专文外的常用文本都属于新闻，包括消息、通讯、特写、速写(有的将速写纳入特写之列)等等;狭义上:消息是用概括的叙述方式，以较简明扼要的文字，迅速及时地报道附近新近发生的、有价值的事实，使一定人群了解。新闻一般包括标题、导语、主体、背景和结语五部分。</div>
-                        </li>
-                        <li className="state-items">
-                            <div className="state-date">
-                                <div className="date">26</div>
-                                <div className="year">2017-07</div>
-                            </div>
-                            <div className="item-cont">新闻，也叫消息，是通过报纸、电台、广播、电视台等媒体途径所传播信息的一种称谓。是记录社会、传播信息、反映时代的一种文体。新闻概念有广义与狭义之分。广义上:除了发表于报刊、广播、互联网、电视上的评论与专文外的常用文本都属于新闻，包括消息、通讯、特写、速写(有的将速写纳入特写之列)等等;狭义上:消息是用概括的叙述方式，以较简明扼要的文字，迅速及时地报道附近新近发生的、有价值的事实，使一定人群了解。新闻一般包括标题、导语、主体、背景和结语五部分。</div>
-                        </li>
-                        <li className="state-items">
-                            <div className="state-date">
-                                <div className="date">26</div>
-                                <div className="year">2017-07</div>
-                            </div>
-                            <div className="item-cont">新闻，也叫消息，是通过报纸、电台、广播、电视台等媒体途径所传播信息的一种称谓。是记录社会、传播信息、反映时代的一种文体。新闻概念有广义与狭义之分。广义上:除了发表于报刊、广播、互联网、电视上的评论与专文外的常用文本都属于新闻，包括消息、通讯、特写、速写(有的将速写纳入特写之列)等等;狭义上:消息是用概括的叙述方式，以较简明扼要的文字，迅速及时地报道附近新近发生的、有价值的事实，使一定人群了解。新闻一般包括标题、导语、主体、背景和结语五部分。</div>
-                        </li>
-                    </ul>
-                </div>
-                <div className="dynamic-qr">
+            <div className="dynamic-infor">
+                <p className="description">赞赞买单以微信支付、支付宝支付的快捷支付为基础，向用户提供安全、快捷、高效的支付服务。</p>
+                <p className="description">赞赞买单为消费者提供了便捷的支付方式和优惠折扣，为用户“钱包”再省一点。</p>
+                <p className="description">目前，赞赞买单已实现扫码支付、立减优惠等营销新工具，满足用户及商户的不同支付场景，成为大众消费者跟商家喜爱的支付和收款方式。</p>
+            </div>
+            </div>
+              <div className="dynamic-qr">
                     <img className="zz-qr" src={require(`../../assets/img/images/erweima.png`)}/>
                     <div>
                         <p className="qr-text">扫一扫立享折扣</p>
                         <p className="qr-text">关注微信公众号，获取更多优惠信息</p>
                     </div>
-                </div>
             </div>
         </div>
         <div className="footer">©2015-2016 赞赞买单 版权所有 ICP证：鲁ICP备14019564号</div>
