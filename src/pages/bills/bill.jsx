@@ -180,3 +180,11 @@ class Bill extends React.Component {
     </div>
 }
 export default Bill
+
+
+
+
+
+
+
+
