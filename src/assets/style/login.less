@@ -1,0 +1,162 @@
+.flexrow {
+  display: flex;
+  flex-direction: row;
+}
+
+@fontBlock: #333;
+@baseColor: #3eba6c;
+.login-wrapper {
+  background-color: #fff;
+  .header, .content, .message {
+    width: 1170px;
+    margin: 0 auto;
+  }
+  .content-wrapper{
+    border-top:1px solid #ccc;
+    background: url("../img/images/bg.png") no-repeat center center;
+  }
+  .header {
+    height: 130px;
+    display: flex;
+    align-items: center;
+  }
+  .content {
+    .flexrow;
+    padding-top: 85px;
+    justify-content: flex-end;
+    .zzlogin {
+      display: flex;
+      .login-cont {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+        width: 286px;
+        height: 294px;
+        background: url("../../assets/img/images/bg1.png") no-repeat left top;
+        .login-form {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          margin: 22px 30px;
+          .login-form-name {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 18px;
+          }
+        }
+        .login-form{
+          .ant-form-item {
+            margin-bottom: 10px;
+            .ant-input-affix-wrapper {
+              height: 40px;
+            }
+            .login-form-button {
+              height: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .message {
+      .flexrow;
+    padding-top:70px;
+    .dynamic{
+      flex:1;
+      .dynamic-infor{
+        width:70%;
+        padding-left:40px;
+        .description{
+          font-size:20px;
+          color:#333;
+          line-height:2;
+        }
+      }
+    }
+
+      .dynamic-qr {
+        width: 27%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .zz-qr {
+          width: 158px;
+          height: 158px;
+        }
+        .qr-text {
+          margin-top: 10px;
+          font-size: 16px;
+          color: #666;
+          text-align: center;
+        }
+      }
+  }
+  .footer {
+    margin-top: 80px;
+    line-height: 80px;
+    background: #eeeff1;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+  }
+}
+.forget-content{
+  width:1170px;
+  margin:0 auto;
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content: center;
+  .login-form{
+    width:350px;
+  }
+  .login-form-name{
+    width:100%;
+    margin-bottom:40px;
+    padding-bottom:5px;
+    font-size:20px;
+    color:@baseColor;
+    text-align:center;
+    //background: url("../../assets/img/images/lian1.png") no-repeat left bottom;
+    border-bottom:1px solid #ccc;
+    .login-form-text{
+      padding:5px 10px;
+      border-bottom:2px solid @baseColor;
+    }
+  }
+  .backlogo{
+    margin:70px 0 30px 0;
+  }
+  .ant-form{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    .ant-form-item{
+      width:320px;
+    }
+  }
+  .ant-input,.ant-btn{
+    height:40px;
+  }
+  .ant-btn{
+margin-top:36px;
+  }
+  .account-code{
+    width:190px;
+    margin-right:20px;
+}
+    .getcode{
+      display: inline-block;
+      width:110px;
+      background:@baseColor;
+      text-align:center;
+      line-height:40px;
+      color:#fff;
+      border-radius:3px;
+      cursor:pointer;
+    }
+}

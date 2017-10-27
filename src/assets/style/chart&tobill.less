@@ -1,0 +1,64 @@
+@color: rgb(191, 193, 194);
+.itemContainer(@url){
+	width: 192px;
+	height: 159px;
+	background-image: @url;
+	padding-top: 27px;
+}
+.billCountContainer{
+	height: 208px;
+	border: 1px solid @color;
+	background-color: #fff;
+	margin-top: 16px;
+	.ContainerCol{
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding: 0 70px;
+		.WXitemContainer{
+			.itemContainer(url(../img/images/wx.png));
+		}
+		.ALIYitemContainer{
+			.itemContainer(url(../img/images/aliy.png));
+		}
+		.iconContainer{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-bottom: 15px;
+			p{
+				padding-left: 15px; 
+				color: #fff;
+			}
+		}
+		.itemCol{
+			color: #fff;
+			padding-bottom: 12px;
+		}
+	}
+}
+
+.chartCountCol{
+	height: 125px;
+	padding-right: 6px;
+	&:last-child{
+		padding-left: 6px;
+		padding-right: 0;
+	}
+	.wrap{
+		height: 100%;
+		box-sizing: border-box;
+		background-image: url(../img/images/chartBg.png);
+		display: flex;
+		align-items: center;
+		text-align: center;
+		p{color: #fff;}
+		.title{ 
+			font-size: 14px;
+			padding-bottom: 20px;
+		}
+		.count{
+			font-size: 20px;
+		}
+	}
+}
