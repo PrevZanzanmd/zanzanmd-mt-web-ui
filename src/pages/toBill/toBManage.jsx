@@ -4,14 +4,16 @@ import { Row, Select, Button, DatePicker, Col, Table, Pagination, message } from
 const Option = Select.Option
 const { RangePicker } = DatePicker
 import BCrumb from '../Components/bCrumb.jsx'
-import { GET_SHOP_LIST } from '../../redux/Actions'
+import { GET_SHOP_LIST, TOBILL_EXCEL } from '../../redux/Actions'
 import moment from 'moment'
 import { getTime, handleThreeMonthBill } from '../../fetchApi/commonApi'
 
 @connect(state => ({
-    shoplist: state.fetchdata.shoplist
+    shoplist: state.fetchdata.shoplist,
+    userinfo: state.globaldata.userCharacter
 }), dispath => ({
-    getShopList(param = {}){dispath({type: GET_SHOP_LIST, param})}
+    getShopList(param = {}){dispath({type: GET_SHOP_LIST, param})},
+    excel(param = {}){dispath({type: TOBILL_EXCEL, param})}
 }))
 class ToBManage extends React.Component{
 	componentWillMount(){
@@ -81,7 +83,7 @@ class ToBManage extends React.Component{
     		if(this.state.spShopId == ''){
 	    		delete this.state
 	    	}
-	    	console.log(this.state.searchParam)
+	    	this.props.excel(Object.assign({}, this.state.searchParam, this.props.userinfo.id ? {merchantId: this.props.userinfo.id} : {} ))
     	}
     }
 

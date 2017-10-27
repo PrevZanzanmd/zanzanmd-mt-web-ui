@@ -153,6 +153,9 @@ export const SAVE_USERCHARACTER = 'SAVE_USERCHARACTER'
 export const GET_FEE = 'GET_FEE'
 export const GET_FEE_COMPLETE = 'GET_FEE_COMPLETE'
 
+//对账账单
+export const TOBILL_EXCEL = 'TOBILL_EXCEL'
+
 
 //--------------------------SHOP ACCOUNT----------------------------------//
 export const S_GET_SHOPDETAIL = 'S_GET_SHOPDETAIL'

@@ -595,6 +595,12 @@ function* getWithdrawFee(){
 	})
 }
 
+function* toBillExcel(){
+	yield takeLatest(ACTION.TOBILL_EXCEL, function* (a){
+		window.location.href = `${fetchApi.baseUrl}/common/v1/exportXls?startTime=${a.param.startTime}&endTime=${a.param.endTime}${a.param.spShopId ? `&shopId=${a.param.spShopId}` : ''}${a.param.merchantId ? `&merchantId=${a.param.merchantId}` : ''}`
+	})
+}
+
 export default function* (){
 	yield fork(getShopList)
 	yield fork(getShopDetail)
@@ -650,4 +656,5 @@ export default function* (){
 	yield fork(setNewpassword)
 	yield fork(getuserinfoReload)
 	yield fork(getWithdrawFee)
+	yield fork(toBillExcel)
 }
