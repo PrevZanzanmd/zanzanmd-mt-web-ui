@@ -11,29 +11,19 @@ import {connect} from 'react-redux'
 }), dispath => ({}))
 class Sidebar extends React.Component{
     componentWillMount(){
-        this.setState({defaultOpenKeys: 
-            this.props.sideMenuData.map((val, index) => val.submenu ? (_ => {
-                val.submenu.map((item, key) => this.handleHashHistory(item, {defaultSelectedKeys: item.title}))
-                return `${index}submenu`
-            })()
-                : (_ => {
-                    this.handleHashHistory(val, {defaultSelectedKeys: val.title})
-                    return val.title
-                })()
-            )
-        })
+        this.setState({selectedKeys: location.hash})
     }
-    componentWillReceiveProps(nextProps){
-        (f => f(f))(f => list => list.map(val => val.submenu ? f(f)(val.submenu) : `#${val.path}` === nextProps.path ? this.setState({defaultSelectedKeys: val.title}) : null ))(this.props.sideMenuData)
+    componentWillReceiveProps(n){
+        console.log(n)
+        this.setState({selectedKeys: n.path})
     }
-    state={defaultSelectedKeys: '', defaultOpenKeys: []}
-    handleHashHistory = (val, state) => location.hash === `#${val.path}` ? this.setState(state) : null
+
+    state={selectedKeys: '', openKeys: []}
 
     render = _ => <Sider width={210}>
         <Menu
-        defaultSelectedKeys={[this.state.defaultSelectedKeys]}
-        selectedKeys={[this.state.defaultSelectedKeys]}
-        defaultOpenKeys={this.state.defaultOpenKeys}
+        selectedKeys={[this.state.selectedKeys]}
+        // openKeys={this.state.openKeys}
         mode='inline'>
             {this.props.sideMenuData.map((val,index) => 
                 val.submenu ? 
@@ -43,14 +33,14 @@ class Sidebar extends React.Component{
                     <span className = 'nav-text'>{val.title}</span>
                 </span>}>
                     {val.submenu.map((item, key) => 
-                            <Menu.Item key = {item.title}>
-                                <Link to = {item.path}>
+                            <Menu.Item key = {`#${item.path}`}>
+                                <Link to = {`${item.path}?`}>
                                     <span>{item.title}</span>
                                 </Link>                    
                             </Menu.Item>
                         )}
                 </SubMenu>
-                : <Menu.Item key = {val.title}>
+                : <Menu.Item key = {`#${val.path}`}>
                     <Link to = {val.path}>
                         <span className="iconfont">{val.icon}</span>
                         <span className = 'nav-text'>{val.title}</span>
