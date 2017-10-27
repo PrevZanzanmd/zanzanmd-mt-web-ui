@@ -35,10 +35,9 @@ class Bill extends React.Component {
     state={
         selected: false,
         selectedItem: '',
-        searchParam: {'page': 1, 'rows': 10},
         searchRender: [{title: '交易时间',render: _ => <RangePicker onChange={(date, dateString) => this.handleDate(dateString)} size='default' style={{width:220}}/>},
-            {title: '交易状态', option: [{title: '待支付', value: '1'}, {title: '收款成功', value: '2'}, {title: '已关闭', value: '3'}, {title: '已退款', value: '4'}, {title: '退款失败', value: '5'}]},
-            {title: '交易方式', option: [{title: '微信', value: 'WX'}, {title: '支付宝', value: 'ALIY'}]}],
+            {title: '交易状态', option: [{title: '全部', value: ''}, {title: '待支付', value: '1'}, {title: '收款成功', value: '2'}, {title: '已关闭', value: '3'}, {title: '已退款', value: '4'}, {title: '退款失败', value: '5'}]},
+            {title: '交易方式', option: [{title: '全部', value: ''}, {title: '微信', value: 'WX'}, {title: '支付宝', value: 'ALIY'}]}],
         mtCount: [{title: '今日总交易额', num: '8000.00'}, {title: '成功交易笔数', num: '300'}],
         columns: [{title: '支付方式', dataIndex: 'paymentType', key: 'paymentType', render: (text, record) => <div>{record.paymentType === 'WX' ? '微信' : '支付宝'}</div>},
         {title: '订单号', dataIndex: 'serialNumber', key: 'serialNumber'},
@@ -53,7 +52,17 @@ class Bill extends React.Component {
         {label: '付款方式', key: 'paymentType', render: type => type === 'WX' ? '微信' : '支付宝'},
         {label: '收银员', key: 'cashierName'},
         {label: '交易单号', key: 'serialNumber'},
-        {label: '交易门店', key: 'merchantName'}]
+        {label: '交易门店', key: 'merchantName'}],
+        searchParam: {'page': 1, 'rows': 10},
+        pagination: {
+            current: 1,
+            defaultPageSize: 10,
+            onChange: (page, rows) => {
+                this.setState({pagination: Object.assign({}, this.state.pagination, {current: page})})
+                this.handleFilter({page, rows})
+            }
+        },
+        defaultPage: {page: 1, rows: 10}
     }
     handleFilter = async param => {
         this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
@@ -69,7 +78,8 @@ class Bill extends React.Component {
         }else{
             obj = Object.assign({}, obj, {startTime: dateString[0], endTime: `${dateString[1]} 23:59:59`})
         }
-        await new Promise((rsl, rej) => this.setState({searchParam: obj}, _ => rsl()))
+        await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, obj, this.state.defaultPage)
+            ,pagination: Object.assign({}, this.state.pagination, {current: 1})}, _ => rsl()))
         this.props.filterBill(this.state.searchParam)
     }
     chooseState = state => {
@@ -88,6 +98,16 @@ class Bill extends React.Component {
         this.state.searchParam.startTime && this.state.searchParam.endTime ? 
             this.props.todoExcel({startTime: this.state.searchParam.startTime, endTime: this.state.searchParam.endTime, shopId: this.state.searchParam.spShopId}) : message.error('请选择时间范围')
     }
+
+    handleSearch = async (val, key) => {
+        this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
+        let obj = Object.assign({}, this.state.searchParam)
+        val ? (obj[key] = val) : delete obj[key]
+        await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, obj, this.state.defaultPage)
+            ,pagination: Object.assign({}, this.state.pagination, {current: 1})}, _ => rsl()))
+        this.props.filterBill(this.state.searchParam)
+    }
+
     render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
         <div className="trade">
@@ -97,7 +117,7 @@ class Bill extends React.Component {
                 placeholder='请选择'
                 onChange={val => {
                     this.setState({selectedItem: val})
-                    this.handleFilter({spShopId: val})
+                    this.handleSearch(val, 'spShopId' )
                 }}
                 {...(_ => this.state.selectedItem !== '' ? {value: this.state.selectedItem} : {})()}                      
                 style={{ width: 120}}>
@@ -109,7 +129,7 @@ class Bill extends React.Component {
                 {val.render ? val.render() : 
                     <Select 
                     placeholder='请选择'
-                    onChange={item => this.handleFilter(val.title === '交易状态' ? {paymentStatus: item} : {paymentType: item})}
+                    onChange={item => this.handleSearch(item, val.title === '交易状态' ? 'paymentStatus' : 'paymentType' )}
                     {...(_ => val.value ? {value: val.value} : {})()}                       
                     style={{ width: 120 }}>
                         {val.option ? val.option.map((item, key) => <Option value={item.value} key={key}>{item.title}</Option>) : null}
@@ -140,7 +160,7 @@ class Bill extends React.Component {
                     <Button type="default" onClick={this.handleExcel}>导出账单</Button>
                     <Pagination 
                     size="small" 
-                    onChange={(page, pageSize) => this.handleFilter({'page': page, 'rows': pageSize})}
+                    {...this.state.pagination}
                     total={this.props.billlistdata.totalNum == '0' || !this.props.billlistdata.totalNum ? 1 : this.props.billlistdata.totalNum}/>
                 </div>
             </div>

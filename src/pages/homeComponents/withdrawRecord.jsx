@@ -27,13 +27,34 @@ class WithdrawRecord extends React.Component {
         selected: false,
         selectedItem: '',
         searchParam: {page: 1, rows: 10},
-        withdrawItem: {}
+        withdrawItem: {},
+        pagination: {
+            current: 1,
+            defaultPageSize: 10,
+            onChange: (page, rows) => {
+                this.setState({pagination: Object.assign({}, this.state.pagination, {current: page})})
+                this.handleFilter({page, rows})
+            }
+        },
+        defaultPage: {page: 1, rows: 10}
     }
     handleFilter = async param => {
-        this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
+        this.state.searchParam.spShopId ? null : this.handleInitialShopId()
         await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
         this.props.getWithDraw(this.state.searchParam)
     }
+
+    handleInitialShopId = _ => new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0] ? this.props.shoplist[0].id : '' })}, _ => rsl()))
+
+    handleSearch = async (val, key) => {
+        this.state.searchParam.spShopId ? null : await this.handleInitialShopId()
+        let obj = Object.assign({}, this.state.searchParam)
+        val ? (obj[key] = val) : delete obj[key]
+        await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, obj, this.state.defaultPage)
+            ,pagination: Object.assign({}, this.state.pagination, {current: 1})}, _ => rsl()))
+        this.props.getWithDraw(this.state.searchParam)
+    }
+
     render = _ =><div className='contentContainer'>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
         <div className="widthdraw">
@@ -43,7 +64,7 @@ class WithdrawRecord extends React.Component {
                 placeholder='选择店铺'
                 onChange={val => {
                     this.setState({selectedItem: val})
-                    this.handleFilter({spShopId: val})
+                    this.handleSearch( val, 'spShopId' )
                 }}
                 {...(_ => this.state.selectedItem !== '' ? {value: this.state.selectedItem} : {})()}                      
                 style={{ width: 120}}>
@@ -56,7 +77,7 @@ class WithdrawRecord extends React.Component {
                         <li className="widthdraw-record" key={index}>
                             <div style={{flex:2}}>
                                 <span 
-                                style={{backgroundImage: `url(${require(`../../assets/img/images/${getBankType(val.bcBankCardTypeN)}.png`)})`, backgroundSize: '16px 16px'}}
+                                style={{backgroundImage: `url(${require(`../../assets/img/images/${getBankType(val.bcBankCardTypeN)}.png`)})`, backgroundSize: '23px 23px'}}
                                 className="bankimg" ></span>
                                 <div className="bank-time">
                                     <span>{val.createTime.split(' ')[0]}</span>
@@ -81,7 +102,7 @@ class WithdrawRecord extends React.Component {
             <div className="pagination">
                 <Pagination 
                 size="small" 
-                onChange={(page, pageSize) => this.handleFilter({'page': page, 'rows': pageSize})}
+                {...this.state.pagination}
                 total={this.props.withdrawlist.total == '0' || !this.props.withdrawlist.total ? 1 : this.props.withdrawlist.total}/>
             </div>
         </div>
