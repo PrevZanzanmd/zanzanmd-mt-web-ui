@@ -14,16 +14,21 @@ class Sidebar extends React.Component{
         this.setState({selectedKeys: location.hash})
     }
     componentWillReceiveProps(n){
-        console.log(n)
-        this.setState({selectedKeys: n.path})
+        this.setState(!n.path.split('?')[1] ? {selectedKeys: n.path} : {selectedKeys: n.path.split('?')[0], openKeys: [`${n.path.split('?')[1]}submenu`]})
     }
 
     state={selectedKeys: '', openKeys: []}
 
+    onOpenChange = (openKeys) => {
+        const latestOpenKey = openKeys.find(key => !(this.state.openKeys.indexOf(key) > -1));
+        this.setState({ openKeys: latestOpenKey ? [latestOpenKey] : [] });
+    }
+
     render = _ => <Sider width={210}>
         <Menu
         selectedKeys={[this.state.selectedKeys]}
-        // openKeys={this.state.openKeys}
+        openKeys={this.state.openKeys}
+        onOpenChange={this.onOpenChange}
         mode='inline'>
             {this.props.sideMenuData.map((val,index) => 
                 val.submenu ? 
@@ -34,7 +39,7 @@ class Sidebar extends React.Component{
                 </span>}>
                     {val.submenu.map((item, key) => 
                             <Menu.Item key = {`#${item.path}`}>
-                                <Link to = {`${item.path}?`}>
+                                <Link to = {`${item.path}?${index}`}>
                                     <span>{item.title}</span>
                                 </Link>                    
                             </Menu.Item>
