@@ -234,6 +234,8 @@ export const throwError = data => {
 		case '60045': message.error('正在退款…');break
 		case '60046': message.error('店铺账号不能为手机号');break
 		case '40050': message.error('账号已存在');break
+		case '40010': message.error('发送验证码过于频繁，请两小时后再试');break
+		case '60048': message.error('新旧密码相同，请重新设置');break
 		case '40001':
 		case '40002':
 		case '40003':

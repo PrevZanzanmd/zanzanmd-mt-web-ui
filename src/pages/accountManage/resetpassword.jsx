@@ -12,8 +12,8 @@ import { RESET_PASSWORD } from '../../redux/Actions'
 }))
 class ResetPass extends React.Component{
 	state = {
-		formItem: [{label: '当前登录密码', key: 'oldPassword', rules: [{required: true, message: '请填写旧密码'}, {pattern: !/[@#\$%\^&\*]+/g, message: '不能包含非法字符'}]},
-		{label: '新登录密码', key: 'newPassword', rules: [{required: true, message: '请填写新密码'}, {pattern: /^[a-zA-Z0-9]{6,10}$/, message: '密码为6～10为字母或数字'}]},
+		formItem: [{label: '当前登录密码', key: 'oldPassword', rules: [{required: true, message: '请填写旧密码'}, {pattern: /^[a-zA-Z0-9]{6,12}$/, message: '密码为6～12为字母或数字'}]},
+		{label: '新登录密码', key: 'newPassword', rules: [{required: true, message: '请填写新密码'}, {pattern: /^[a-zA-Z0-9]{6,12}$/, message: '密码为6～12为字母或数字'}]},
 		{label: '确认新登录密码', key: 'confirmPassword', rules: [{required: true, message: '请确认密码'},{
 		   	validator: (rule, value, callback) => value && value !== this.props.form.getFieldValue('newPassword') ? callback('两次输入不一致') : callback()
 		}]}]

@@ -21,7 +21,7 @@ class ToBManage extends React.Component{
 	}
 
 	componentDidUpdate(){
-        if(!this.state.selected && this.props.shoplist.length > 0){
+        if(!this.state.selected){
         	let d = getTime().Y
 	        this.setState({ date: [moment(d), moment(d)], searchParam: Object.assign( {}, this.state.searchParam, {
 	        	startTime: `${d} 00:00:00`,

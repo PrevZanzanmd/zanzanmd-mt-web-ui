@@ -8,6 +8,7 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import { CHART_PRIMARY_LOAD, FILTER_CHART } from '../../redux/Actions'
 import { fmoney } from '../../fetchApi/commonApi'
+import { message } from 'antd'
 
 let chart
 @connect(state => ({
@@ -109,10 +110,16 @@ class Chart extends React.Component{
 
 	
 	handleFilter = async param => {
-        this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, {spShopId: this.props.shoplist[0].id})}, _ => rsl()))
-        await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
-        this.props.filterChart(this.state.searchParam)
+        if(!this.state.searchParam.spShopId && !this.props.shoplist[0]){
+        	message.error('请先添加店铺')
+        	await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
+        }else{
+        	this.state.searchParam.spShopId ? null : await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, this.props.shoplist[0] ? { spShopId: this.props.shoplist[0].id || '' } : {} )}, _ => rsl()))
+	        await new Promise((rsl, rej) => this.setState({searchParam: Object.assign({}, this.state.searchParam, param)}, _ => rsl()))
+	        this.props.filterChart(this.state.searchParam)
+        }
     }
+
 	render = _ => <div>
         <BCrumb routes={this.props.routes} params={this.props.params}></BCrumb>
 		<div style={{display: 'flex', alignItems: 'center'}}>
