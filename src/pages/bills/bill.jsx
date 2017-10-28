@@ -48,9 +48,11 @@ class Bill extends React.Component {
         detailItem: [{label: '交易状态', key: 'paymentStatus', render: state => this.chooseState(state)},
         {label: '实收金额', key: 'receivedPrice', render: m => fmoney(m)},
         {label: '交易金额', key: 'transactionPrice', render: m => fmoney(m)},
+        {label: '退款金额', key: 'refundMoney', render: m => fmoney(m), paymentStatus: '4' },
         {label: '交易时间', key: 'tradingTime', render: time => handleTime(time)},
+        {label: '退款时间', key: 'refundDate', render: time => handleTime(time), paymentStatus: '4' },
         {label: '付款方式', key: 'paymentType', render: type => type === 'WX' ? '微信' : '支付宝'},
-        {label: '收银员', key: 'cashierName'},
+        // {label: '收银员', key: 'cashierName'},
         {label: '交易单号', key: 'serialNumber'},
         {label: '交易门店', key: 'merchantName'}],
         searchParam: {'page': 1, 'rows': 10},
@@ -173,6 +175,7 @@ class Bill extends React.Component {
             {this.state.detailItem.map((val, index) => <FormItem
             key={index}
             label={val.label}
+            style={{display: val.paymentStatus && val.paymentStatus != this.props.billDetail.paymentStatus ? 'none' : 'block' }}
             {...{labelCol: {span: 4}, wrapperCol: {span: 20}}}>
                 {val.render ? val.render(this.props.billDetail[val.key]) : this.props.billDetail[val.key]}
             </FormItem>)}

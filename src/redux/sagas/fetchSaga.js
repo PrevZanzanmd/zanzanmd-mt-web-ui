@@ -597,7 +597,7 @@ function* getWithdrawFee(){
 
 function* toBillExcel(){
 	yield takeLatest(ACTION.TOBILL_EXCEL, function* (a){
-		window.location.href = `${fetchApi.baseUrl}/common/v1/exportXls?startTime=${a.param.startTime}&endTime=${a.param.endTime}${a.param.spShopId ? `&shopId=${a.param.spShopId}` : ''}${a.param.merchantId ? `&merchantId=${a.param.merchantId}` : ''}`
+		window.location.href = `${fetchApi.baseUrl}/api-mt/common/v1/exportXls?startTime=${a.param.startTime}&endTime=${a.param.endTime}${a.param.spShopId ? `&shopId=${a.param.spShopId}` : ''}${a.param.merchantId ? `&merchantId=${a.param.merchantId}` : ''}`
 	})
 }
 
