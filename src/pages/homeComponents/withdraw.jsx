@@ -54,6 +54,7 @@ class Withdraw extends React.Component {
                 delete values.bankCard
                 values.spShopId = this.state.searchParam.spShopId
                 values.commission = fmoney(values.cashWithdrawal * this.props.withdrawFee / 1000)
+                values.commissionRate = this.props.withdrawFee
                 this.props.withdraw(values)
             }
         })
