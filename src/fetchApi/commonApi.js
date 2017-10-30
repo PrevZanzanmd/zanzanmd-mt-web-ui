@@ -41,16 +41,22 @@ export const getBankType = name => {
         case '建设银行': return 'jianshebank'
         case '工商银行': return 'gongshangbank'
         case '民生银行': return 'minshengbank'
+        case '中国光大银行(63030000)':
         case '光大银行': return 'guangdabank'
         case '招商银行': return 'zhaoshangbank'
+        case '平安银行（借记卡）':
+        case '平安银行股份有限公司':
         case '平安银行': return 'pinganbank'
         case '上海银行': return 'shanghaibank'
         case '兴业银行': return 'xingyebank'
+        case '广发银行股份有限公司':
         case '广发银行': return 'guangfabank'
         case '中信银行': return 'zhongxinbank'
-        case '邮政银行': return 'youzhengbank'
+        case '邮政储蓄银行': return 'youzhengbank'
         case '青岛银行': return 'qingdaobank'
         case '青岛农商银行': return 'qingdaonongshangbank'
+        case '华夏银行': return 'huaxiabank'
+        case '浦东发展银行': return 'pufabank'
         default: return 'banklogo'
 	}
 }
