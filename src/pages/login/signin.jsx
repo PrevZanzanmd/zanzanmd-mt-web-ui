@@ -24,7 +24,7 @@ class NormalLoginForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
-                <div className="login-form-name">登录赞赞买单</div>
+                <div className="login-form-name">登录赞赞</div>
                 <FormItem>
                     {getFieldDecorator('username', {
                         rules: [{ required: true, message: '请输入用户名！' }],

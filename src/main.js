@@ -51,7 +51,7 @@ const handleLogin = (next, replace, cb) => {
 }
 
 const routeConfig = (
-	<Route path = {'/'} breadcrumbName='赞赞买单' component = {Page} onEnter={handleLogin}>
+	<Route path = {'/'} breadcrumbName='赞赞' component = {Page} onEnter={handleLogin}>
 		<IndexRedirect to="/home"/>
 		<Route path = {'login'} breadcrumbName='登录' component = {Login}/>
 		<Route path = {'forget'} breadcrumbName='忘记密码' component = {ForgetPassword}/>
