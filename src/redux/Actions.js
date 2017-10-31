@@ -156,6 +156,9 @@ export const GET_FEE_COMPLETE = 'GET_FEE_COMPLETE'
 //对账账单
 export const TOBILL_EXCEL = 'TOBILL_EXCEL'
 
+//
+export const GET_PRIMARYPERMISSION = 'GET_PRIMARYPERMISSION'
+
 
 //--------------------------SHOP ACCOUNT----------------------------------//
 export const S_GET_SHOPDETAIL = 'S_GET_SHOPDETAIL'

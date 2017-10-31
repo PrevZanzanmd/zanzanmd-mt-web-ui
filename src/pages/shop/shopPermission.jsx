@@ -3,20 +3,24 @@ import { connect } from 'react-redux'
 import { Select, Checkbox, Row, Col, Spin } from 'antd'
 const Option = Select.Option
 import BCrumb from '../Components/bCrumb.jsx'
-import { GET_SHOP_LIST, GET_SHOPPERM, CHANGE_SHOPPERM } from '../../redux/Actions'
+import { GET_SHOP_LIST, GET_SHOPPERM, CHANGE_SHOPPERM, GET_PRIMARYPERMISSION } from '../../redux/Actions'
 
 @connect(state => ({
 	shoplist: state.fetchdata.shoplist,
 	loading: state.globaldata.loading,
 	shopPerm: state.fetchdata.shopPerm
 }), dispath => ({
-	getShopList(param = {}){dispath({type: GET_SHOP_LIST, param: param, spin: true})},
+	getPrimaryPerm(){dispath({type: GET_PRIMARYPERMISSION})},
 	getShopPerm(param = {}){dispath({type: GET_SHOPPERM, param: param})},
 	changeshopperm(param = {}){dispath({type: CHANGE_SHOPPERM, param: param})}
 }))
 class ShopPermission extends React.Component{
-	componentWillMount = _ => this.props.getShopList()
-	state={userId: ''}
+	componentWillMount = _ => this.props.getPrimaryPerm()
+	componentDidUpdate(){
+        if(!this.state.selected && this.props.shoplist.length > 0)
+            this.setState({selected: true, userId: this.props.shoplist[0].mtUserId })
+    }
+	state={selected: false, userId: ''}
 	handleCheckperm = e => {
 		e.preventDefault()
 		let arr = []
@@ -35,6 +39,7 @@ class ShopPermission extends React.Component{
 			<Row className='shopSelect'>
 				<Select 
 				style={{width: 120}}
+				value={this.state.userId}
 				onChange={async id => {
 					await new Promise((rsl, rej) => this.setState({userId: id}, _ => rsl()) )
 					this.props.getShopPerm({userId: id})

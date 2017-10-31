@@ -288,6 +288,21 @@ function* getuserinfoReload(){
 	location.hash == '#/login' || location.hash == '#/forget' || location.hash == '#/forgetnext' || location.hash == '#/regist' ? null : yield put({type: ACTION.GET_USERINFO})
 }
 
+
+function* getPrimaryPermission(){
+	yield takeLatest(ACTION.GET_PRIMARYPERMISSION, function* (action){
+		yield put({type: ACTION.START_LOADING})
+		let data = yield call(fetchApi.getShopList)
+		data.code == '200' ? (
+			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
+			yield put({type: ACTION.GET_SHOPPERM, param: {userId: data.data[0] ? data.data[0].mtUserId : '' } })
+		) : (
+			yield put({type: ACTION.CLOSE_LOADING}),
+			throwError(data)
+		)
+	})
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 function* changeShopPrem(){
@@ -657,4 +672,5 @@ export default function* (){
 	yield fork(getuserinfoReload)
 	yield fork(getWithdrawFee)
 	yield fork(toBillExcel)
+	yield fork(getPrimaryPermission)
 }
