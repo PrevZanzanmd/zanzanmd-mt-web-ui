@@ -61,7 +61,7 @@ class Regist extends React.Component {
                 <div className="header">
                     <img style={{width: 357 + 'px',height: 51 + 'px'}} src={require(`../../assets/img/images/rlogo.png`)}/>
                 </div>
-                <div className="content-wrapper" >
+                <div className="content-wrapper" style={{background: '#fff'}}>
                     <div className="forget-content">
                         <div className="backlogo">
                             <img style={{width:120+'px',height:120+'px'}} src={require(`../../assets/img/images/backlogo.png`)}/>
