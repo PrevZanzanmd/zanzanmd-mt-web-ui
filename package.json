@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config build/webpack-base-config.js --watch",
+    "build": "node ./src/assets/theme/copyThemeToAntd&webpack --config build/webpack-base-config.js --watch",
     "dev": "node ./src/assets/theme/copyThemeToAntd&&node build/webpack-dev-config.js --inline",
     "nodeProxy": "node ./src/assets/theme/copyThemeToAntd&&node nodejsproxy/index.js"
   },

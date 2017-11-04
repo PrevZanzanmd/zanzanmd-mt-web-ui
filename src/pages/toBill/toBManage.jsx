@@ -117,7 +117,10 @@ class ToBManage extends React.Component{
 					onClick={v.onClick} 
 					key={i} >{v.label}</Button>)}
 				<RangePicker 
-				onChange={(date, dateString) => this.handleDate(dateString)} 
+				onChange={(date, dateString) => {
+					this.setState({selectKey: ''})
+					this.handleDate(dateString)
+				}} 
 				value={this.state.date}
 				size='default' 
 				style={{width:220}}/>
