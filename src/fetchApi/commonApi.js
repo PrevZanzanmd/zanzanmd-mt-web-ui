@@ -220,7 +220,6 @@ export const throwError = data => {
 		case '60019': message.error('不在提现时间');break
 		case '60020': message.error('提现失败');break
 		case '60022': message.error('今日已提现');break
-		case '60023': message.error('获取数据出错，请稍后再试');break
 		case '60026': message.error('持卡人信息错误，请重新核对信息');break
 		case '60027': message.error('手机号错误，请输入正确的手机号');break
 		case '60028': message.error('银行卡信息错误，请核对后再试');break
@@ -228,7 +227,6 @@ export const throwError = data => {
 		case '60030': message.error('保存失败，请稍后再试');break
 		case '60031': message.error('优惠券已过期，不能进行此操作');break
 		case '60032': message.error('请勿重复操作');break
-		case '60033': message.error('对不起，系统开小差了,请稍后再试');break
 		case '60034': message.error('该身份证号已经绑定账号，请勿重复绑定');break
 		case '60035': message.error('删除失败，请稍后再试');break
 		case '60038': message.error('余额不足');break
@@ -242,6 +240,10 @@ export const throwError = data => {
 		case '40050': message.error('账号已存在');break
 		case '40010': message.error('发送验证码过于频繁，请两小时后再试');break
 		case '60048': message.error('新旧密码相同，请重新设置');break
+		case '60033': 
+			// message.error('对不起，系统开小差了,请稍后再试');break
+		case '60023': 
+			// message.error('获取数据出错，请稍后再试');break
 		case '40001':
 		case '40002':
 		case '40003':
