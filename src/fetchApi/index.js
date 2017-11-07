@@ -1,7 +1,9 @@
 import fetch from 'isomorphic-fetch'
 import { hashHistory } from 'react-router'
 
-export const baseUrl = 'http://mt.qdxiao2.com'
+// export const baseUrl = 'http://mt.qdxiao2.com'
+export const baseUrl = 'http://m.zanzanmd.cn'
+
 export const proxybaseUrl = 'http://192.168.1.104:8096/proxy'
 
 const getParamHandler = param => {
