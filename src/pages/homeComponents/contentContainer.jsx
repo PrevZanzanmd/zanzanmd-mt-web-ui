@@ -34,7 +34,7 @@ class ContentContainer extends React.Component {
         withdrawItem: {},
         headerCount: [{title: '账户余额', num: 'shopBalance', render: _ => <Link to="/home/withdraw">提现</Link>},
         {title: '今日总交易额', num: 'todaytotal'},
-        {title: '成功交易笔数', num: 'todaytotal'}],
+        {title: '今日交易笔数', num: 'todaytotal'}],
         columns: [{title: '提现时间', dataIndex: 'createTime', key: 'createTime'},
         {title: '提现方式', dataIndex: 'bcBankCardTypeN', key: 'bcBankCardTypeN'},
         {title: '提现金额', dataIndex: 'cashWithdrawal', key: 'cashWithdrawal', render: (text, record) => <div>{`¥${fmoney(record.cashWithdrawal)}`}</div>},
@@ -74,8 +74,8 @@ class ContentContainer extends React.Component {
                         <p className="home-stitle">{val.title}</p>
                         <p className="home-cash">
                             {this.handleNum(val.num === 'shopBalance' ? fmoney(this.props.shopBalance.shopBalance) 
-                            : val.title === '成功交易笔数' ? this.props.todaytotal.succeedTotalNumber : fmoney(this.props.todaytotal.todayTotalMoney))}
-                            <span style={{paddingLeft: 5}}>{val.title === '成功交易笔数' ? '笔' : '元'}</span>
+                            : val.title === '今日交易笔数' ? this.props.todaytotal.succeedTotalNumber : fmoney(this.props.todaytotal.todayTotalMoney))}
+                            <span style={{paddingLeft: 5}}>{val.title === '今日交易笔数' ? '笔' : '元'}</span>
                         </p>
                         {val.render ? val.render() : null}
                     </div>

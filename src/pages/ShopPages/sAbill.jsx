@@ -132,7 +132,7 @@ class Bill extends React.Component {
                     <p className="home-cash">{fmoney(this.props.todaytotal.todayTotalMoney)}<span style={{paddingLeft: 5}}>元</span></p>
                 </div>
                 <div className="home-accountitem">
-                    <p className="home-stitle">成功交易笔数</p>
+                    <p className="home-stitle">今日交易笔数</p>
                     <p className="home-cash">{this.props.todaytotal.succeedTotalNumber || 0}<span style={{paddingLeft: 5}}>笔</span></p>
                 </div>
             </div>

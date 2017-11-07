@@ -120,24 +120,24 @@ class SAChart extends React.Component{
 			<Col span={12} className='chartCountCol'>
 				<Row className='wrap'>
 					<Col span={12}>
-						<p className='title'>今日总交易额</p>
-						<p className='count'>{fmoney(this.props.dayTotaldata.totalMoney)}</p>
+						<p className='title'>总交易额（元）</p>
+						<p className='count'>{fmoney(this.props.allTotaldata.totalMoney)}</p>
 					</Col>
 					<Col span={12}>
-						<p className='title'>成功交易笔数</p>
-						<p className='count'>{this.props.dayTotaldata.totalNumber || 0}</p>
+						<p className='title'>总交易笔数（元）</p>
+						<p className='count'>{this.props.allTotaldata.totalNumber || 0}</p>
 					</Col>
 				</Row>
 			</Col>
 			<Col span={12} className='chartCountCol'>
 				<Row className='wrap'>
 					<Col span={12}>
-						<p className='title'>累计收入</p>
-						<p className='count'>{fmoney(this.props.allTotaldata.totalMoney)}</p>
+						<p className='title'>累计收入（元）</p>
+						<p className='count'>{fmoney(this.props.dayTotaldata.totalMoney)}</p>
 					</Col>
 					<Col span={12}>
-						<p className='title'>交易笔数</p>
-						<p className='count'>{this.props.allTotaldata.totalNumber || 0}</p>
+						<p className='title'>交易笔数（笔）</p>
+						<p className='count'>{this.props.dayTotaldata.totalNumber || 0}</p>
 					</Col>
 				</Row>
 			</Col>
