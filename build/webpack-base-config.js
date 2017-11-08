@@ -6,12 +6,14 @@ var CompressionWebpackPlugin = require('compression-webpack-plugin')
 module.exports = {
 	entry: {
 		main: ["babel-polyfill", resolve(__dirname, '../src/main.js')],
-		vender: ['react', 'redux', 'redux-saga', 'react-dom', 'react-router']
+		vender: ['react', 'redux', 'redux-saga', 'react-dom', 'react-router'],
+		antd: ['antd'],
+		echarts: ['echarts']
 	},
 	output: {
 		path: resolve(__dirname, '../dist'),
 		publicPath: '/',
-		filename: '[name][hash].js'
+		filename: '[name][hash].js',
 		// filename: '[name].js'
 	},
 	module: {
@@ -63,7 +65,10 @@ module.exports = {
 	        	warnings: false
 	      	}
 	    }),
-	    new webpack.optimize.CommonsChunkPlugin({names: ['vender', 'manifest']}),
+	    new webpack.optimize.CommonsChunkPlugin({
+	    	name: ['vender', 'antd', 'echarts'],
+	    	minChunks: Infinity
+	    }),
 	    new webpack.DefinePlugin({
 		  "process.env": { 
 		     NODE_ENV: JSON.stringify("production") 

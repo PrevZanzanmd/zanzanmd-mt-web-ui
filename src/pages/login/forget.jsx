@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form, Icon, Input, Button} from 'antd'
+import { Form, Icon, Input, Button, message} from 'antd'
 const FormItem = Form.Item
 import { TIME, SENDFORGETCODE, FORGETNEXTSTEP } from '../../redux/Actions'
 
