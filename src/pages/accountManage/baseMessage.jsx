@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form, Button, Row, Input, Modal, Upload, Icon, Select } from 'antd'
+import { Form, Button, Row, Input, Modal, Upload, Icon, Select, message } from 'antd'
 const Option = Select.Option
 const FormItem = Form.Item
 import { Link } from 'react-router'
@@ -48,11 +48,15 @@ class BaseMessage extends React.Component{
 	}
 	handleUpload = _ => {
 	    const { fileList } = this.state
-	    const formData = new FormData()
-	    formData.append('file', fileList[0])
-	    formData.append('key', this.props.uploadData.key)
-	    formData.append('token', this.props.uploadData.token)
-	    this.props.upload({url: this.props.uploadData.url, formData, key: this.props.uploadData.key})
+	    if( fileList.length > 0 ){
+		    const formData = new FormData()
+		    formData.append('file', fileList[0])
+		    formData.append('key', this.props.uploadData.key)
+		    formData.append('token', this.props.uploadData.token)
+		    this.props.upload({url: this.props.uploadData.url, formData, key: this.props.uploadData.key})
+	    }else{
+	    	message.error('请先选择照片!')
+	    }
 	 }
 	handleSubmit = (e) => {
 	    e.preventDefault()
