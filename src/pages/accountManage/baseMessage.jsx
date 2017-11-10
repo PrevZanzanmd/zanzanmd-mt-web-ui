@@ -69,7 +69,7 @@ class BaseMessage extends React.Component{
 	}
 	handleRules = (initialRule, key) => Object.assign({
 	    rules: initialRule
-	}, this.props.userinfo[key] ? key === 'sex' && this.props.userinfo.sex === '2' ? {} : { initialValue: this.props.userinfo[key] } : {})
+	}, this.props.userinfo[key] ? { initialValue: this.props.userinfo[key] } : {})
 
 	render = _ => {
 		const { getFieldDecorator } = this.props.form
@@ -101,7 +101,7 @@ class BaseMessage extends React.Component{
 								<Select
 								style={{width: 120}}
 								placeholder='请选择'>
-									{['女', '男'].map((val, index) => <Option key={index} value={String(index)}>{val}</Option>)}
+									{['女', '男', '未知'].map((val, index) => <Option key={index} value={String(index)}>{val}</Option>)}
 								</Select>
 							)}
 						</FormItem>

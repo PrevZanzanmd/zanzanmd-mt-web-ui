@@ -49,8 +49,8 @@ class AddShopForm extends React.Component{
 	state = {
 		fileList: [],
 		formItems: [
+			{label: '详细地址', key: 'territoryDetail', rules: [{required: true, message: '请填写地址'}]},
 			{label: '店铺名称', key: 'shopName', rules: [{required: true, message: '请填写店铺名称'}, {pattern: !/[@#\$%\^&\*]+/g, message: '不能包含非法字符'}]},
-			{label: '店铺地址', key: 'territoryDetail', rules: [{required: true, message: '请填写地址'}]},
 			{label: '店铺电话', key: 'phone', rules: [{required: true, message: '请填写电话'}, {pattern: /^1[34578]\d{9}$/, message: '请输入正确手机号'}]},
 			{label: '店铺负责人', key: 'contacts', rules: [{required: true, message: '请填写负责人'}]}
 		]
@@ -138,10 +138,10 @@ class AddShopForm extends React.Component{
 				)}
 			</FormItem>
 			<FormItem
-			label = '归属区域'
+			label = '所在地区'
 			{...formSet}>
 				{getFieldDecorator('jcTerritoryId', {
-				    rules: [{required: true, message: '请选择区域'}],
+				    rules: [{required: true, message: '请选择所在地区'}],
 					initialValue: this.props.type === 'edit' && this.props.shopDetail['jcTerritoryId'] || this.props.shopDetail['jcTerritoryId'] === 0 ? this.handleInitialValue(this.props.shopDetail['jcTerritoryId']) : ''
 				})(
 					<Cascader options={this.handleArea(this.props.areadata)} placeholder="请选择地区" style={{width: 200}}/>
