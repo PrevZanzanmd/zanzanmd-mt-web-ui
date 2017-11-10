@@ -28,7 +28,7 @@ class HomeHeader extends React.Component{
 						<span>钱</span>
 						<span>包</span>
 					</p>
-					<p>mt.zanzanmd.cn</p>
+					<p>m.zanzanmd.cn</p>
 				</div>
 			</div>
 			<div className="headerName">
