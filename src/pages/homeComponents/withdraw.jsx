@@ -6,7 +6,7 @@ const Option = Select.Option
 import BCrumb from '../Components/bCrumb.jsx'
 const RadioGroup = Radio.Group;
 import { GET_PRIMARYBANK, FILTER_WITHDRAWBANK, WITHDRAW, GET_FEE } from '../../redux/Actions'
-import { getBankType, fmoney } from '../../fetchApi/commonApi'
+import { getBankType, fmoney, handleTime } from '../../fetchApi/commonApi'
 
 @connect(state => ({
     shoplist: state.fetchdata.shoplist,
@@ -59,19 +59,17 @@ class Withdraw extends React.Component {
             }
         })
     }
-    handleTwoHourTime = _ => {
+    handleCompleteTime = _ => {
         let date = new Date()
-        let h = date.getHours() + 2
-        let m = date.getMinutes()
-        let handletime = t => t < 10 ? `0${t}` : t
-        return `${handletime(h)}: ${handletime(m)}`
+        date.setTime(date.getTime()+24*60*60*1000)
+        return handleTime(date)
     }
     getTip = _ => {
         switch(this.props.withdrawMsg.toUpperCase()){
             case 'SUCCESS': return ''
             case 'PLEASE BINDING THE BANKCARD': return '未绑定银行卡'
             case 'WITHDRAWAL IS SUCCESS': return '当日已经提现'
-            case 'OVERTIME': return '提现时间为9:00-18:00'
+            case 'OVERTIME': return '提现时间为17:00-24:00'
             default: return ''
         }
     }
@@ -135,7 +133,7 @@ class Withdraw extends React.Component {
                         <FormItem
                         {...formCol}
                         label='到账时间'>
-                            <span className="cash-cont">{`${this.handleTwoHourTime()}前到账`}</span>
+                            <span className="cash-cont">{`${this.handleCompleteTime()} 前到账`}</span>
                         </FormItem>  
                         <FormItem
                         label=' '
