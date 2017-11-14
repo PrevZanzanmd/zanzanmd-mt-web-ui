@@ -148,7 +148,7 @@ function* getPrimaryChart(){
 		data.code === '200' ? (
 			yield put({type: ACTION.GET_SHOP_LIST_SUCCESS, data: data.data}),
 			yield put({type: ACTION.GET_ALLTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : ''}}),
-			yield put({type: ACTION.GET_DAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : '', dayTime: handleFullDate()}}),
+			yield put({type: ACTION.GET_DAYTOTAL, param: {spShopId: data.data[0] ? data.data[0].id : '', dayTime: handleFullDate().split(' ')[0] }}),
 			yield put({type: ACTION.GET_CHARTDATA, param: {spShopId: data.data[0] ? data.data[0].id : ''}})
 		) : (
 			yield put({type: ACTION.CLOSE_LOADING}),
