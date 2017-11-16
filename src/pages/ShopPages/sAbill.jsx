@@ -42,6 +42,7 @@ class Bill extends React.Component {
         mtCount: [{title: '今日总交易额', num: '8000.00'}, {title: '成功交易笔数', num: '300'}],
         columns: [{title: '支付方式', dataIndex: 'paymentType', key: 'paymentType', render: (text, record) => <div>{record.paymentType === 'WX' ? '微信' : '支付宝'}</div>},
         {title: '订单号', dataIndex: 'serialNumber', key: 'serialNumber'},
+        {title: '微信/支付宝商户单号', dataIndex: 'transactionId', key: 'transactionId'},
         {title: '交易时间', dataIndex: 'date', key: 'date'},
         {title: '交易金额（元）', dataIndex: 'transactionPrice', key: 'transactionPrice', render: (text, record) => <div>{`¥${fmoney(record.transactionPrice)}`}</div>},
         {title: '交易状态', dataIndex: 'paymentStatus', key: 'paymentStatus', render: (text, record) => <div>{this.chooseState(record.paymentStatus)}</div>},
@@ -59,6 +60,7 @@ class Bill extends React.Component {
         {label: '付款方式', key: 'paymentType', render: type => type === 'WX' ? '微信' : '支付宝'},
         // {label: '收银员', key: 'cashierName'},
         {label: '交易单号', key: 'serialNumber'},
+        {label: '微信/支付宝商户单号', key: 'transactionId'},
         {label: '交易门店', key: 'merchantName'}],
         searchParam: {'page': 1, 'rows': 10},
         pagination: {
