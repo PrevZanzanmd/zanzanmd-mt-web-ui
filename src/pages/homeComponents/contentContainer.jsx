@@ -32,7 +32,7 @@ class ContentContainer extends React.Component {
         selectedItem: '',
         searchParam: {},
         withdrawItem: {},
-        headerCount: [{title: '账户余额', num: 'shopBalance', render: _ => <Link to="/home/withdraw">提现</Link>},
+        headerCount: [{title: '账户余额', num: 'shopBalance', render: _ => <div><Link to="/home/withdraw">提现</Link><Link to="/home/withdrawAll">一键提现</Link></div>},
         {title: '今日总交易额', num: 'todaytotal'},
         {title: '今日交易笔数', num: 'todaytotal'}],
         columns: [{title: '提现时间', dataIndex: 'createTime', key: 'createTime'},

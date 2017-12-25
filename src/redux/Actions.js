@@ -186,6 +186,32 @@ export const EDIT_CASHIER = 'EDIT_CASHIER'
 export const C_GET_PAYSRCRET = 'C_GET_PAYSRCRET'
 
 
+//--------------------------WITHDRAW ALL----------------------------------//
+
+export const GET_ALLBANK = 'GET_ALLBANK'
+
+export const GET_WITHDRAWALLSHOP = 'GET_WITHDRAWALLSHOP'
+export const GET_WITHDRAWALLSHOP_DONE = 'GET_WITHDRAWALLSHOP_DONE'
+
+export const CANWITHDRAWALL = 'CANWITHDRAWALL'
+
+export const WITHDRAW_ALL = 'WITHDRAW_ALL'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

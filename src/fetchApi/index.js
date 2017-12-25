@@ -1,10 +1,10 @@
 import fetch from 'isomorphic-fetch'
 import { hashHistory } from 'react-router'
 
-// export const baseUrl = 'http://mt.qdxiao2.com'
-export const baseUrl = 'http://m.zanzanmd.cn'
+export const baseUrl = 'http://mt.qdxiao2.com'
+// export const baseUrl = 'http://m.zanzanmd.cn'
 
-export const proxybaseUrl = 'http://192.168.1.104:8096/proxy'
+export const proxybaseUrl = 'http://192.168.1.103:8096/proxy'
 
 const getParamHandler = param => {
 	let baseStr = '?'
@@ -30,8 +30,7 @@ const fetchApi = Obj => fetch(...handleUrl(Obj)).then(res => res.json()).then(da
 })
 
 
-
-// const handleUrl = ({path = proxybaseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}`,
+// const handleUrl = ({path = proxybaseUrl, param, specPath, method = 'GET', paramType = 'normal', json = false}) => [`${path}?method=${method}&type=${paramType}&path=${specPath}&param=${JSON.stringify(param)}&json=${json}`,
 // specPath === '/api-auth/auth/v1/login' 
 // || specPath === '/api-mt/user/v1/checkPhone' 
 // || specPath === '/api-mt/user/v1/getVerificationCode' ? {} : 
@@ -41,14 +40,14 @@ const fetchApi = Obj => fetch(...handleUrl(Obj)).then(res => res.json()).then(da
 // 	}
 // }]
 
-const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal'}) => [`${path}${specPath}${paramType === 'url' ? postParamHandler(param) : method === 'GET' ? getParamHandler(param) : ''}`, Object.assign({
+const handleUrl = ({path = baseUrl, param, specPath, method = 'GET', paramType = 'normal', json = false}) => [`${path}${specPath}${paramType === 'url' ? postParamHandler(param) : method === 'GET' ? getParamHandler(param) : ''}`, Object.assign({
 	method
 }, {
-	headers: Object.assign({}, paramType === 'normal' && method === 'POST' ? {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"} : {}, specPath === '/api-auth/auth/v1/login' 
+	headers: Object.assign({}, paramType === 'normal' && method === 'POST' ? json ? {'Content-Type': 'application/json'} : {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"} : {}, specPath === '/api-auth/auth/v1/login' 
 	|| specPath === '/api-mt/user/v1/checkPhone' 
 	|| specPath === '/api-mt/user/v1/getVerificationCode' ? {} : {"Authorization": localStorage.getItem('token')})
 }, method === 'POST' && paramType === 'normal' ? {
-	body: getParamHandler(param).substring(1, getParamHandler(param).length)
+	body: json ? JSON.stringify( param ) : getParamHandler(param).substring(1, getParamHandler(param).length)
 } : {})]
 
 
@@ -202,6 +201,16 @@ export const addCashier = (param = {}) => fetchApi({specPath: '/api-account/cm/v
 
 //获取提现手续费
 export const getWithdrawFee = (param = {}) => fetchApi({specPath: '/api-account/personal/v1/getCommission', param, method: 'GET'})
+
+//是否能一键提现
+export const canWithdrawAll = (param = {}) => fetchApi({specPath: '/api-mt/onekeyDowithdrawal/v1/wdtoday', param, method: 'POST'})
+
+//一键提现店铺列表
+export const withdrawAllShop = (param = {}) => fetchApi({specPath: '/api-mt/onekeyDowithdrawal/v1/shopList', param, method: 'GET'})
+
+//一键提现 
+export const withdrawAll = (param = {}) => fetchApi({specPath: '/api-mt/onekeyDowithdrawal/v1/dowithdrawal', param, method: 'POST', json: true})
+
 
 //获取二维码
 // export const getQrcode = (param = {}) => fetchApi({specPath: '/api-mt//common/gen/qrcode/v1/gennerateQcode', param})

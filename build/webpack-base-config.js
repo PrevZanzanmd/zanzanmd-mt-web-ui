@@ -45,6 +45,9 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new webpack.LoaderOptionsPlugin({
+		    minimize: true
+		}),
 		new htmlPlugin({
 	        filename: 'index.html',    //生成的文件，从 output.path 开始 output.path + "/react.html"
 	        template: resolve(__dirname, '../index.html'),  //读取的模板文件,这个路径是相对于当前这个配置文件的
@@ -56,9 +59,6 @@ module.exports = {
 	        },
 	        chunksSortMode: 'dependency'
 	    }),
-		new webpack.LoaderOptionsPlugin({
-		    minimize: true
-		}),
 		new webpack.optimize.UglifyJsPlugin({
 			comments: false, 
 	      	compress: {

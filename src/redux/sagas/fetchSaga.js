@@ -303,6 +303,39 @@ function* getPrimaryPermission(){
 	})
 }
 
+
+//一键提现. GET_ALLBANK. 
+function* getAllBank(){
+	yield takeLatest(ACTION.GET_ALLBANK, function* (action){
+		// yield put({type: ACTION.START_LOADING})
+		yield put({type: ACTION.BANKCARD_LIST, param: {}})
+		yield put({type: ACTION.GET_WITHDRAWALLSHOP})
+		yield put({type: ACTION.CANWITHDRAWALL})
+	})
+}
+
+function* canWithdrawAll(){
+	yield takeLatest(ACTION.CANWITHDRAWALL, function* (action){
+		let data = yield call(fetchApi.canWithdrawAll)
+		yield put({type: ACTION.CAN_WITHDRAW_SUCCESS, data: data.msg})
+	})
+}
+
+function* withdrawShop(){
+	yield takeLatest(ACTION.GET_WITHDRAWALLSHOP, function* (action){
+		let data = yield call(fetchApi.withdrawAllShop)
+		data.code == '200' || data.code == '60012' ? yield put({type: ACTION.GET_WITHDRAWALLSHOP_DONE, data: data.data || [] }) : throwError(data)
+	})
+}
+
+function* withdrawAll(){
+	yield takeLatest(ACTION.WITHDRAW_ALL, function* (action){
+		let data = yield call(fetchApi.withdrawAll, action.param)
+		data.code === '200' ? message.success('提现成功') : throwError(data)
+		yield put({type: ACTION.GET_ALLBANK})
+	})
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 function* changeShopPrem(){
@@ -617,6 +650,13 @@ function* toBillExcel(){
 }
 
 export default function* (){
+
+	yield fork(getAllBank)
+	yield fork(canWithdrawAll)
+	yield fork(withdrawShop)
+	yield fork(withdrawAll)
+
+
 	yield fork(getShopList)
 	yield fork(getShopDetail)
 	yield fork(getQrcode)

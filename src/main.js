@@ -12,6 +12,7 @@ import Home from './pages/home.jsx'
 import ContentContainer from './pages/homeComponents/contentContainer.jsx'
 import WithdrawRecord from './pages/homeComponents/withdrawRecord.jsx'
 import Withdraw from './pages/homeComponents/withdraw.jsx'
+import WithdrawAll from './pages/homeComponents/withdrawAll.jsx'
 import ShopPermission from './pages/shop/shopPermission.jsx'
 import ShopAccount from './pages/shop/shopAccount.jsx'
 import MyShop from './pages/shop/myShop.jsx'
@@ -62,6 +63,7 @@ const routeConfig = (
 			<Route path = {'contentContainer'} breadcrumbName='动态' component = {ContentContainer}/>
 			<Route path = {'withdrawRecord'} breadcrumbName='提现记录' component = {WithdrawRecord}/>
 			<Route path = {'withdraw'} breadcrumbName='提现' component = {Withdraw}/>
+			<Route path = {'withdrawAll'} breadcrumbName='一键提现' component = {WithdrawAll}/>
 			<Route path = {'shopPermission'} breadcrumbName='店铺权限' component = {ShopPermission}/>
 			<Route path = {'shopAccount'} breadcrumbName='店铺账号' component = {ShopAccount}/>
 			<Route path = {'myShop'} breadcrumbName='我的店铺' component = {MyShop}/>

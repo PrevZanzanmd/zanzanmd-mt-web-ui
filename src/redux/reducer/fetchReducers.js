@@ -28,7 +28,8 @@ const fetchDataStructure = {
 	cashierlist: [],
 	cashierDetail: {},
 	changeShopState: false,
-	withdrawFee: 0
+	withdrawFee: 0,
+	withdrawShop: []
 }
 
 const FetchReducer = (state = fetchDataStructure, action) => {
@@ -55,6 +56,8 @@ const FetchReducer = (state = fetchDataStructure, action) => {
 		case ACTION.GET_UPTOKEN_COMPLETE: return Assign(state, { uploadData: action.data })
 		case ACTION.DOWNLOAD_COMPLETE: return Assign(state, { downloaddata: action.data })
 		case ACTION.VALIDATEFORGETCOMPLETE: return Assign(state, { forgetdata: action.data })
+
+		case ACTION.GET_WITHDRAWALLSHOP_DONE: return Assign(state, { withdrawShop: action.data })
 
 		case ACTION.GET_CASHIERLIST_COMPLETE: return Assign(state, { cashierlist: action.data })
 		case ACTION.GET_CASHIERDETAIL_COMPLETE: return Assign(state, { cashierDetail: action.data })
