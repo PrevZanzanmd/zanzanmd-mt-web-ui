@@ -10,7 +10,6 @@ let opt = {
 	// hostname: 'm.zanzanmd.cn'
 }
 
-// const optt = path => path == '/onekeyDowithdrawal/v1/dowithdrawal' ? ({hostname: '192.168.1.102', port: '8080'}) : ({hostname: 'mt.qdxiao2.com'})
 
 
 const getParamHandler = param => {
@@ -35,12 +34,12 @@ exports.proxy = (res, param, header) => new Promise((reslove, reject) => {
 	} : null
 
 	let fnParam = param.param ? JSON.parse(param.param) : {}
-
+console.log(param.json == 'false' ? true : false)
 	let req = http.request(Object.assign({}, opt, {
 			method: param.method,
 			path: param.type === 'normal' ? param.method === 'GET' ? `${param.path}${getParamHandler(fnParam)}` : param.path : `${param.path}${postParamHandler(fnParam)}`
 		}, param.method === 'POST' ? {
-			headers: Object.assign({}, opt.headers ? opt.headers : {}, param.json ? {'Content-Type': 'application/json'} : {'Content-Type': 'application/x-www-form-urlencoded'})
+			headers: Object.assign({}, opt.headers ? opt.headers : {}, param.json == 'true' ? {'Content-Type': 'application/json'} : {'Content-Type': 'application/x-www-form-urlencoded'})
 		} : opt.headers ? {headers: opt.headers} : {}), res => {
 			console.log(param.path)
 			console.log("Got response: " + res.statusCode);
@@ -53,7 +52,7 @@ exports.proxy = (res, param, header) => new Promise((reslove, reject) => {
 		  console.log("Got error: " + e.message);
 		})
 
-	param.method === 'POST' && param.type === 'normal' ? req.write(param.json ? JSON.stringify(fnParam) : querystring.stringify(fnParam)) : null
+	param.method === 'POST' && param.type === 'normal' ? req.write(param.json == 'true' ? JSON.stringify(fnParam) : querystring.stringify(fnParam)) : null
 
 	req.end();
 }).then(body => {

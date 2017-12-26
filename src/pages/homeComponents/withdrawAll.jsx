@@ -28,7 +28,16 @@ class WithdrawAll extends React.Component {
 
     componentWillReceiveProps(n){
         if(n.shoplist != this.props.shoplist){
-            this.props.form.setFields({ shopList: [] })
+            this.props.form.setFields({ shopList: { value: [] } })
+        }
+        if(this.props.form.getFieldValue('shopList') && this.props.shoplist && this.props.shoplist.length > 0){
+            if(this.props.form.getFieldValue('shopList').length == this.props.shoplist.length){
+                console.log(1)
+                this.setState({checked: true})
+            }else{
+                this.setState({checked: false})
+            }
+
         }
     }
 
@@ -39,6 +48,7 @@ class WithdrawAll extends React.Component {
         selectedItem: '',
         searchParam: {},
         num: 0,
+        checked: false
     }
     handleSubmit = (e) => {
         e.preventDefault()
@@ -58,7 +68,7 @@ class WithdrawAll extends React.Component {
                         commission
                     }
                 } )
-                console.log(values)
+                // console.log(values)
                 this.props.withdraw(values)
             }
         })
@@ -100,6 +110,17 @@ class WithdrawAll extends React.Component {
         }
         return '0.00 元'
     }
+
+    onChange = e => {
+        let checked = e.target.checked,
+            allShop = this.props.shoplist.map(v => JSON.stringify(v))
+
+        this.setState({checked})
+        this.props.form.setFields({ shopList: { value: checked ? allShop : [] } })
+    }
+
+
+
     render = _ => {
         const { getFieldDecorator } = this.props.form
         const formCol = {labelCol: {span: 4}, wrapperCol: {span: 20}}
@@ -136,6 +157,7 @@ class WithdrawAll extends React.Component {
                         <FormItem
                         {...formCol}
                         label='提现店铺'>
+                            <Checkbox onChange={this.onChange} checked={this.state.checked}>全选</Checkbox>
                             {getFieldDecorator('shopList', {rules:[{required: true, message: '请选择提现店铺'}]})(
                                     <CheckboxGroup 
                                     className='withAll' 
