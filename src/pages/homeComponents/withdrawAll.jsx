@@ -32,7 +32,6 @@ class WithdrawAll extends React.Component {
         }
         if(this.props.form.getFieldValue('shopList') && this.props.shoplist && this.props.shoplist.length > 0){
             if(this.props.form.getFieldValue('shopList').length == this.props.shoplist.length){
-                console.log(1)
                 this.setState({checked: true})
             }else{
                 this.setState({checked: false})
@@ -60,11 +59,11 @@ class WithdrawAll extends React.Component {
                 delete values.bankCard
                 values.shopList = values.shopList.map(val => {
                     let shop = JSON.parse(val),
-                        commission = fmoney(shop.shopBalance * this.props.withdrawFee / 1000)
+                        commission = this.handleMon(shop.shopBalance * this.props.withdrawFee / 1000)
                     return {
                         spShopId: shop.id,
                         shopName: shop.shopName,
-                        cashWithdrawal: shop.shopBalance - commission,
+                        cashWithdrawal: this.handleMon(shop.shopBalance - commission ),
                         commission
                     }
                 } )
@@ -104,12 +103,14 @@ class WithdrawAll extends React.Component {
             commission = fmoney(balance * this.props.withdrawFee / 1000)
 
             return type == 'balance' ? (<div>
-                    <span style={{display: 'block'}}>{`${balance} 元`}</span>
+                    <span style={{display: 'block'}}>{`${fmoney(balance)} 元`}</span>
                     <span style={{color: '#ababab'}} >{`手续费 ${commission} 元`}</span>
-                </div>) : (<div>{`${balance - commission} 元`}</div>)
+                </div>) : (<div>{`${fmoney(balance - this.handleMon(balance * this.props.withdrawFee / 1000) )} 元`}</div>)
         }
         return '0.00 元'
     }
+
+    handleMon = num => fmoney(num).split(',').join('')
 
     onChange = e => {
         let checked = e.target.checked,
@@ -165,11 +166,11 @@ class WithdrawAll extends React.Component {
                                     label: <span className='withCheck' >
                                         <span className='withContainer'>
                                             <span>{val.shopName}</span>
-                                            <span>{`余额 ${val.shopBalance} 元`}</span>
+                                            <span>{`余额 ${fmoney(val.shopBalance)} 元`}</span>
                                         </span>
                                         <span className='withContainer withTip'>
                                             <span>{`手续费 ${fmoney(val.shopBalance * this.props.withdrawFee / 1000)} 元`}</span>
-                                            <span>{`到账金额 ${val.shopBalance - fmoney(val.shopBalance * this.props.withdrawFee / 1000) } 元`}</span>
+                                            <span>{`到账金额 ${fmoney(val.shopBalance - this.handleMon(val.shopBalance * this.props.withdrawFee / 1000) ) } 元`}</span>
                                         </span>
                                     </span>, 
                                     value: JSON.stringify(val) }) )} 
